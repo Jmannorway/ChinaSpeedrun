@@ -1,5 +1,6 @@
 #include "World.h"
 
+#include <b2_world.h>
 #include <iostream>
 
 #include "Transform.h"
@@ -8,13 +9,11 @@
 #include "CameraComponent.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
+#include "PhysicsSystem.h"
+#include "Time.h"
 
 cs::World::World() : audioSystem{ new AudioSystem }
 {
-	//entt::entity _entity{ registry.create() };
-	//registry.emplace<CameraComponent>(_entity);
-	//registry.emplace<TransformComponent>(_entity);
-	//registry.emplace<MeshRendererComponent>(_entity);
 }
 
 void cs::World::Step()
@@ -42,6 +41,8 @@ void cs::World::Step()
 		Camera::CalculatePerspective(_camera);
 		Camera::UpdateCameraTransform(_camera, _transform);
 	}
+
+	//PhysicsSystem::world->Step(Time::fixedDeltaTime, 1, 1);
 
 	auto _renderableObjects{ registry.view<MeshRendererComponent, TransformComponent>() };
 	for (auto e : _renderableObjects)

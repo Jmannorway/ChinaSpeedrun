@@ -150,6 +150,8 @@ void cs::ChinaEngine::ImGuiDraw()
 	ImGuizmo::SetOrthographic(false);
 	ImGuizmo::SetDrawlist();
 
+	ImGui::ShowDemoWindow();
+
 	int _width, _height;
 	renderer.GetViewportSize(_width, _height);
 

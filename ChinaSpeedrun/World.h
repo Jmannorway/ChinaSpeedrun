@@ -4,11 +4,14 @@
 
 namespace cs
 {
+	class AudioSystem;
+	class PhysicsSystem;
+
 	class World
 	{
 	public:
 		entt::registry registry;
-		class AudioSystem* audioSystem;
+		AudioSystem* audioSystem;
 		
 		World();
 		

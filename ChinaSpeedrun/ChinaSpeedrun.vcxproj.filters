@@ -69,6 +69,10 @@
     <ClCompile Include="..\Libraries\imgui\scr\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChinaEngine.h" />
@@ -118,6 +122,10 @@
       <Filter>ecs</Filter>
     </ClInclude>
     <ClInclude Include="AudioData.h" />
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">
