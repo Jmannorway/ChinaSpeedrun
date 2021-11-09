@@ -1,6 +1,5 @@
 #include "VulkanEngineRenderer.h"
 
-//#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 #include <cstring>
@@ -18,7 +17,10 @@
 #include "CameraComponent.h"
 #include "ChinaEngine.h"
 #include "ResourceManager.h"
-#include "World.h"
+
+#include "Scene.h"
+#include "SceneManager.h"
+
 #include "Debug.h"
 
 cs::VulkanEngineRenderer::VulkanEngineRenderer() :
@@ -200,7 +202,7 @@ void cs::VulkanEngineRenderer::SolveMaterial(Material* material, Solve solveMode
 	solveMaterials[material] = solveMode;
 }
 
-void cs::VulkanEngineRenderer::SolveRenderer(MeshRendererComponent* renderer, Solve solveMode)
+void cs::VulkanEngineRenderer::SolveRenderer(RenderComponent* renderer, Solve solveMode)
 {
 	if (renderer == nullptr)
 	{
@@ -211,17 +213,15 @@ void cs::VulkanEngineRenderer::SolveRenderer(MeshRendererComponent* renderer, So
 	solveRenderers[renderer] = solveMode;
 }
 
-void cs::VulkanEngineRenderer::AddToRenderQueue(RenderComponent* renderer)
+void cs::VulkanEngineRenderer::DestroyDescriptorPool(VkDescriptorPool& descriptorPool)
 {
-	visibleObjects.push_back(renderer);
+	vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 }
 
-void cs::VulkanEngineRenderer::RemoveFromRenderQueue(RenderComponent* renderer)
+void cs::VulkanEngineRenderer::MakeDescriptorPool(RenderComponent& renderer)
 {
-	auto _it{ std::find(visibleObjects.begin(), visibleObjects.end(), renderer) };
-
-	if (_it != visibleObjects.end())
-		visibleObjects.erase(_it);
+	CreateDescriptorPool(renderer);
+	CreateDescriptorSets(renderer);
 }
 
 void cs::VulkanEngineRenderer::AllocateShader(Shader* shader)
@@ -747,7 +747,7 @@ void cs::VulkanEngineRenderer::UpdateDrawCommands(const uint32_t& imageIndex)
 	_beginInfo.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
 	vkBeginCommandBuffer(commandBuffers[imageIndex], &_beginInfo);
 
-	VkClearValue _clearValue[]{ {0.0f, 0.0f, 0.0f, 1.0f}, { 1.0f, 0 } };
+	VkClearValue _clearValue[]{ { 0.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 0 } };
 	VkRenderPassBeginInfo _renderPassInfo{};
 	_renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 	_renderPassInfo.renderPass = renderPass;
@@ -759,8 +759,10 @@ void cs::VulkanEngineRenderer::UpdateDrawCommands(const uint32_t& imageIndex)
 
 	vkCmdBeginRenderPass(commandBuffers[imageIndex], &_renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-	for (auto* renderer : visibleObjects)
-		renderer->VulkanDraw(commandBuffers[imageIndex], imageIndex, vertexBuffer.buffer, indexBuffer.buffer);
+	if (SceneManager::GetCurrentScene() != nullptr)
+		for (auto* renderer : SceneManager::GetCurrentScene()->renderableObjects)
+			if (renderer->visible)
+				renderer->VulkanDraw(commandBuffers[imageIndex], imageIndex, vertexBuffer.buffer, indexBuffer.buffer);
 
 	vkCmdEndRenderPass(commandBuffers[imageIndex]);
 	if (vkEndCommandBuffer(commandBuffers[imageIndex]) != VK_SUCCESS)
@@ -1463,9 +1465,9 @@ void cs::VulkanEngineRenderer::CreateUniformBuffers()
 		CreateBuffer(_bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
 }
 
-void cs::VulkanEngineRenderer::CreateDescriptorPool(MeshRendererComponent& renderer)
+void cs::VulkanEngineRenderer::CreateDescriptorPool(RenderComponent& renderer)
 {
-	if (renderer.mesh == nullptr || renderer.materials.empty())
+	if (renderer.material == nullptr)
 		return;
 
 	uint32_t _swapChainSize{ static_cast<uint32_t>(swapChainImages.size()) };
@@ -1485,12 +1487,12 @@ void cs::VulkanEngineRenderer::CreateDescriptorPool(MeshRendererComponent& rende
 		Debug::LogFail("Failed to create descriptor pool.");
 }
 
-void cs::VulkanEngineRenderer::CreateDescriptorSets(MeshRendererComponent& renderer)
+void cs::VulkanEngineRenderer::CreateDescriptorSets(RenderComponent& renderer)
 {
-	if (renderer.mesh == nullptr || renderer.materials.empty())
+	if (renderer.material == nullptr)
 		return;
 
-	std::vector<VkDescriptorSetLayout> _layouts(swapChainImages.size(), renderer.materials[0]->shader->descriptorSetLayout);
+	std::vector<VkDescriptorSetLayout> _layouts(swapChainImages.size(), renderer.material->shader->descriptorSetLayout);
 	VkDescriptorSetAllocateInfo _allocInfo{};
 	_allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 	_allocInfo.descriptorPool = renderer.descriptorPool;
@@ -1505,7 +1507,7 @@ void cs::VulkanEngineRenderer::CreateDescriptorSets(MeshRendererComponent& rende
 	{
 		std::vector<VkWriteDescriptorSet> _descriptorWrites;
 
-		for (auto& descriptorBinding : renderer.materials[0]->shader->descriptorBindings)
+		for (auto& descriptorBinding : renderer.material->shader->descriptorBindings)
 		{
 			VkWriteDescriptorSet _descriptor{};
 
@@ -1531,7 +1533,7 @@ void cs::VulkanEngineRenderer::CreateDescriptorSets(MeshRendererComponent& rende
 			case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
 				try
 				{
-					Texture* _texture{ std::get<Texture*>(renderer.materials[0]->shaderParams[descriptorBinding.first]) };
+					Texture* _texture{ std::get<Texture*>(renderer.material->shaderParams[descriptorBinding.first]) };
 
 					VkDescriptorImageInfo _imageInfo{};
 					_imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -1815,24 +1817,27 @@ VkFormat cs::VulkanEngineRenderer::FindSupportedFormat(const std::vector<VkForma
 
 void cs::VulkanEngineRenderer::UpdateUniformBuffer(uint32_t currentImage)
 {
-	VkDeviceSize _index{ 0 };
-	auto _renderers{ ChinaEngine::world.registry.view<MeshRendererComponent>() };
-	for (auto e : _renderers)
+	if (SceneManager::HasScenes())
 	{
-		MeshRendererComponent& _meshRenderer{ ChinaEngine::world.registry.get<MeshRendererComponent>(e) };
+		VkDeviceSize _index{ 0 };
+		auto _renderers{ SceneManager::GetRegistry().view<MeshRendererComponent>() };
+		for (auto e : _renderers)
+		{
+			MeshRendererComponent& _meshRenderer{ SceneManager::GetRegistry().get<MeshRendererComponent>(e) };
 
-		void* _data;
-		vkMapMemory(device, uniformBuffersMemory[currentImage], _meshRenderer.uboOffset, UniformBufferObject::GetByteSize(), 0, &_data);
-		memcpy(_data, &_meshRenderer.ubo, UniformBufferObject::GetByteSize());
-		vkUnmapMemory(device, uniformBuffersMemory[currentImage]);
+			void* _data;
+			vkMapMemory(device, uniformBuffersMemory[currentImage], _meshRenderer.uboOffset, UniformBufferObject::GetByteSize(), 0, &_data);
+			memcpy(_data, &_meshRenderer.ubo, UniformBufferObject::GetByteSize());
+			vkUnmapMemory(device, uniformBuffersMemory[currentImage]);
 
-		_index++;
+			_index++;
+		}
+
+		/*void* _data;
+		vkMapMemory(device, uniformBuffersMemory[currentImage], 0, (VkDeviceSize)UniformBufferObject::GetByteSize() * 2, 0, &_data);
+		memcpy(_data, ubos, (size_t)UniformBufferObject::GetByteSize() * 2);
+		vkUnmapMemory(device, uniformBuffersMemory[currentImage]);*/
 	}
-
-	/*void* _data;
-	vkMapMemory(device, uniformBuffersMemory[currentImage], 0, (VkDeviceSize)UniformBufferObject::GetByteSize() * 2, 0, &_data);
-	memcpy(_data, ubos, (size_t)UniformBufferObject::GetByteSize() * 2);
-	vkUnmapMemory(device, uniformBuffersMemory[currentImage]);*/
 }
 
 VkCommandBuffer cs::VulkanEngineRenderer::BeginSingleTimeCommands()
@@ -2001,15 +2006,7 @@ void cs::VulkanEngineRenderer::RecreateSwapChain()
 	CreateDepthResources();
 	CreateFramebuffers();
 	CreateUniformBuffers();
-	
-	auto _renderers{ ChinaEngine::world.registry.view<MeshRendererComponent>() };
-	for (auto e : _renderers)
-	{
-		MeshRendererComponent& _meshRenderer{ ChinaEngine::world.registry.get<MeshRendererComponent>(e) };
-		CreateDescriptorPool(_meshRenderer);
-		CreateDescriptorSets(_meshRenderer);
-	}
-
+	SceneManager::CreateDescriptorPools();
 	CreateCommandBuffers();
 
 	ImGuiRenderPass();
@@ -2055,16 +2052,19 @@ void cs::VulkanEngineRenderer::CleanupSwapChain()
 		vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
 	}
 
-	auto _renderers{ ChinaEngine::world.registry.view<MeshRendererComponent>() };
+	if (SceneManager::GetCurrentScene() != nullptr)
+		SceneManager::DestroyDescriptorPools();
+
+	/*auto _renderers{ SceneManager::GetRegistry().view<MeshRendererComponent>() };
 	for (auto e : _renderers)
 	{
-		MeshRendererComponent& _meshRenderer{ ChinaEngine::world.registry.get<MeshRendererComponent>(e) };
+		MeshRendererComponent& _meshRenderer{ SceneManager::GetRegistry().get<MeshRendererComponent>(e) };
 
 		if (!_meshRenderer.IsRendererValid())
 			continue;
 
 		vkDestroyDescriptorPool(device, _meshRenderer.descriptorPool, nullptr);
-	}
+	}*/
 
 	// ----------------------------------------------------------------------
 	//    Destroy ImGui Stuff

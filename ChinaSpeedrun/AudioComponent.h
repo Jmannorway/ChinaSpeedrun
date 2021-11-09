@@ -16,6 +16,7 @@ namespace cs
 
 		AudioComponent();
 
+		virtual void Init() override;
 		virtual void ImGuiDrawComponent() override;
 	};
 }

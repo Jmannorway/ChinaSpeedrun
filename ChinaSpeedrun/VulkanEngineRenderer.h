@@ -68,10 +68,10 @@ namespace cs
 		void SolveShader(class Shader* shader, Solve solveMode);
 		void SolveTexture(class Texture* texture, Solve solveMode);
 		void SolveMaterial(class Material* material, Solve solveMode);
-		void SolveRenderer(class MeshRendererComponent* renderer, Solve solveMode);
+		void SolveRenderer(class RenderComponent* renderer, Solve solveMode);
 
-		void AddToRenderQueue(class RenderComponent* renderer);
-		void RemoveFromRenderQueue(RenderComponent* renderer);
+		void DestroyDescriptorPool(VkDescriptorPool& descriptorPool);
+		void MakeDescriptorPool(RenderComponent& renderer);
 
 		void Create(int newWidth, int newHeight, const char* appTitle);
 		void GetViewportSize(int& widthRef, int& heightRef) const;
@@ -108,13 +108,11 @@ namespace cs
 		int width, height;
 		std::string appName;
 
-		std::vector<RenderComponent*> visibleObjects;
-
 		std::unordered_map<Mesh*, Solve> solveMeshes;
 		std::unordered_map<Shader*, Solve> solveShaders;
 		std::unordered_map<Texture*, Solve> solveTextures;
 		std::unordered_map<Material*, Solve> solveMaterials;
-		std::unordered_map<MeshRendererComponent*, Solve> solveRenderers;
+		std::unordered_map<RenderComponent*, Solve> solveRenderers;
 
 		std::vector<VkSemaphore> imageAvailableSemaphores, renderFinishedSemaphores;
 		std::vector<VkFence> inFlightFences, imagesInFlight;
@@ -205,8 +203,8 @@ namespace cs
 		void CreateVertexBuffer();
 		void CreateIndexBuffer();
 		void CreateUniformBuffers();
-		void CreateDescriptorPool(MeshRendererComponent& renderer);
-		void CreateDescriptorSets(MeshRendererComponent& renderer);
+		void CreateDescriptorPool(RenderComponent& renderer);
+		void CreateDescriptorSets(RenderComponent& renderer);
 		void CreateCommandBuffers();
 		void CreateSyncObjects();
 

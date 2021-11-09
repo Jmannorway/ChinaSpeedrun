@@ -64,7 +64,6 @@
     <ClCompile Include="..\Libraries\imgui\scr\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Script.cpp">
       <Filter>ecs</Filter>
     </ClCompile>
@@ -83,6 +82,9 @@
     <ClCompile Include="PhysicsServer.cpp">
       <Filter>ecs\old physics</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>ecs</Filter>
     <ClCompile Include="PolygonCollider.cpp">
       <Filter>ecs\old physics</Filter>
     </ClCompile>
@@ -175,7 +177,7 @@
     </ClInclude>
     <ClInclude Include="EditorCamera.h" />
     <ClInclude Include="Editor.h" />
-    <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="AudioData.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="Script.h">
       <Filter>ecs</Filter>
@@ -189,6 +191,8 @@
     <ClInclude Include="Collider.h">
       <Filter>ecs\old physics</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>ecs</Filter>
     <ClInclude Include="AudioComponent.h">
       <Filter>ecs\audio</Filter>
     </ClInclude>

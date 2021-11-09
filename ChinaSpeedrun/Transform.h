@@ -14,7 +14,10 @@ namespace cs
 		Vector3 globalPosition{ 0.f }, globalRotation{ 0.f }, globalScale{ 1.f };
 
 		operator Matrix4x4&();
+		virtual void Init() override;
 		virtual void ImGuiDrawComponent() override;
+		void GenerateOBBExtents(OBB& obb);
+
 	protected:
 		Matrix4x4 matrix{ Matrix4x4(1.0f) };
 	};

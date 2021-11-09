@@ -1,5 +1,6 @@
 #pragma once
 
+/*
 #include <entt/entt.hpp>
 #include "Mathf.h"
 
@@ -48,4 +49,4 @@ namespace cs
 		void StepEngine();
 		void StepEditor();
 	};
-}
+}*/

@@ -13,7 +13,7 @@
 #include "Transform.h"
 #include "VulkanEngineRenderer.h"
 #include "ChinaEngine.h"
-#include "World.h"
+#include "SceneManager.h"
 #include "Camera.h"
 
 cs::editor::ImGuiLayer::ImGuiLayer(EngineEditor* root) :
@@ -52,7 +52,7 @@ void cs::editor::ImGuiLayer::Step()
         if (activeObject != nullptr && activeObject->HasComponent<TransformComponent>())
         {
             TransformComponent& _transform{ activeObject->GetComponent<TransformComponent>() };
-            Matrix4x4 _viewMatrix{ Camera::GetViewMatrix(*ChinaEngine::world.mainCamera) }, _projectionMatrix{ Camera::GetProjectionMatrix(*ChinaEngine::world.mainCamera) };
+            Matrix4x4 _viewMatrix{ Camera::GetViewMatrix(*SceneManager::mainCamera) }, _projectionMatrix{ Camera::GetProjectionMatrix(*SceneManager::mainCamera) };
             Matrix4x4& _transformMatrix{ Transform::GetMatrixTransform(_transform) };
 
             ImGuizmo::SetOrthographic(false);
@@ -83,17 +83,7 @@ void cs::editor::ImGuiLayer::Step()
 
     if (ImGui::Begin("Hierarchy"))
     {
-        if (ImGui::TreeNode("Main Scene"))
-        {
-            for (GameObject* object : ChinaEngine::world.GetObjects())
-            {
-                ImGui::Text(object->name.c_str());
-                if (ImGui::IsItemClicked())
-                    activeObject = object;
-            }
-            ImGui::TreePop();
-        }
-
+        SceneManager::DrawScenes();
         IsWindowHovered();
     }
     ImGui::End();
@@ -120,24 +110,26 @@ void cs::editor::ImGuiLayer::Step()
         case EngineEditor::Playmode::EDITOR:
             ImGui::Button("Play");
             if (ImGui::IsItemClicked())
+            {
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PLAY);
+                SceneManager::GetCurrentScene()->Start();
+            }
             break;
         case editor::EngineEditor::Playmode::PLAY:
             ImGui::Button("Pause");
             if (ImGui::IsItemClicked())
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PAUSE);
+
+            DrawStopSimulationButton();
             break;
         case EngineEditor::Playmode::PAUSE:
             ImGui::Button("Continue");
             if (ImGui::IsItemClicked())
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PLAY);
+            
+            DrawStopSimulationButton();
             break;
         }
-
-        ImGui::SameLine();
-        ImGui::Button("Stop");
-        if (ImGui::IsItemClicked())
-            editorRoot->SetPlaymode(EngineEditor::Playmode::EDITOR);
 
         IsWindowHovered();
     }
@@ -189,6 +181,17 @@ const bool& cs::editor::ImGuiLayer::IsManipulating() const
 const bool& cs::editor::ImGuiLayer::IsInteractingWithWindow() const
 {
     return isWindowActive;
+}
+
+void cs::editor::ImGuiLayer::DrawStopSimulationButton()
+{
+    ImGui::SameLine();
+    ImGui::Button("Stop");
+    if (ImGui::IsItemClicked())
+    {
+        editorRoot->SetPlaymode(EngineEditor::Playmode::EDITOR);
+        SceneManager::GetCurrentScene()->Exit();
+    }
 }
 
 void cs::editor::ImGuiLayer::IsWindowHovered()
