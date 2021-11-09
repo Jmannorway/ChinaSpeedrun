@@ -175,7 +175,6 @@
     </ClInclude>
     <ClInclude Include="EditorCamera.h" />
     <ClInclude Include="Editor.h" />
-    <ClInclude Include="AudioData.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="Script.h">
@@ -217,6 +216,10 @@
     <ClInclude Include="CollisionShape.h">
       <Filter>ecs\physics</Filter>
     </ClInclude>
+    <ClInclude Include="AudioData.h">
+      <Filter>ecs\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">
@@ -227,9 +230,6 @@
     </Filter>
     <Filter Include="ecs\old physics">
       <UniqueIdentifier>{3e80436e-5be5-49f9-bd84-63f2c951ad81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="service">
-      <UniqueIdentifier>{173bc623-7614-4698-82e7-c9996e7ac028}</UniqueIdentifier>
     </Filter>
     <Filter Include="ecs\physics">
       <UniqueIdentifier>{00310071-13cb-4c04-9478-db2c21ef213b}</UniqueIdentifier>

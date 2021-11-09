@@ -31,6 +31,7 @@ namespace cs
 		void Start();
 		void Stop();
 		void Step();
+		void Save();
 
 		// Very dangrous to call yourself... Don't do it!
 		void DeleteAllObjects();

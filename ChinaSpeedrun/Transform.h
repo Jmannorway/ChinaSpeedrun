@@ -10,12 +10,11 @@ namespace cs
 	public:
 		friend class Transform;
 
-		Vector3 position{ Vector3(0.0f, 0.0f, 0.0f) }, rotation{ Vector3(0.0f, 0.0f, 0.0f) }, rotationDegrees{ Vector3(0.0f, 0.0f, 0.0f) }, scale{ Vector3(1.0f, 1.0f, 1.0f) };
-		Vector3 globalPosition{ Vector3(0.0f, 0.0f, 0.0f) }, globalRotation{ Vector3(0.0f, 0.0f, 0.0f) }, globalScale{ Vector3(1.0f, 1.0f, 1.0f) };
+		Vector3 position{ 0.f }, rotation{ 0.f }, rotationDegrees{ 0.f }, scale{ 1.f };
+		Vector3 globalPosition{ 0.f }, globalRotation{ 0.f }, globalScale{ 1.f };
 
 		operator Matrix4x4&();
 		virtual void ImGuiDrawComponent() override;
-
 	protected:
 		Matrix4x4 matrix{ Matrix4x4(1.0f) };
 	};

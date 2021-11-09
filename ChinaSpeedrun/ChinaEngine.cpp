@@ -178,6 +178,7 @@ void cs::ChinaEngine::InitInput()
 	Input::AddMapping("down", GLFW_KEY_DOWN);
 	Input::AddMapping("left", GLFW_KEY_LEFT);
 	Input::AddMapping("right", GLFW_KEY_RIGHT);
+	Input::AddMapping("save", GLFW_KEY_9);
 }
 
 void cs::ChinaEngine::MainLoop()
