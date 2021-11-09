@@ -19,6 +19,10 @@
 
 #include "GameObject.h"
 
+#include "Serialization.h"
+#include <cereal/cereal.hpp>
+#include <cereal/archives/xml.hpp>
+
 cs::CameraBase* cs::World::mainCamera;
 
 cs::GameObject* cs::World::InstanceObject(const char* name, const Vector3 position, const Vector3 rotation, const Vector3 scale)
@@ -119,6 +123,21 @@ void cs::World::Step()
 	}
 }
 
+void cs::World::Save()
+{
+	std::ofstream os("scene.txt");
+
+	cereal::XMLOutputArchive jsonOutArchive(os);
+
+	for (auto e : registry.view<TransformComponent>())
+	{
+		TransformComponent& _c(registry.get<TransformComponent>(e));
+		jsonOutArchive(cereal::make_nvp(_c.gameObject->name + ".transform", _c));
+	}
+
+
+}
+
 void cs::World::StepEngine()
 {
 	auto _audioComponentView{ registry.view<AudioComponent>() };
@@ -167,6 +186,11 @@ void cs::World::StepEngine()
 
 void cs::World::StepEditor()
 {
+	if (Input::GetActionPressed("save"))
+	{
+		Save();
+	}
+
 	auto _transformComponentView{ registry.view<TransformComponent>() };
 	for (auto e : _transformComponentView)
 	{

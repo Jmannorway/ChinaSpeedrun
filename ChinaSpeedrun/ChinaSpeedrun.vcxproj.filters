@@ -219,6 +219,7 @@
     <ClInclude Include="AudioData.h">
       <Filter>ecs\audio</Filter>
     </ClInclude>
+    <ClInclude Include="Serialization.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">
