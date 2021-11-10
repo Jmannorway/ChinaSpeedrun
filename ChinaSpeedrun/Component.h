@@ -23,7 +23,6 @@ namespace cs
 
 		virtual void Init() = 0;
 		virtual void ImGuiDrawComponent() = 0;
-		virtual void Init() = 0;
 
 		Type GetType() const;
 		std::string GetTypeName() const;

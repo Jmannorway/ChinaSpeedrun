@@ -257,7 +257,7 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 
 	_inArchive(cereal::make_nvp("construction count", _cc));
 
-	//// TODO: save and load scene name
+	//// TODO: save and load scene name, and check if scene is already loaded (name == name?)
 	auto _scene{ SceneManager::CreateScene("Loaded Scene") };
 
 	for (int i = 0; i < _cc.size(); i++)

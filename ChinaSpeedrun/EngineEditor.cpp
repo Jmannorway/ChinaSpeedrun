@@ -91,7 +91,7 @@ void cs::editor::EngineEditor::Update()
 		SceneManager::Save();
 
 	if (Input::GetActionPressed("editor_load_scene"))
-		SceneManager::Load("../resources/scenes/china.txt");
+		SceneManager::Load("../resources/scenes/scene.xml");
 
 	if (mode == Playmode::EDITOR)
 	{
