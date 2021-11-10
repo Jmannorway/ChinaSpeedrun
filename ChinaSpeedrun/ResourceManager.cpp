@@ -19,6 +19,15 @@
 #include <fstream>
 #include <AudioFile.h>
 
+#include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
+
+#include "AudioComponent.h"
+#include "CameraComponent.h"
+#include "PhysicsComponent.h"
+#include "SceneManager.h"
+#include "Serialization.h"
+
 #ifdef NDEBUG
 #include <shaderc/shaderc.hpp>
 #endif
@@ -28,6 +37,7 @@ std::unordered_map<std::string, cs::Texture*> cs::ResourceManager::textures;
 std::unordered_map<std::string, cs::Mesh*> cs::ResourceManager::meshes;
 std::unordered_map<std::string, cs::Shader*> cs::ResourceManager::shaders;
 std::unordered_map<std::string, cs::AudioData*> cs::ResourceManager::audio;
+std::unordered_map<std::string, cs::Scene*> cs::ResourceManager::scenes;
 
 // One thing that the resource manager will do automatically is allocation to the vulkan buffers
 // In other words, we have direct contact with the VulkanRenderer, and we can tell it to allocate and free resources at will
@@ -216,11 +226,6 @@ cs::Material* cs::ResourceManager::LoadMaterial(const std::string filename)
 	return materials[filename];
 }
 
-cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
-{
-	return nullptr;
-}
-
 RawData cs::ResourceManager::LoadRaw(const std::string filename)
 {
 	std::ifstream _file{ filename, std::ios::ate | std::ios::binary };
@@ -240,6 +245,102 @@ RawData cs::ResourceManager::LoadRaw(const std::string filename)
 	_file.close();
 
 	return _buffer;
+}
+
+cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
+{
+	std::ifstream _inStream(filename);
+
+	cereal::JSONInputArchive _inArchive(_inStream);
+
+	std::vector<std::vector<unsigned>> _cc;
+
+	_inArchive(cereal::make_nvp("construction count", _cc));
+
+	//// TODO: save and load scene name
+	auto _scene{ SceneManager::CreateScene("Loaded Scene") };
+
+	for (int i = 0; i < _cc.size(); i++)
+	{
+		auto _obj{ SceneManager::InstanceEmptyObject(std::to_string(i).c_str())};
+		_inArchive(cereal::make_nvp("object" + std::to_string(i), *_obj));
+
+		for (int ii = 0; ii < Component::__COMPONENT_ENUM_TYPE_MAX; ii++)
+		{
+			for (int iii = 0; iii < _cc[i][ii]; iii++)
+			{
+				Debug::LogInfo(i, ", ", ii, ", ", iii);
+				_obj->AddComponentType(static_cast<Component::Type>(ii));
+			}
+		}
+
+		_scene->AddGameObject(_obj);
+	}
+
+	for (auto e : _scene->registry.view<AudioComponent>())
+		_inArchive(_scene->registry.get<AudioComponent>(e));
+	for (auto e : _scene->registry.view<CameraComponent>())
+		_inArchive(_scene->registry.get<CameraComponent>(e));
+	for (auto e : _scene->registry.view<MeshRendererComponent>())
+		_inArchive(_scene->registry.get<MeshRendererComponent>(e));
+	for (auto e : _scene->registry.view<TransformComponent>())
+		_inArchive(_scene->registry.get<TransformComponent>(e));
+	for (auto e : _scene->registry.view<PhysicsComponent>())
+		_inArchive(_scene->registry.get<PhysicsComponent>(e));
+
+	return _scene;
+}
+
+void cs::ResourceManager::SaveScene(const std::string filename, const Scene* scene)
+{
+	std::ofstream _outStream("../resources/scenes/china.txt");
+
+	cereal::JSONOutputArchive _outArchive(_outStream);
+
+	// Count objects and components assigned to each
+	std::vector<std::vector<unsigned>> _cc;
+	_cc.resize(scene->gameObjects.size());
+	for (int i = 0; i < scene->gameObjects.size(); i++)
+	{
+		_cc[i].resize(Component::__COMPONENT_ENUM_TYPE_MAX);
+
+		for (int ii = 0; ii < Component::__COMPONENT_ENUM_TYPE_MAX; ii++)
+			_cc[i][ii] = 0;
+
+		for (auto c : scene->gameObjects[i]->GetAllComponents())
+		{
+			Component::Type _type(c->GetType());
+
+			if (_type > 0 && _type < Component::__COMPONENT_ENUM_TYPE_MAX)
+				_cc[i][c->GetType()]++;
+			else
+				std::cerr << c->gameObject->name << " component: " << c->GetType() << " is not a valid component" << std::endl;
+		}
+	}
+
+	_outArchive(cereal::make_nvp("construction count", _cc));
+
+	// Write game object variables
+	for (int i = 0; i < scene->gameObjects.size(); i++)
+	{
+		_outArchive(cereal::make_nvp("object" + std::to_string(i), *scene->gameObjects[i]));
+	}
+	/*for (auto obj : scene->gameObjects)
+	{
+		_outArchive(*obj);
+	}*/
+
+	// Write literally all components
+	for (auto e : scene->registry.view<AudioComponent>())
+		_outArchive(scene->registry.get<AudioComponent>(e));
+	for (auto e : scene->registry.view<CameraComponent>())
+		_outArchive(scene->registry.get<CameraComponent>(e));
+	for (auto e : scene->registry.view<MeshRendererComponent>())
+		_outArchive(scene->registry.get<MeshRendererComponent>(e));
+	for (auto e : scene->registry.view<TransformComponent>())
+		_outArchive(scene->registry.get<TransformComponent>(e));
+	for (auto e : scene->registry.view<PhysicsComponent>())
+		_outArchive(scene->registry.get<PhysicsComponent>(e));
 }
 
 void cs::ResourceManager::ForcePushMesh(Mesh* mesh)

@@ -11,17 +11,12 @@
 #include <string>
 #include <map>
 
-class ALCdevice;
-class ALCcontext;
+#include "AudioData.h"
+
+struct ALCdevice;
+struct ALCcontext;
 
 namespace cs {
-	struct AudioMeta
-	{
-		float duration;
-		unsigned rate;
-		unsigned depth;
-	};
-
 	struct AudioBufferBlob {
 		static constexpr unsigned max{ 10 };
 		unsigned index;

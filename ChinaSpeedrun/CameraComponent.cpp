@@ -3,6 +3,11 @@
 
 //cs::CameraComponent* cs::CameraComponent::currentActiveCamera;
 
+cs::CameraComponent::CameraComponent()
+{
+	type = CAMERA_COMPONENT_TYPE;
+}
+
 void cs::CameraComponent::Init()
 {
 

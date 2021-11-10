@@ -12,6 +12,7 @@ namespace cs
 	class GameObject;
 	class SceneManager;
 	class VulkanEngineRenderer;
+	class ResourceManager;
 
 	// Scenes can also be treated as prefabs
 	class Scene : public Resource
@@ -20,6 +21,7 @@ namespace cs
 		friend SceneManager;
 		friend GameObject;
 		friend VulkanEngineRenderer;
+		friend ResourceManager;
 
 		Scene();
 

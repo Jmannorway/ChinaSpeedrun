@@ -17,15 +17,18 @@ uint32_t cs::SceneManager::currentScene;
 
 cs::GameObject* cs::SceneManager::InstanceEmptyObject(const char* name)
 {
-	if (activeScenes.empty() || activeScenes[currentScene] == nullptr)
+	auto _scene{ GetCurrentActiveScene() };
+
+	if (_scene == nullptr)
 		return nullptr;
 
 	GameObject* _newObject{ new GameObject };
 	_newObject->name = name;
 	_newObject->scene = activeScenes[currentScene];
+	_newObject->entity = _scene->registry.create();
 
 	//ChinaEngine::editor.SetSelectedGameObject(_newObject);
-	activeScenes[currentScene]->AddGameObject(_newObject);
+	_scene->AddGameObject(_newObject);
 	return _newObject;
 }
 
@@ -67,6 +70,11 @@ void cs::SceneManager::SetCurrentFocusedScene(const uint32_t newCurrentScene)
 void cs::SceneManager::SolveScene(Scene* scene, const cs::SceneManager::SceneAction action)
 {
 	queueActionsForScenes.push_back({ scene, action });
+}
+
+cs::Scene* cs::SceneManager::GetCurrentActiveScene()
+{
+	return activeScenes.size() > currentScene ? activeScenes[currentScene] : nullptr;
 }
 
 void cs::SceneManager::Resolve()
@@ -123,14 +131,15 @@ cs::Scene* cs::SceneManager::CreateScene(std::string name)
 
 void cs::SceneManager::Save()
 {
-	Scene* _currentScene{ activeScenes[currentScene] };
-
-	if (_currentScene->resourcePath.empty())
+	if (Scene* _currentScene{ GetCurrentActiveScene() })
 	{
-		// ask to save with a new resource path
-	}
+		if (_currentScene->resourcePath.empty())
+		{
+			// ask to save with a new resource path
+		}
 
-	//ResourceManager::Save<Scene>(_currentScene->resourcePath, _currentScene);
+		ResourceManager::Save<Scene>(/*_currentScene->resourcePath*/ "../resources/scenes/scene.xml", _currentScene);
+	}
 }
 
 void cs::SceneManager::Load(Scene* scene)
@@ -138,6 +147,18 @@ void cs::SceneManager::Load(Scene* scene)
 	SolveScene(scene, SceneAction::INIT);
 
 	activeScenes.push_back(scene);
+}
+
+void cs::SceneManager::Load(std::string filename)
+{
+	auto _scene{ ResourceManager::Load<Scene>(filename) };
+
+	if (_scene != nullptr)
+	{
+		SolveScene(_scene, SceneAction::INIT);
+
+		activeScenes.push_back(_scene);
+	}
 }
 
 void cs::SceneManager::Unload(Scene* scene)

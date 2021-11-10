@@ -43,3 +43,8 @@ void cs::TransformComponent::GenerateOBBExtents(OBB& obb)
 {
 	obb = { Vector3(1.0f), Vector3(1.0f) };
 }
+
+cs::TransformComponent::TransformComponent()
+{
+	type = TRANSFORM_COMPONENT_TYPE;
+}

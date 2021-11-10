@@ -28,6 +28,7 @@ void cs::MeshRenderer::UpdateUBO(MeshRendererComponent& meshRenderer, TransformC
 cs::MeshRendererComponent::MeshRendererComponent() :
 	mesh{ nullptr }
 {
+	type = MESH_RENDERER_COMPONENT_TYPE;
 	ChinaEngine::renderer.SolveRenderer(this, Solve::ADD);
 	SceneManager::GetCurrentScene()->AddToRenderQueue(this);
 	uboOffset = SceneManager::GetCurrentScene()->GetUBOOffset();

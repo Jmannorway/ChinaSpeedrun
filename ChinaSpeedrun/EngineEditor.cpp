@@ -65,6 +65,8 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_scale", GLFW_KEY_R);
 	Input::AddMapping("editor_mode_switch", GLFW_KEY_LEFT_CONTROL);
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
+	Input::AddMapping("editor_save_scene", GLFW_KEY_9);
+	Input::AddMapping("editor_load_scene", GLFW_KEY_0);
 
 	editorCamera = new EditorCamera(this);
 	Camera::CalculatePerspective(*editorCamera);
@@ -84,6 +86,12 @@ void cs::editor::EngineEditor::Update()
 	// by moving the ui layer (editor ui) here, we have more control over when things are executed
 	uiLayer->Begin();
 	uiLayer->Step();
+
+	if (Input::GetActionPressed("editor_save_scene"))
+		SceneManager::Save();
+
+	if (Input::GetActionPressed("editor_load_scene"))
+		SceneManager::Load("../resources/scenes/china.txt");
 
 	if (mode == Playmode::EDITOR)
 	{
