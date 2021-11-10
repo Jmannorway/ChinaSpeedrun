@@ -25,6 +25,7 @@ void cs::MeshRenderer::UpdateUBO(MeshRendererComponent& meshRenderer, TransformC
 cs::MeshRendererComponent::MeshRendererComponent() :
 	mesh{ nullptr }
 {
+	type = MESH_RENDERER_COMPONENT_TYPE;
 	ChinaEngine::renderer.SolveRenderer(this, Solve::ADD);
 	ChinaEngine::renderer.AddToRenderQueue(this);
 	// perhaps move this line to the vulkan renderer...

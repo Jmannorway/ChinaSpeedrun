@@ -11,7 +11,6 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include <cereal/cereal.hpp>
 
 #include <glm/gtx/quaternion.hpp>
 

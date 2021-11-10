@@ -6,10 +6,24 @@
 #include <vector>
 #include <fstream>
 
+#include "Scene.h"
+
+namespace cereal
+{
+	class XMLOutputArchive;
+}
+
 typedef std::vector<char> RawData;
 
 namespace cs
 {
+	class Material;
+	class Shader;
+	class Texture;
+	struct AudioData;
+	class Mesh;
+	class Scene;
+
 	class ResourceManager
 	{
 	public:
@@ -20,9 +34,11 @@ namespace cs
 		template<class T>
 		static T* Load(const std::string filename);
 		template<class T>
-		static T* Save(const std::string filename, T* resource);
+		static void Save(const std::string filename, T* resource);
 		template<class T>
 		static void ForcePush(T* resource);
+		/*template<class T>
+		static void SerializeComponent(cereal::XMLOutputArchive& archive, Scene* scene);*/
 
 		static class Mesh* LoadModel(const std::string filename);
 		static class AudioData* LoadAudio(const std::string filename);
@@ -31,6 +47,8 @@ namespace cs
 		static class Material* LoadMaterial(const std::string filename);
 		static class Scene* LoadScene(const std::string filename); // scene would also be a prefab
 		static RawData LoadRaw(const std::string filename);
+
+		static void SaveScene(const std::string filename, const Scene* resource);
 
 		static void ForcePushMesh(Mesh* mesh);
 
@@ -108,6 +126,28 @@ namespace cs
 			return _shaderOut;
 		}
 
+		template<>
+		static Scene* IsDuplicateResource(std::string filename)
+		{
+			return scenes[filename];
+		}
+		template<>
+		static Scene* Load(const std::string filename)
+		{
+			Scene* _scene{ IsDuplicateResource<Scene>(filename) };
+
+			if (_scene == nullptr)
+				_scene = LoadScene(filename);
+
+			return _scene;
+		}
+
+		template<>
+		static void Save(const std::string filename, Scene* resource)
+		{
+			SaveScene(filename, resource);
+		}
+
 		// It is EXTREMELY dangerous to call this function from a normal script in-game. NEVER do this.
 		static void ClearAllResourcePools();
 
@@ -117,5 +157,16 @@ namespace cs
 		static std::unordered_map<std::string, cs::Texture*> textures;
 		static std::unordered_map<std::string, cs::Shader*> shaders;
 		static std::unordered_map<std::string, cs::Material*> materials;
+		static std::unordered_map<std::string, cs::Scene*> scenes; // Is this necessary?
 	};
+
+	/*template <class T>
+	void ResourceManager::SerializeComponent(cereal::XMLOutputArchive& archive, Scene* scene)
+	{
+		for (auto e : scene->registry.view<T>())
+		{
+			auto T& _component{ scene->registry.get<T>(e) };
+			archive(cereal::make_nvp(_component.gameObject->name + "." + std::to_string(_component.type), _component));
+		}
+	}*/
 }

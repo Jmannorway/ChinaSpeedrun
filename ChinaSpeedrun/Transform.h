@@ -15,6 +15,10 @@ namespace cs
 
 		operator Matrix4x4&();
 		virtual void ImGuiDrawComponent() override;
+		void GenerateOBBExtents(OBB& obb);
+
+		TransformComponent();
+
 	protected:
 		Matrix4x4 matrix{ Matrix4x4(1.0f) };
 	};

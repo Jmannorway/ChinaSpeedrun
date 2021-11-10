@@ -10,6 +10,7 @@ namespace cs {
 		unsigned depth;
 		unsigned channels;
 		AudioMeta(float duration, unsigned rate, unsigned depth, unsigned channels);
+		AudioMeta() : duration(0.f), rate(0), depth(0), channels(0) {}
 	};
 
 	struct AudioData

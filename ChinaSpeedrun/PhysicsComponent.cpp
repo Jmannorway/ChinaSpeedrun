@@ -32,6 +32,7 @@ cs::PhysicsDelta::PhysicsDelta() : positionDifference({0.f}), angleDifference(0.
 
 cs::PhysicsComponent::PhysicsComponent() : body(nullptr)
 {
+	type = PHYSICS_COMPONENT_TYPE;
 	definition.type = b2_staticBody;
 }
 

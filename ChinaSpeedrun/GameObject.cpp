@@ -7,13 +7,8 @@
 #include "MeshRenderer.h"
 #include "CameraComponent.h"
 #include "Transform.h"
-#include "RenderComponent.h"
 #include "AudioComponent.h"
-#include "SphereCollider.h"
-#include "PolygonCollider.h"
-#include "StaticBody.h"
-#include "Rigidbody.h"
-#include "Mesh.h"
+#include "PhysicsComponent.h"
 
 #include "Debug.h"
 #include "PhysicsComponent.h"
@@ -98,6 +93,28 @@ void cs::GameObject::ExitTree()
 void cs::GameObject::QueueFree()
 {
 
+}
+
+cs::Component* cs::GameObject::AddComponentType(Component::Type type)
+{
+	Component* _component;
+
+	switch (type)
+	{
+	case Component::AUDIO_COMPONENT_TYPE:			_component = &scene->registry.emplace<AudioComponent>(entity);			break;
+	case Component::CAMERA_COMPONENT_TYPE:			_component = &scene->registry.emplace<CameraComponent>(entity);			break;
+	case Component::MESH_RENDERER_COMPONENT_TYPE:	_component = &scene->registry.emplace<MeshRendererComponent>(entity);	break;
+	case Component::PHYSICS_COMPONENT_TYPE:			_component = &scene->registry.emplace<PhysicsComponent>(entity);		break;
+	case Component::TRANSFORM_COMPONENT_TYPE:		_component = &scene->registry.emplace<TransformComponent>(entity);		break;
+
+	default:
+		Debug::LogWarning("AddComponentType: Trying to emplace unregistered or non-existent component");
+		return nullptr;
+	}
+
+	components.push_back(_component);
+	_component->gameObject = this;
+	_component->Init();
 }
 
 cs::GameObject::~GameObject()

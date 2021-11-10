@@ -46,6 +46,8 @@ namespace cs
 		// Add the spesified component
 		template<class T>
 		T& AddComponent();
+		// Add the specified component by supplying its' enumerated type
+		Component* AddComponentType(Component::Type type);
 		// Gets a component of this type
 		template<class T>
 		T& GetComponent();

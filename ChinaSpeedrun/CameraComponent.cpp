@@ -3,6 +3,16 @@
 
 //cs::CameraComponent* cs::CameraComponent::currentActiveCamera;
 
+cs::CameraComponent::CameraComponent()
+{
+	type = CAMERA_COMPONENT_TYPE;
+}
+
+void cs::CameraComponent::Init()
+{
+
+}
+
 void cs::CameraComponent::ImGuiDrawComponent()
 {
 	if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_DefaultOpen))

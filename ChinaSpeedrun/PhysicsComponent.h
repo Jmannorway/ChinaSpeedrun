@@ -37,6 +37,7 @@ namespace cs
 		void QueueForUpdate();
 		void QueueForCreation();
 
+		void Init() override {};
 		void UpdateFixtures();
 		void DeleteFixtures();
 		b2Shape* CreateDefaultShape() const;
