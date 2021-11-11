@@ -5,12 +5,14 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cereal/cereal.hpp>
 
 #include "Scene.h"
 
 namespace cereal
 {
-	class XMLOutputArchive;
+	class JSONInputArchive;
+	class JSONOutputArchive;
 }
 
 typedef std::vector<char> RawData;
@@ -37,8 +39,10 @@ namespace cs
 		static void Save(const std::string filename, T* resource);
 		template<class T>
 		static void ForcePush(T* resource);
-		/*template<class T>
-		static void SerializeComponent(cereal::XMLOutputArchive& archive, Scene* scene);*/
+		template <class T>
+		static void SaveComponentsInScene(cereal::JSONOutputArchive& archive, const Scene* scene);
+		template <class T>
+		static void LoadComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
 
 		static Mesh* LoadModel(const std::string filename);
 		static AudioData* LoadAudio(const std::string filename);
@@ -48,7 +52,7 @@ namespace cs
 		static Scene* LoadScene(const std::string filename);
 		static RawData LoadRaw(const std::string filename);
 
-		static void SaveScene(const std::string filename, const Scene* resource);
+		static void SaveScene(const std::string filename, Scene* resource);
 
 		static void ForcePushMesh(Mesh* mesh);
 
@@ -157,16 +161,32 @@ namespace cs
 		static std::unordered_map<std::string, cs::Texture*> textures;
 		static std::unordered_map<std::string, cs::Shader*> shaders;
 		static std::unordered_map<std::string, cs::Material*> materials;
-		static std::unordered_map<std::string, cs::Scene*> scenes; // Is this necessary?
+		static std::unordered_map<std::string, cs::Scene*> scenes; // TODO: Is this necessary?
 	};
 
-	/*template <class T>
-	void ResourceManager::SerializeComponent(cereal::XMLOutputArchive& archive, Scene* scene)
+	template <class T>
+	void ResourceManager::SaveComponentsInScene(cereal::JSONOutputArchive& archive, const Scene* scene)
 	{
 		for (auto e : scene->registry.view<T>())
 		{
-			auto T& _component{ scene->registry.get<T>(e) };
-			archive(cereal::make_nvp(_component.gameObject->name + "." + std::to_string(_component.type), _component));
+			auto c{ scene->registry.get<T>(e) };
+			archive
+			(
+				cereal::make_nvp(c.gameObject->name + "." + c.GetTypeName(), c)
+			);
 		}
-	}*/
+	}
+
+	template <class T>
+	void ResourceManager::LoadComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene)
+	{
+		for (auto e : scene->registry.view<T>())
+		{
+			auto c{ scene->registry.get<T>(e) };
+			archive
+			(
+				cereal::make_nvp(c.gameObject->name + "." + c.GetTypeName(), c)
+			);
+		}
+	}
 }

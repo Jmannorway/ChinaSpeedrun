@@ -251,7 +251,7 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 {
 	std::ifstream _inStream(filename);
 
-	if (_inStream.bad())
+	if (_inStream.bad() || !_inStream.is_open())
 		return nullptr;
 
 	cereal::JSONInputArchive _inArchive(_inStream);
@@ -260,13 +260,13 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 
 	_inArchive(cereal::make_nvp("construction count", _cc));
 
-	//// TODO: save and load scene name, and check if scene is already loaded (name == name?)
+	// TODO: save and load scene name, and check if scene is already loaded (name == name?)
 	auto _scene{ SceneManager::CreateScene("Loaded Scene") };
 
 	for (int i = 0; i < _cc.size(); i++)
 	{
-		auto _obj{ SceneManager::InstanceEmptyObject(std::to_string(i).c_str())};
-		_inArchive(cereal::make_nvp("object" + std::to_string(i), *_obj));
+		auto _obj{ _scene->AddGameObject() };
+		_inArchive(*_obj);
 
 		for (int ii = 0; ii < Component::__COMPONENT_ENUM_TYPE_MAX; ii++)
 		{
@@ -276,33 +276,33 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 				_obj->AddComponentType(static_cast<Component::Type>(ii));
 			}
 		}
-
-		_scene->AddGameObject(_obj);
 	}
 
+	LoadComponentsInScene<AudioComponent>		(_inArchive, _scene);
+	LoadComponentsInScene<CameraComponent>		(_inArchive, _scene);
+	LoadComponentsInScene<MeshRendererComponent>(_inArchive, _scene);
+	LoadComponentsInScene<TransformComponent>	(_inArchive, _scene);
+	LoadComponentsInScene<PhysicsComponent>		(_inArchive, _scene);
 
-
-	for (auto e : _scene->registry.view<AudioComponent>())
-		_inArchive(_scene->registry.get<AudioComponent>(e));
-	for (auto e : _scene->registry.view<CameraComponent>())
-		_inArchive(_scene->registry.get<CameraComponent>(e));
-	for (auto e : _scene->registry.view<MeshRendererComponent>())
-		_inArchive(_scene->registry.get<MeshRendererComponent>(e));
-	for (auto e : _scene->registry.view<TransformComponent>())
-		_inArchive(_scene->registry.get<TransformComponent>(e));
-	for (auto e : _scene->registry.view<PhysicsComponent>())
-		_inArchive(_scene->registry.get<PhysicsComponent>(e));
-
-
+	//for (auto e : _scene->registry.view<AudioComponent>())
+	//	_inArchive(_scene->registry.get<AudioComponent>(e));
+	//for (auto e : _scene->registry.view<CameraComponent>())
+	//	_inArchive(_scene->registry.get<CameraComponent>(e));
+	//for (auto e : _scene->registry.view<MeshRendererComponent>())
+	//	_inArchive(_scene->registry.get<MeshRendererComponent>(e));
+	//for (auto e : _scene->registry.view<TransformComponent>())
+	//	_inArchive(_scene->registry.get<TransformComponent>(e));
+	//for (auto e : _scene->registry.view<PhysicsComponent>())
+	//	_inArchive(_scene->registry.get<PhysicsComponent>(e));
 
 	return _scene;
 }
 
-void cs::ResourceManager::SaveScene(const std::string filename, const Scene* scene)
+void cs::ResourceManager::SaveScene(const std::string filename, Scene* scene)
 {
-	std::ofstream _outStream("../resources/scenes/china.txt");
+	std::ofstream _outStream(filename);
 
-	if (_outStream.bad())
+	if (_outStream.bad() || !_outStream.is_open())
 		return;
 
 	cereal::JSONOutputArchive _outArchive(_outStream);
@@ -333,24 +333,15 @@ void cs::ResourceManager::SaveScene(const std::string filename, const Scene* sce
 	// Write game object variables
 	for (int i = 0; i < scene->gameObjects.size(); i++)
 	{
-		_outArchive(cereal::make_nvp("object" + std::to_string(i), *scene->gameObjects[i]));
+		_outArchive(cereal::make_nvp(scene->gameObjects[i]->name, *scene->gameObjects[i]));
 	}
-	/*for (auto obj : scene->gameObjects)
-	{
-		_outArchive(*obj);
-	}*/
 
 	// Write literally all components
-	for (auto e : scene->registry.view<AudioComponent>())
-		_outArchive(scene->registry.get<AudioComponent>(e));
-	for (auto e : scene->registry.view<CameraComponent>())
-		_outArchive(scene->registry.get<CameraComponent>(e));
-	for (auto e : scene->registry.view<MeshRendererComponent>())
-		_outArchive(scene->registry.get<MeshRendererComponent>(e));
-	for (auto e : scene->registry.view<TransformComponent>())
-		_outArchive(scene->registry.get<TransformComponent>(e));
-	for (auto e : scene->registry.view<PhysicsComponent>())
-		_outArchive(scene->registry.get<PhysicsComponent>(e));
+	SaveComponentsInScene<AudioComponent>(_outArchive, scene);
+	SaveComponentsInScene<CameraComponent>(_outArchive, scene);
+	SaveComponentsInScene<MeshRendererComponent>(_outArchive, scene);
+	SaveComponentsInScene<TransformComponent>(_outArchive, scene);
+	SaveComponentsInScene<PhysicsComponent>(_outArchive, scene);
 }
 
 void cs::ResourceManager::ForcePushMesh(Mesh* mesh)

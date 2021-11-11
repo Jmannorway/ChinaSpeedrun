@@ -4,6 +4,7 @@
 #include "ImGuizmo.h"
 #include "ChinaEngine.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 #include "Input.h"
 #include "Camera.h"
 #include "Scene.h"
@@ -91,10 +92,16 @@ void cs::editor::EngineEditor::Update()
 	uiLayer->Step();
 
 	if (Input::GetActionPressed("editor_save_scene"))
-		SceneManager::Save();
+	{
+		if (auto _scene{SceneManager::GetCurrentActiveScene()})
+			ResourceManager::Save<Scene>("../resources/scenes/scene.txt", _scene);
+	}
 
 	if (Input::GetActionPressed("editor_load_scene"))
-		SceneManager::Load("../resources/scenes/china.txt");
+	{
+		if (auto _scene{ ResourceManager::Load<Scene>("../resources/scenes/scene.txt") })
+			SceneManager::Load(_scene);
+	}
 
 	if (Input::GetActionPressed("editor_new_scene"))
 		SceneManager::Load(SceneManager::CreateScene("New Scene"));

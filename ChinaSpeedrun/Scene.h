@@ -37,7 +37,7 @@ namespace cs
 		void Free();
 
 		// Adds a game object
-		void AddGameObject(GameObject* newObject = nullptr);
+		GameObject* AddGameObject(GameObject* newObject = nullptr);
 		// Removes a selective object from the entire scene
 		void RemoveGameObject();
 		// Clears the scene's contents

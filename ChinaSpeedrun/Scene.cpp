@@ -60,17 +60,19 @@ void cs::Scene::Free()
 	delete this;
 }
 
-void cs::Scene::AddGameObject(GameObject* newObject)
+cs::GameObject* cs::Scene::AddGameObject(GameObject* newObject)
 {
     if (newObject == nullptr)
     {
-        newObject = new GameObject;
+        newObject = new GameObject(this);
         newObject->name = "Game Object (" + std::to_string(gameObjects.size()) + ")";
     }
     
 	newObject->scene = this;
 
     gameObjects.push_back(newObject);
+
+	return newObject;
 }
 
 void cs::Scene::RemoveGameObject()

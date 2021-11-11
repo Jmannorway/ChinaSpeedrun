@@ -3,16 +3,21 @@
         [
             0,
             0,
-            0,
+            1,
             1,
             0
         ]
     ],
-    "object0": {
+    "Ball": {
         "name": "Ball",
         "active": true
     },
-    "value0": {
+    "Ball.MeshRenderer": {
+        "mesh": "../resources/models/icosphere.obj",
+        "material": "../Resources/materials/test1.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "Ball.Transform": {
         "position": {
             "x": 1.0,
             "y": 1.0,

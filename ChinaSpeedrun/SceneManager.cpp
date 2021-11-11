@@ -25,7 +25,6 @@ cs::GameObject* cs::SceneManager::InstanceEmptyObject(const char* name)
 	GameObject* _newObject{ new GameObject };
 	_newObject->name = name;
 	_newObject->scene = activeScenes[currentScene];
-	_newObject->entity = _scene->registry.create();
 
 	//ChinaEngine::editor.SetSelectedGameObject(_newObject);
 	_scene->AddGameObject(_newObject);
@@ -75,6 +74,11 @@ void cs::SceneManager::SolveScene(Scene* scene, const cs::SceneManager::SceneAct
 cs::Scene* cs::SceneManager::GetCurrentActiveScene()
 {
 	return activeScenes.size() > currentScene ? activeScenes[currentScene] : nullptr;
+}
+
+unsigned cs::SceneManager::GetCurrentActiveSceneNumber()
+{
+	return activeScenes.size();
 }
 
 void cs::SceneManager::Resolve()
@@ -139,7 +143,7 @@ void cs::SceneManager::Save()
 			// ask to save with a new resource path
 		}
 
-		ResourceManager::Save<Scene>(/*_currentScene->resourcePath*/ "../resources/scenes/scene.xml", _currentScene);
+		ResourceManager::Save<Scene>(_currentScene->resourcePath, _currentScene);
 	}
 }
 
@@ -148,14 +152,6 @@ void cs::SceneManager::Load(Scene* scene)
 	SolveScene(scene, SceneAction::INIT);
 
 	activeScenes.push_back(scene);
-}
-
-void cs::SceneManager::Load(std::string filename)
-{
-	if (auto _scene{ ResourceManager::Load<Scene>(filename) })
-	{
-		Load(_scene);
-	}
 }
 
 void cs::SceneManager::Unload(Scene* scene)

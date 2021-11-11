@@ -54,6 +54,7 @@ namespace cs
 
 		static void SolveScene(Scene* scene, const SceneAction action);
 		static Scene* GetCurrentActiveScene();
+		static unsigned GetCurrentActiveSceneNumber();
 		static void Resolve();
 		static void Update();
 		static bool HasScenes();
@@ -63,7 +64,6 @@ namespace cs
 		static Scene* CreateScene(std::string name);
 		static void Save(); // saves the current scene (it should already have a resource path, otherwise we ask to save somewhere)
 		static void Load(Scene* scene); // load the scene in from memory
-		static void Load(std::string scene); // load the scene in from filepath
 		static void Unload(Scene* scene); // unload it from the scene
 		static void UnloadEverything();
 		static Scene* GetCurrentScene();

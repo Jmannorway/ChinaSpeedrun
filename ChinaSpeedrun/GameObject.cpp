@@ -13,7 +13,11 @@
 #include "SceneManager.h"
 
 cs::GameObject::GameObject() :
-	name{ "Object" }, active{ true }, entity{ SceneManager::GetRegistry().create() }, parent{ nullptr }
+	name{ "Object" }, active{ true }, entity{ SceneManager::GetRegistry().create() }, scene{ nullptr }, parent{ nullptr }
+{}
+
+cs::GameObject::GameObject(Scene* newScene) :
+	name{ "Object" }, active{ true }, entity{ newScene->registry.create() }, scene{ newScene }, parent{ nullptr }
 {}
 
 void cs::GameObject::EditorDrawComponents()
