@@ -61,6 +61,14 @@ void serialize(Archive& ar, b2Vec2& v)
 
 namespace cs
 {
+	/*
+	 * Resource (it isn't RAII compliant to serialize these as paths)
+	 * Not to mention. The engine isn't working with smart pointers at all
+	 */
+
+	/*
+	 * Game object
+	 */
 	template<class Archive>
 	void serialize(Archive& ar, GameObject& obj)
 	{
@@ -70,6 +78,9 @@ namespace cs
 		);
 	}
 
+	/*
+	 * Components
+	 */
 	template<class Archive>
 	void serialize(Archive& ar, AudioComponent& c)
 	{
@@ -93,22 +104,25 @@ namespace cs
 	{
 		ar(
 			cereal::make_nvp("mesh", c.mesh->GetResourcePath()),
-			cereal::make_nvp("material", c.material->GetResourcePath())
+			cereal::make_nvp("material", c.material->GetResourcePath()),
+			cereal::make_nvp("shader", c.material->shader->GetResourcePath())
 		);
 	}
 
 	template<class Archive>
 	void load(Archive& ar, MeshRendererComponent& c)
 	{
-		std::string materialPath, meshPath;
+		std::string materialPath, meshPath, shaderPath;
 
 		ar(
 			cereal::make_nvp("mesh", meshPath),
-			cereal::make_nvp("material", materialPath)
+			cereal::make_nvp("material", materialPath),
+			cereal::make_nvp("shader", shaderPath)
 		);
 
 		c.SetMesh(ResourceManager::Load<Mesh>(meshPath));
 		c.material = ResourceManager::Load<Material>(materialPath);
+		c.material->shader = ResourceManager::Load <Shader>(shaderPath);
 	}
 
 	template<class Archive>

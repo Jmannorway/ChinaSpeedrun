@@ -26,4 +26,5 @@ std::string cs::Component::TypeToName(Type type)
 
 cs::Component::Component() : type(UNDEFINED_COMPONENT_TYPE)
 {
+
 }

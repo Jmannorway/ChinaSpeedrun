@@ -83,6 +83,9 @@ namespace cs
 
 		// Draw all the game object's components
 		void EditorDrawComponents();
+
+		// Destroys the game object's entity in the registry
+		void DestroyEntity();
 	};
 
 	template<class ...T>

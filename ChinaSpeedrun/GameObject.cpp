@@ -43,6 +43,11 @@ void cs::GameObject::EditorDrawComponents()
 		GetComponent<PolygonColliderComponent>().ImGuiDrawComponent();*/
 }
 
+void cs::GameObject::DestroyEntity()
+{
+
+}
+
 void cs::GameObject::ExitTree()
 {
 	RemoveAllComponents();
@@ -52,7 +57,7 @@ void cs::GameObject::ExitTree()
 
 void cs::GameObject::QueueFree()
 {
-
+	scene->registry.destroy(entity);
 }
 
 cs::Component* cs::GameObject::AddComponentType(Component::Type type)
@@ -79,7 +84,7 @@ cs::Component* cs::GameObject::AddComponentType(Component::Type type)
 
 cs::GameObject::~GameObject()
 {
-
+	DestroyEntity();
 }
 
 std::vector<cs::Component*> cs::GameObject::GetAllComponents()
@@ -89,7 +94,7 @@ std::vector<cs::Component*> cs::GameObject::GetAllComponents()
 
 void cs::GameObject::RemoveAllComponents()
 {
-	scene->registry.destroy(entity);
+	DestroyEntity();
 	entity = scene->registry.create();
 }
 

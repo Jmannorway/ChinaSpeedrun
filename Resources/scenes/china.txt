@@ -14,17 +14,18 @@
     },
     "value0": {
         "mesh": "../resources/models/icosphere.obj",
-        "material": "../Resources/materials/test1.mat"
+        "material": "../Resources/materials/test1.mat",
+        "shader": "../Resources/shaders/default_shader"
     },
     "value1": {
         "position": {
-            "x": 0.07937347888946533,
+            "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {

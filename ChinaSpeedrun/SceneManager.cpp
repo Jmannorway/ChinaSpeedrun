@@ -151,13 +151,9 @@ void cs::SceneManager::Load(Scene* scene)
 
 void cs::SceneManager::Load(std::string filename)
 {
-	auto _scene{ ResourceManager::Load<Scene>(filename) };
-
-	if (_scene != nullptr)
+	if (auto _scene{ ResourceManager::Load<Scene>(filename) })
 	{
-		SolveScene(_scene, SceneAction::INIT);
-
-		activeScenes.push_back(_scene);
+		Load(_scene);
 	}
 }
 

@@ -80,17 +80,20 @@ void cs::editor::EditorCamera::SelectTest()
 	Vector3 _mouseDirection{ Camera::MouseToWorldSpace() };
 	bool _objectHit{ false };
 
-	auto _transformView{ SceneManager::GetRegistry().view<TransformComponent>() };
-	for (auto e : _transformView)
+	if (SceneManager::HasScenes())
 	{
-		auto& _transformComponent{ SceneManager::GetRegistry().get<TransformComponent>(e) };
-		RaycastHit _hit{ PhysicsServer::Raycast(position, _mouseDirection, farPlane, _transformComponent.gameObject->obb, Transform::GetMatrixTransform(_transformComponent)) };
-
-		if (_hit.valid)
+		auto _transformView{ SceneManager::GetRegistry().view<TransformComponent>() };
+		for (auto e : _transformView)
 		{
-			_objectHit = true;
-			editorRoot->uiLayer->activeObject = _transformComponent.gameObject;
-			break;
+			auto& _transformComponent{ SceneManager::GetRegistry().get<TransformComponent>(e) };
+			RaycastHit _hit{ PhysicsServer::Raycast(position, _mouseDirection, farPlane, _transformComponent.gameObject->obb, Transform::GetMatrixTransform(_transformComponent)) };
+
+			if (_hit.valid)
+			{
+				_objectHit = true;
+				editorRoot->uiLayer->activeObject = _transformComponent.gameObject;
+				break;
+			}
 		}
 	}
 

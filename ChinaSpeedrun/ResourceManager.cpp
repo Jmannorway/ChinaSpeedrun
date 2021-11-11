@@ -251,6 +251,9 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 {
 	std::ifstream _inStream(filename);
 
+	if (_inStream.bad())
+		return nullptr;
+
 	cereal::JSONInputArchive _inArchive(_inStream);
 
 	std::vector<std::vector<unsigned>> _cc;
@@ -277,6 +280,8 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 		_scene->AddGameObject(_obj);
 	}
 
+
+
 	for (auto e : _scene->registry.view<AudioComponent>())
 		_inArchive(_scene->registry.get<AudioComponent>(e));
 	for (auto e : _scene->registry.view<CameraComponent>())
@@ -288,12 +293,17 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 	for (auto e : _scene->registry.view<PhysicsComponent>())
 		_inArchive(_scene->registry.get<PhysicsComponent>(e));
 
+
+
 	return _scene;
 }
 
 void cs::ResourceManager::SaveScene(const std::string filename, const Scene* scene)
 {
 	std::ofstream _outStream("../resources/scenes/china.txt");
+
+	if (_outStream.bad())
+		return;
 
 	cereal::JSONOutputArchive _outArchive(_outStream);
 
