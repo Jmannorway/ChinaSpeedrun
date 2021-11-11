@@ -93,6 +93,7 @@ void cs::SceneManager::Resolve()
 			break;
 		case SceneAction::EXIT:
 			sceneAction.sceneRef->Exit();
+			ChinaEngine::editor.SetSelectedGameObject(nullptr);
 			break;
 		case SceneAction::FREE:
 			FreeScene(sceneAction.sceneRef);

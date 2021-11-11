@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Input.h"
 #include "Camera.h"
+#include "Scene.h"
 
 const ImGuizmo::OPERATION& cs::editor::EngineEditor::GetOperationState()
 {
@@ -67,6 +68,8 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
 	Input::AddMapping("editor_save_scene", GLFW_KEY_9);
 	Input::AddMapping("editor_load_scene", GLFW_KEY_0);
+	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
+	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
 
 	editorCamera = new EditorCamera(this);
 	Camera::CalculatePerspective(*editorCamera);
@@ -92,6 +95,12 @@ void cs::editor::EngineEditor::Update()
 
 	if (Input::GetActionPressed("editor_load_scene"))
 		SceneManager::Load("../resources/scenes/china.txt");
+
+	if (Input::GetActionPressed("editor_new_scene"))
+		SceneManager::Load(SceneManager::CreateScene("New Scene"));
+
+	if (Input::GetActionPressed("editor_new_entity"))
+		SceneManager::GetCurrentActiveScene()->AddGameObject();
 
 	if (mode == Playmode::EDITOR)
 	{
@@ -126,6 +135,10 @@ void cs::editor::EngineEditor::Exit()
 	Input::RemoveMapping("editor_scale");
 	Input::RemoveMapping("editor_mode_switch");
 	Input::RemoveMapping("editor_snap");
+	Input::RemoveMapping("editor_save_scene");
+	Input::RemoveMapping("editor_load_scene");
+	Input::RemoveMapping("editor_new_scene");
+	Input::RemoveMapping("editor_new_entity");
 
 	delete editorCamera;
 	delete uiLayer;

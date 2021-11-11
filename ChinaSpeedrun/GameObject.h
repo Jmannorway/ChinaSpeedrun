@@ -89,7 +89,7 @@ namespace cs
 	};
 
 	template<class ...T>
-	inline bool GameObject::HasComponent()
+	bool GameObject::HasComponent()
 	{
 		return scene->registry.any_of<T...>(entity);
 	}

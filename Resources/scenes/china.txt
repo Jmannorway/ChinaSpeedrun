@@ -3,35 +3,24 @@
         [
             0,
             0,
-            1,
-            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            0,
             0
         ]
     ],
     "object0": {
-        "name": "Ball",
+        "name": "Game Object (0)",
         "active": true
     },
-    "value0": {
-        "mesh": "../resources/models/icosphere.obj",
-        "material": "../Resources/materials/test1.mat",
-        "shader": "../Resources/shaders/default_shader"
-    },
-    "value1": {
-        "position": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "rotation": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        }
+    "object1": {
+        "name": "Game Object (1)",
+        "active": true
     }
 }
