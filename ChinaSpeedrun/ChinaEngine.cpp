@@ -1,5 +1,7 @@
 #include "ChinaEngine.h"
 
+#include <vector>
+
 #include "AudioComponent.h"
 #include "ResourceManager.h"
 
@@ -114,7 +116,7 @@ void cs::ChinaEngine::EngineInit()
 
 	GameObject* _obj{ SceneManager::InstanceObject("Ball", Vector3(1.f)) };
 	MeshRendererComponent& _sphereMeshComponent{ _obj->AddComponent<MeshRendererComponent>() };
-	_sphereMeshComponent.SetMesh(ResourceManager::Load<Mesh>("../resources/models/icosphere.obj"));
+	_sphereMeshComponent.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
 	_sphereMeshComponent.material = _material1;
 }
 

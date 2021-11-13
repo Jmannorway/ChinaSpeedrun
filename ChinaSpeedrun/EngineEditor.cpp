@@ -7,6 +7,9 @@
 #include "ResourceManager.h"
 #include "Input.h"
 #include "Camera.h"
+#include "GameObject.h"
+#include "Material.h"
+#include "MeshRenderer.h"
 #include "Scene.h"
 
 const ImGuizmo::OPERATION& cs::editor::EngineEditor::GetOperationState()
@@ -71,6 +74,7 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_load_scene", GLFW_KEY_0);
 	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
 	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
+	Input::AddMapping("editor_test", GLFW_KEY_F4);
 
 	editorCamera = new EditorCamera(this);
 	Camera::CalculatePerspective(*editorCamera);
@@ -101,6 +105,18 @@ void cs::editor::EngineEditor::Update()
 	{
 		if (auto _scene{ ResourceManager::Load<Scene>("../resources/scenes/scene.txt") })
 			SceneManager::Load(_scene);
+	}
+
+	if (Input::GetActionPressed("editor_test"))
+	{
+		GameObject* _testObject = SceneManager::InstanceObject("Test");
+		auto _meshRenderer = (MeshRendererComponent*)(_testObject->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE));
+		//auto _meshRenderer = _testObject->AddComponent<MeshRendererComponent>();
+		// if material is tracked after loading in resouce manager then this should load the shader and texture
+		_meshRenderer->material = ResourceManager::Load<Material>("../Resources/materials/test1.mat");
+		_meshRenderer->SetMesh(ResourceManager::Load<Mesh>("../Resources/models/sphere_model.obj"));
+		//_meshRenderer->material->shader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
+		//_meshRenderer->material->shaderParams["texSamplers"] = ResourceManager::Load<Texture>("../Resources/textures/junko_gyate.png");
 	}
 
 	if (Input::GetActionPressed("editor_new_scene"))
@@ -146,6 +162,7 @@ void cs::editor::EngineEditor::Exit()
 	Input::RemoveMapping("editor_load_scene");
 	Input::RemoveMapping("editor_new_scene");
 	Input::RemoveMapping("editor_new_entity");
+	Input::RemoveMapping("editor_test");
 
 	delete editorCamera;
 	delete uiLayer;
