@@ -68,8 +68,8 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_scale", GLFW_KEY_R);
 	Input::AddMapping("editor_mode_switch", GLFW_KEY_LEFT_CONTROL);
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
-	Input::AddMapping("editor_save_scene", GLFW_KEY_9);
-	Input::AddMapping("editor_load_scene", GLFW_KEY_0);
+	Input::AddMapping("editor_save_scene", GLFW_KEY_F10);
+	Input::AddMapping("editor_load_scene", GLFW_KEY_F11);
 	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
 	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
 	Input::AddMapping("editor_test", GLFW_KEY_F4);
@@ -93,6 +93,7 @@ void cs::editor::EngineEditor::Update()
 	uiLayer->Begin();
 	uiLayer->Step();
 
+	// TODO: Treat loading and saving paths properly
 	if (Input::GetActionPressed("editor_save_scene"))
 	{
 		if (auto _scene{SceneManager::GetCurrentActiveScene()})
@@ -105,6 +106,7 @@ void cs::editor::EngineEditor::Update()
 			SceneManager::Load(_scene);
 	}
 
+	// TODO: Remove this shit once serialization is in
 	if (Input::GetActionPressed("editor_test"))
 	{
 		Scene* _currentScene = SceneManager::GetCurrentActiveScene();

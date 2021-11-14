@@ -3,16 +3,23 @@
         [
             0,
             0,
-            1,
+            0,
             1,
             1
         ],
         [
             0,
             0,
-            1,
+            0,
             1,
             1
+        ],
+        [
+            0,
+            1,
+            0,
+            1,
+            0
         ]
     ],
     "Ball": {
@@ -23,25 +30,41 @@
         "name": "Ball2",
         "active": true
     },
-    "Ball2.MeshRenderer": {
-        "mesh": "../Resources/models/icosphere.obj",
-        "material": "../Resources/materials/test1.mat",
-        "shader": "../Resources/shaders/default_shader"
+    "Camera": {
+        "name": "Camera",
+        "active": true
     },
-    "Ball.MeshRenderer": {
-        "mesh": "../Resources/models/icosphere.obj",
-        "material": "../Resources/materials/test1.mat",
-        "shader": "../Resources/shaders/default_shader"
+    "Camera.Camera": {
+        "fov": 45.0,
+        "near": 0.009999999776482582,
+        "far": 1000.0
+    },
+    "Camera.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -3.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
     },
     "Ball2.Transform": {
         "position": {
             "x": 1.0,
-            "y": 3.59488844871521,
+            "y": 1.0,
             "z": 1.0
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -53,7 +76,7 @@
     "Ball.Transform": {
         "position": {
             "x": 1.0,
-            "y": -1.2000000476837159,
+            "y": 1.0,
             "z": 1.0
         },
         "rotation": {
@@ -68,19 +91,49 @@
         }
     },
     "Ball2.Physics": {
-        "gravity scale": 1.0,
-        "linear velocity": {
-            "x": 0.0,
-            "y": 0.0
-        },
-        "angular velocity": 0.0
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        }
     },
     "Ball.Physics": {
-        "gravity scale": 1.0,
-        "linear velocity": {
-            "x": 0.0,
-            "y": 1.0
-        },
-        "angular velocity": 0.0
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 2,
+            "enabled": true,
+            "gravity scale": 1.0
+        }
     }
 }

@@ -325,6 +325,9 @@
     <ClInclude Include="Signal.h">
       <Filter>types</Filter>
     </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">

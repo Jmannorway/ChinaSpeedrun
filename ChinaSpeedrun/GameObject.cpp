@@ -1,15 +1,5 @@
 #include "GameObject.h"
-
-#include "Component.h"
-#include "ChinaEngine.h"
-#include "Mathf.h"
-
-#include "MeshRenderer.h"
-#include "CameraComponent.h"
-#include "Transform.h"
-#include "AudioComponent.h"
-#include "PhysicsComponent.h"
-
+#include "Components.h"
 #include "SceneManager.h"
 
 cs::GameObject::GameObject() :
@@ -30,27 +20,6 @@ void cs::GameObject::EditorDrawComponents()
 {
 	for (auto* component : components)
 		component->ImGuiDrawComponent();
-
-	/*if (HasComponent<TransformComponent>())
-		GetComponent<TransformComponent>().ImGuiDrawComponent();
-	if (HasComponent<MeshRendererComponent>())
-		GetComponent<MeshRendererComponent>().ImGuiDrawComponent();
-	if (HasComponent<CameraComponent>())
-		GetComponent<CameraComponent>().ImGuiDrawComponent();
-	if (HasComponent<AudioComponent>())
-		GetComponent<AudioComponent>().ImGuiDrawComponent();
-
-	// Physics
-	if (HasComponent<PhysicsComponent>())
-		GetComponent<PhysicsComponent>().ImGuiDrawComponent();
-	/*if (HasComponent<StaticBodyComponent>())
-		GetComponent<StaticBodyComponent>().ImGuiDrawComponent();
-	if (HasComponent<RigidbodyComponent>())
-		GetComponent<RigidbodyComponent>().ImGuiDrawComponent();
-	if (HasComponent<SphereColliderComponent>())
-		GetComponent<SphereColliderComponent>().ImGuiDrawComponent();
-	if (HasComponent<PolygonColliderComponent>())
-		GetComponent<PolygonColliderComponent>().ImGuiDrawComponent();*/
 }
 
 void cs::GameObject::DestroyEntity()

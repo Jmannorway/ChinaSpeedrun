@@ -5,7 +5,7 @@
 
 #include "Scene.h"
 #include "ChinaEngine.h"
-#include "Component.h"
+#include "Components.h"
 #include "Mathf.h"
 #include "Debug.h"
 

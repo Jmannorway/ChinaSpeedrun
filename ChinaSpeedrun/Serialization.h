@@ -4,6 +4,8 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 
+#include <b2/b2_fixture.h>
+
 #include "Mathf.h"
 #include "GameObject.h"
 #include "MeshRenderer.h"
@@ -49,13 +51,45 @@ namespace glm
 		);
 	}
 }
+																								 
+template<class Archive>																			 
+void serialize(Archive& ar, b2Vec2& v)															 
+{																								 
+	ar(																							 
+		cereal::make_nvp("x", v.x),																 
+		cereal::make_nvp("y", v.y)																 
+	);																							 
+}																								 
+																								 
+template<class Archive>																			 
+void serialize(Archive& ar, b2BodyDef& bdef)													 
+{																								 
+	ar(																							 
+		cereal::make_nvp("position",		bdef.position			),									 
+		cereal::make_nvp("angle",			bdef.angle				),									 
+		cereal::make_nvp("linear velocity", bdef.linearVelocity		),									 
+		cereal::make_nvp("angular velocity",bdef.angularVelocity	),									 
+		cereal::make_nvp("linear damping",	bdef.linearDamping		),									 
+		cereal::make_nvp("angular damping", bdef.angularDamping		),									 
+		cereal::make_nvp("allow sleep",		bdef.allowSleep			),									 
+		cereal::make_nvp("awake",			bdef.awake				),									 
+		cereal::make_nvp("fixed rotation",	bdef.fixedRotation		),
+		cereal::make_nvp("bullet",			bdef.bullet				),
+		cereal::make_nvp("type",			bdef.type				),
+		cereal::make_nvp("enabled",			bdef.enabled			),
+		cereal::make_nvp("gravity scale",	bdef.gravityScale		)
+	);
+}
 
 template<class Archive>
-void serialize(Archive& ar, b2Vec2& v)
+void serialize(Archive& ar, b2FixtureDef& fdef)
 {
 	ar(
-		cereal::make_nvp("x", v.x),
-		cereal::make_nvp("y", v.y)
+		cereal::make_nvp("friction", fdef.friction),
+		cereal::make_nvp("restitution", fdef.restitution),
+		cereal::make_nvp("restitution threshold", fdef.restitutionThreshold),
+		cereal::make_nvp("density", fdef.density),
+		cereal::make_nvp("is sensor", fdef.isSensor)
 	);
 }
 
@@ -129,9 +163,7 @@ namespace cs
 	void serialize(Archive& ar, PhysicsComponent& c)
 	{
 		ar(
-			cereal::make_nvp("gravity scale", c.definition.gravityScale),
-			cereal::make_nvp("linear velocity", c.definition.linearVelocity),
-			cereal::make_nvp("angular velocity", c.definition.angularVelocity)
+			cereal::make_nvp("body definition", c.definition)
 		);
 	}
 
