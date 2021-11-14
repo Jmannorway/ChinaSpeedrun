@@ -80,6 +80,11 @@ void cs::Scene::RemoveGameObject()
 
 }
 
+unsigned cs::Scene::GetObjectCount() const
+{
+	return gameObjects.size();
+}
+
 void cs::Scene::ClearScene()
 {
 	DestroyDescriptorPools();

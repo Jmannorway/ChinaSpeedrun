@@ -75,7 +75,7 @@ cs::Component* cs::GameObject::AddComponentType(Component::Type type)
 	case Component::TRANSFORM_COMPONENT_TYPE:		return &AddComponent<TransformComponent>();
 
 	default:
-		Debug::LogWarning("AddComponentType: Trying to emplace unregistered or non-existent component");
+		Debug::LogWarning("AddComponentType: Cannot emplace unregistered or non-existent component");
 		return nullptr;
 	}
 }

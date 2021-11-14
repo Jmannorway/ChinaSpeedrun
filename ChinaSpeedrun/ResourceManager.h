@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cereal/cereal.hpp>
 
+#include "Debug.h"
 #include "Scene.h"
 
 namespace cereal
@@ -92,12 +93,7 @@ namespace cs
 		template<>
 		static Material* Load(const std::string filename)
 		{
-			Material* _matOut{ IsDuplicateResource<Material>(filename) };
-
-			if (_matOut == nullptr)
-				_matOut = LoadMaterial(filename);
-
-			return _matOut;
+			return LoadMaterial(filename);
 		}
 
 		template<>

@@ -109,12 +109,16 @@ void cs::editor::EngineEditor::Update()
 
 	if (Input::GetActionPressed("editor_test"))
 	{
-		GameObject* _testObject = SceneManager::InstanceObject("Test");
-		auto _meshRenderer = (MeshRendererComponent*)(_testObject->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE));
+		Scene* _currentScene = SceneManager::GetCurrentActiveScene();
+		unsigned _objectCount = _currentScene->GetObjectCount();
+		GameObject* _testObject = _currentScene->AddGameObject();
+		auto _transform = (TransformComponent*)_testObject->AddComponentType(Component::TRANSFORM_COMPONENT_TYPE);
+		auto _meshRenderer = static_cast<MeshRendererComponent*>(_testObject->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE));
 		//auto _meshRenderer = _testObject->AddComponent<MeshRendererComponent>();
 		// if material is tracked after loading in resouce manager then this should load the shader and texture
-		_meshRenderer->material = ResourceManager::Load<Material>("../Resources/materials/test1.mat");
 		_meshRenderer->SetMesh(ResourceManager::Load<Mesh>("../Resources/models/sphere_model.obj"));
+		_meshRenderer->material = ResourceManager::Load<Material>("../Resources/materials/test1.mat");
+		_meshRenderer->material->shader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
 		//_meshRenderer->material->shader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
 		//_meshRenderer->material->shaderParams["texSamplers"] = ResourceManager::Load<Texture>("../Resources/textures/junko_gyate.png");
 	}

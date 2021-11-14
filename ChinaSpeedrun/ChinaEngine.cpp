@@ -118,6 +118,17 @@ void cs::ChinaEngine::EngineInit()
 	MeshRendererComponent& _sphereMeshComponent{ _obj->AddComponent<MeshRendererComponent>() };
 	_sphereMeshComponent.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
 	_sphereMeshComponent.material = _material1;
+	_obj->AddComponent<PhysicsComponent>();
+
+	GameObject* _obj2{SceneManager::InstanceObject("Ball2", Vector3(1.f)) };
+	MeshRendererComponent& _sphereMeshComponent2{ _obj2->AddComponent<MeshRendererComponent>() };
+	_sphereMeshComponent2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
+	_sphereMeshComponent2.material = _material1;
+	_obj2->AddComponent<PhysicsComponent>();
+
+	GameObject* _camera = SceneManager::InstanceObject("Camera", Vector3( 0.f, 0.f, -3.f ));
+	CameraComponent& _cameraComponent{ _camera->AddComponent<CameraComponent>() };
+
 }
 
 void cs::ChinaEngine::InitInput()

@@ -40,6 +40,8 @@ namespace cs
 		GameObject* AddGameObject(GameObject* newObject = nullptr);
 		// Removes a selective object from the entire scene
 		void RemoveGameObject();
+		// Gets the number of objects in the scene
+		unsigned GetObjectCount() const;
 		// Clears the scene's contents
 		void ClearScene();
 		// Queues this scene for deletion

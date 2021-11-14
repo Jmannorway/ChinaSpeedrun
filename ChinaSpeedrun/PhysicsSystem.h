@@ -1,16 +1,21 @@
 #pragma once
 #include <vector>
 
+#include "PhysicsListener.h"
+
 class b2World;
 
 namespace cs {
 	class TransformComponent;
 	class PhysicsComponent;
+	class PhysicsListener;
 
 	class PhysicsSystem
 	{
 	public:
 		b2World* world;
+		PhysicsListener* listener;
+
 		void UpdateComponents();
 		void UpdateWorld();
 		void UpdatePositions(PhysicsComponent& pc, TransformComponent& tc);

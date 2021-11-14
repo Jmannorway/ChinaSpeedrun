@@ -47,9 +47,14 @@ void cs::PhysicsSystem::UpdateComponents()
 	componentToCreate.clear();
 }
 
-cs::PhysicsSystem::PhysicsSystem() : world(new b2World({0.f, -9.81f})), velocityIterations(6), positionIterations(2), frequency(1.f/50.f)
+cs::PhysicsSystem::PhysicsSystem() :
+	world(new b2World({0.f, -9.81f})),
+	listener(new PhysicsListener),
+	velocityIterations(6),
+	positionIterations(2),
+	frequency(1.f/50.f)
 {
-	
+	world->SetContactListener(listener);
 }
 
 void cs::PhysicsSystem::QueueComponentUpdate(PhysicsComponent* pc)

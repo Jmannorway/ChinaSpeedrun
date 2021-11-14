@@ -5,22 +5,55 @@
             0,
             1,
             1,
-            0
+            1
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1
         ]
     ],
     "Ball": {
         "name": "Ball",
         "active": true
     },
-    "Ball.MeshRenderer": {
-        "mesh": "../resources/models/icosphere.obj",
+    "Ball2": {
+        "name": "Ball2",
+        "active": true
+    },
+    "Ball2.MeshRenderer": {
+        "mesh": "../Resources/models/icosphere.obj",
         "material": "../Resources/materials/test1.mat",
         "shader": "../Resources/shaders/default_shader"
+    },
+    "Ball.MeshRenderer": {
+        "mesh": "../Resources/models/icosphere.obj",
+        "material": "../Resources/materials/test1.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "Ball2.Transform": {
+        "position": {
+            "x": 1.0,
+            "y": 3.59488844871521,
+            "z": 1.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
     },
     "Ball.Transform": {
         "position": {
             "x": 1.0,
-            "y": 1.0,
+            "y": -1.2000000476837159,
             "z": 1.0
         },
         "rotation": {
@@ -33,5 +66,21 @@
             "y": 1.0,
             "z": 1.0
         }
+    },
+    "Ball2.Physics": {
+        "gravity scale": 1.0,
+        "linear velocity": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "angular velocity": 0.0
+    },
+    "Ball.Physics": {
+        "gravity scale": 1.0,
+        "linear velocity": {
+            "x": 0.0,
+            "y": 1.0
+        },
+        "angular velocity": 0.0
     }
 }

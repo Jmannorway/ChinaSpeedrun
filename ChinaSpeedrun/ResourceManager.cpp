@@ -218,12 +218,18 @@ cs::Shader* cs::ResourceManager::LoadShader(std::vector<std::string> filenames)
 
 cs::Material* cs::ResourceManager::LoadMaterial(const std::string filename)
 {
+	auto _outMaterial{ IsDuplicateResource<Material>(filename) };
 	// We don't have our own material formatter or reader... sooooo, empty...
-	materials[filename] = new Material;
+	if (_outMaterial == nullptr)
+	{
+		_outMaterial = new Material;
 
-	materials[filename]->resourcePath = filename;
+		_outMaterial->resourcePath = filename;
 
-	return materials[filename];
+		materials[filename] = _outMaterial;
+	}
+
+	return _outMaterial;
 }
 
 RawData cs::ResourceManager::LoadRaw(const std::string filename)
@@ -262,7 +268,7 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 
 	// TODO: save and load scene name, and check if scene is already loaded (name == name?)
 	auto _scene{ SceneManager::CreateScene("Loaded Scene") };
-
+	
 	for (int i = 0; i < _cc.size(); i++)
 	{
 		auto _obj{ _scene->AddGameObject() };
@@ -283,6 +289,19 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 	LoadComponentsInScene<MeshRendererComponent>(_inArchive, _scene);
 	LoadComponentsInScene<TransformComponent>	(_inArchive, _scene);
 	LoadComponentsInScene<PhysicsComponent>		(_inArchive, _scene);
+
+	for (auto e : _scene->registry.view<MeshRendererComponent>())
+	{
+		auto c = _scene->registry.get<MeshRendererComponent>(e);
+		c.material = materials["../Resources/materials/test1.mat"];
+		c.mesh = meshes["../Resources/models/icosphere.obj"];
+		std::cout << c.gameObject->name << "material: " << c.material->GetResourcePath() << std::endl;
+		std::cout << c.gameObject->name << "shader: " << c.material->shader->GetResourcePath() << std::endl;
+		std::cout << c.gameObject->name << "mesh: " << c.mesh->GetResourcePath() << std::endl << std::endl;
+		//c.material = Load<Material>("../Resources/materials/test1.mat");
+	}
+
+
 
 	//for (auto e : _scene->registry.view<AudioComponent>())
 	//	_inArchive(_scene->registry.get<AudioComponent>(e));
