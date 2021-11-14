@@ -9,6 +9,7 @@
 
 namespace cs
 {
+	class PhysicsSystem;
 	class GameObject;
 	class SceneManager;
 	class VulkanEngineRenderer;
@@ -24,6 +25,7 @@ namespace cs
 		friend ResourceManager;
 
 		Scene();
+		~Scene();
 
 		// Initialize the components
 		void Initialize() override;
@@ -48,6 +50,7 @@ namespace cs
 		void QueueExit();
 
 		class PhysicsServer* GetPhysicsServer() const;
+		class PhysicsSystem* GetPhysicsSystem() const;
 		class AudioSystem* GetAudioSystem() const;
 
 		void AddToRenderQueue(class RenderComponent* renderer);
@@ -65,6 +68,7 @@ namespace cs
 
 		PhysicsServer* physicsServer;
 		AudioSystem* audioSystem;
+		PhysicsSystem* physicsSystem;
 
 		entt::registry registry;
 		std::string name;

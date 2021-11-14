@@ -35,10 +35,8 @@ void cs::editor::EngineEditor::SetPlaymode(const Playmode newPlaymode)
 	{
 	case cs::editor::EngineEditor::Playmode::EDITOR:
 		SceneManager::mainCamera = editorCamera;
-		
 		break;
 	case cs::editor::EngineEditor::Playmode::PLAY:
-		
 		break;
 	case cs::editor::EngineEditor::Playmode::PAUSE:
 		
@@ -119,8 +117,6 @@ void cs::editor::EngineEditor::Update()
 		_meshRenderer->SetMesh(ResourceManager::Load<Mesh>("../Resources/models/sphere_model.obj"));
 		_meshRenderer->material = ResourceManager::Load<Material>("../Resources/materials/test1.mat");
 		_meshRenderer->material->shader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
-		//_meshRenderer->material->shader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
-		//_meshRenderer->material->shaderParams["texSamplers"] = ResourceManager::Load<Texture>("../Resources/textures/junko_gyate.png");
 	}
 
 	if (Input::GetActionPressed("editor_new_scene"))

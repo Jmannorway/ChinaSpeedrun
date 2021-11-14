@@ -16,15 +16,25 @@
 #include "CameraComponent.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
+#include "PhysicsLocator.h"
 #include "PhysicsServer.h"
+#include "PhysicsSystem.h"
 #include "Rigidbody.h"
 
 cs::Scene::Scene() :
-	audioSystem{ new AudioSystem }, physicsServer{ new PhysicsServer }
+	audioSystem{ new AudioSystem }, physicsServer{ new PhysicsServer }, physicsSystem { new PhysicsSystem }
 {}
+
+cs::Scene::~Scene()
+{
+	delete audioSystem;
+	delete physicsSystem;
+	delete physicsServer;
+}
 
 void cs::Scene::Initialize()
 {
+	PhysicsLocator::Provide(physicsSystem);
 	Debug::LogWarning("Init ", name);
 }
 
@@ -105,6 +115,11 @@ void cs::Scene::QueueExit()
 cs::PhysicsServer* cs::Scene::GetPhysicsServer() const
 {
 	return physicsServer;
+}
+
+cs::PhysicsSystem* cs::Scene::GetPhysicsSystem() const
+{
+	return physicsSystem;
 }
 
 cs::AudioSystem* cs::Scene::GetAudioSystem() const

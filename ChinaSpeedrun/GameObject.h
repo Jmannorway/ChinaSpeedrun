@@ -39,9 +39,12 @@ namespace cs
 		GameObject();
 		GameObject(Scene* newScene);
 
+		// Called at the beginning of object simulation
+		virtual void Init();
+		
 		// Called when the object is destroyed
 		virtual void ExitTree();
-
+		
 		// Queues this object for deletion
 		void QueueFree();
 		

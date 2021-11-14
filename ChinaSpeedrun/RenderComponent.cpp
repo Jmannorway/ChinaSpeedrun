@@ -18,7 +18,9 @@ cs::RenderComponent::RenderComponent() :
 {}
 
 void cs::RenderComponent::Init()
-{}
+{
+	
+}
 
 void cs::RenderComponent::ImGuiDrawComponent()
 {

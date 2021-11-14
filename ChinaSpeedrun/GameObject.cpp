@@ -20,6 +20,12 @@ cs::GameObject::GameObject(Scene* newScene) :
 	name{ "Object" }, active{ true }, entity{ newScene->registry.create() }, scene{ newScene }, parent{ nullptr }
 {}
 
+void cs::GameObject::Init()
+{
+	for (auto c : components)
+		c->Init();
+}
+
 void cs::GameObject::EditorDrawComponents()
 {
 	for (auto* component : components)
