@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)\Include;$(SolutionDir)\Libraries\glfw-3.3.4.bin.WIN64\include;$(SolutionDir)\Libraries\glm;$(SolutionDir)\Libraries\openal\include;$(SolutionDir)\Libraries\stb-master;$(SolutionDir)\Libraries\imgui\include;$(SolutionDir)\Libraries\tiny-obj-loader;$(SolutionDir)\Libraries\entt;$(SolutionDir)\Libraries\AudioFile;$(SolutionDir)\Libraries\ImGuizmo;$(SolutionDir)\Libraries\gifdec;$(SolutionDir)\Libraries\box2d\include;$(SolutionDir)\Libraries\lua\include;$(SolutionDir)\Libraries\cereal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)\Include;$(SolutionDir)\Libraries\glfw-3.3.4.bin.WIN64\include;$(SolutionDir)\Libraries\glm;$(SolutionDir)\Libraries\openal\include;$(SolutionDir)\Libraries\stb-master;$(SolutionDir)\Libraries\imgui\include;$(SolutionDir)\Libraries\tiny-obj-loader;$(SolutionDir)\Libraries\entt;$(SolutionDir)\Libraries\AudioFile;$(SolutionDir)\Libraries\ImGuizmo;$(SolutionDir)\Libraries\gifdec;$(SolutionDir)\Libraries\box2d\include;$(SolutionDir)\Libraries\lua\include;$(SolutionDir)\Libraries\cereal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

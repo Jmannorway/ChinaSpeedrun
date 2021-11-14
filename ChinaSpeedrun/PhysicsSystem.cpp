@@ -57,6 +57,12 @@ cs::PhysicsSystem::PhysicsSystem() :
 	world->SetContactListener(listener);
 }
 
+cs::PhysicsSystem::~PhysicsSystem()
+{
+	delete world;
+	delete listener;
+}
+
 void cs::PhysicsSystem::QueueComponentUpdate(PhysicsComponent* pc)
 {
 	componentToUpdate.push_back(pc);

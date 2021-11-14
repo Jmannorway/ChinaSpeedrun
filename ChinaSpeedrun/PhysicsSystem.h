@@ -15,11 +15,13 @@ namespace cs {
 	public:
 		b2World* world;
 		PhysicsListener* listener;
-
+		
 		void UpdateComponents();
 		void UpdateWorld();
 		void UpdatePositions(PhysicsComponent& pc, TransformComponent& tc);
+
 		PhysicsSystem();
+		~PhysicsSystem();
 
 		void QueueComponentUpdate(PhysicsComponent* pc); /*Potentially obsolete*/
 		void QueueComponentCreate(PhysicsComponent* pc); /*Potentially obsolete*/

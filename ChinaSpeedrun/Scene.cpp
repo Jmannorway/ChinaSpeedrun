@@ -22,8 +22,10 @@
 #include "Rigidbody.h"
 
 cs::Scene::Scene() :
-	audioSystem{ new AudioSystem }, physicsServer{ new PhysicsServer }, physicsSystem { new PhysicsSystem }
-{}
+	audioSystem{ new AudioSystem }, physicsServer{ new PhysicsServer }, physicsSystem{ new PhysicsSystem }
+{
+	PhysicsLocator::Provide(physicsSystem);
+}
 
 cs::Scene::~Scene()
 {
@@ -34,7 +36,6 @@ cs::Scene::~Scene()
 
 void cs::Scene::Initialize()
 {
-	PhysicsLocator::Provide(physicsSystem);
 	Debug::LogWarning("Init ", name);
 }
 
@@ -234,14 +235,27 @@ void cs::Scene::UpdateComponents()
 		MeshRenderer::UpdateUBO(_meshRenderer, _transform, *SceneManager::mainCamera);
 	}
 
-	physicsServer->Step();
+	// Woodo magic
+	physicsSystem->UpdateComponents();
 
-	auto _physicsSimulations{ registry.view<RigidbodyComponent, TransformComponent>() };
+	physicsSystem->UpdateWorld();
+
+	auto _physicsEntities{ registry.view<PhysicsComponent, TransformComponent>() };
+	for (auto e : _physicsEntities)
+	{
+		auto& _physicsComponent{registry.get<PhysicsComponent>(e)};
+		auto& _transformComponent{registry.get<TransformComponent>(e)};
+		physicsSystem->UpdatePositions(_physicsComponent, _transformComponent);
+	}
+
+	//physicsServer->Step();
+
+	/*auto _physicsSimulations{ registry.view<RigidbodyComponent, TransformComponent>() };
 	for (auto e : _physicsSimulations)
 	{
 		auto& _transform{ registry.get<TransformComponent>(e) };
 		auto& _rigidbody{ registry.get<RigidbodyComponent>(e) };
 
 		Rigidbody::CalculatePhysics(_rigidbody, _transform);
-	}
+	}*/
 }

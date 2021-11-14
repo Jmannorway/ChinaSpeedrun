@@ -118,6 +118,11 @@ void cs::PhysicsComponent::QueueForCreation()
 	PhysicsLocator::GetPhysicsSystem()->QueueComponentCreate(this);
 }
 
+void cs::PhysicsComponent::Init()
+{
+	QueueForCreation();
+}
+
 void cs::PhysicsComponent::UpdateFixtures()
 {
 	DeleteFixtures();
