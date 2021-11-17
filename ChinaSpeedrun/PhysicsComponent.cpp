@@ -148,6 +148,13 @@ void cs::PhysicsComponent::DeleteFixtures()
 	}
 }
 
+void cs::PhysicsComponent::DestroyBody()
+{
+	auto _ps(PhysicsLocator::GetPhysicsSystem());
+	_ps->world->DestroyBody(body);
+	body = nullptr;
+}
+
 b2Shape* cs::PhysicsComponent::CreateDefaultShape() const
 {
 	auto _boxShape(new b2BoxShape);

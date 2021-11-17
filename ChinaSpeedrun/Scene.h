@@ -52,6 +52,7 @@ namespace cs
 		class PhysicsServer* GetPhysicsServer() const;
 		class PhysicsSystem* GetPhysicsSystem() const;
 		class AudioSystem* GetAudioSystem() const;
+		std::string GetName() const;
 
 		void AddToRenderQueue(class RenderComponent* renderer);
 		void RemoveFromRenderQueue(RenderComponent* renderer);

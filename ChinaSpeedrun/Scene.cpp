@@ -128,6 +128,11 @@ cs::AudioSystem* cs::Scene::GetAudioSystem() const
 	return audioSystem;
 }
 
+std::string cs::Scene::GetName() const
+{
+	return name;
+}
+
 void cs::Scene::AddToRenderQueue(RenderComponent* renderer)
 {
 	renderableObjects.push_back(renderer);

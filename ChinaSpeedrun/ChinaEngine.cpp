@@ -114,7 +114,7 @@ void cs::ChinaEngine::EngineInit()
 		_defaultMaterial->shader = _defaultShader;
 		_defaultMaterial->shaderParams["texSampler"] = _defaultTexture;
 
-		_defaultMesh = Mesh::CreateDefaultCube();
+		_defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj");
 	}
 
 	// Set up scene

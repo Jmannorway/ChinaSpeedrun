@@ -53,7 +53,8 @@ namespace cs
 		static Scene* LoadScene(const std::string filename);
 		static RawData LoadRaw(const std::string filename);
 
-		static void SaveScene(const std::string filename, Scene* resource);
+		static void ReloadScene(Scene* scene, std::string filename);
+		static void SaveScene(const std::string filename, Scene* scene);
 
 		static void ForcePushMesh(Mesh* mesh);
 
@@ -181,7 +182,7 @@ namespace cs
 	{
 		for (auto e : scene->registry.view<T>())
 		{
-			auto c{ scene->registry.get<T>(e) };
+			auto& c{ scene->registry.get<T>(e) };
 			archive
 			(
 				cereal::make_nvp(c.gameObject->name + "." + c.GetTypeName(), c)

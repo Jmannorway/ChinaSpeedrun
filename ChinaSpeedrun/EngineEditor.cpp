@@ -70,7 +70,7 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_mode_switch", GLFW_KEY_LEFT_CONTROL);
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
 	Input::AddMapping("editor_save_scene", GLFW_KEY_F10);
-	Input::AddMapping("editor_load_scene", GLFW_KEY_F11);
+	Input::AddMapping("editor_reload_scene", GLFW_KEY_F11);
 	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
 	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
 	Input::AddMapping("editor_add_transform", GLFW_KEY_F4);
@@ -100,16 +100,12 @@ void cs::editor::EngineEditor::Update()
 
 	// TODO: Treat loading and saving paths properly
 	if (Input::GetActionPressed("editor_save_scene"))
-	{
-		if (auto _scene{SceneManager::GetCurrentActiveScene()})
-			ResourceManager::Save<Scene>("../resources/scenes/scene.txt", _scene);
-	}
+		if (const auto _currentScene{SceneManager::GetCurrentActiveScene()})
+			ResourceManager::Save<Scene>("../resources/scenes/scene.txt", _currentScene);
 
-	if (Input::GetActionPressed("editor_load_scene"))
-	{
-		if (auto _scene{ ResourceManager::Load<Scene>("../resources/scenes/scene.txt") })
-			SceneManager::Load(_scene);
-	}
+	if (Input::GetActionPressed("editor_reload_scene"))
+		if (const auto _currentScene{ SceneManager::GetCurrentActiveScene() })
+			ResourceManager::ReloadScene(_currentScene, "../resources/scenes/scene.txt");
 
 	if (Input::GetActionPressed("editor_new_scene"))
 	{
@@ -137,7 +133,7 @@ void cs::editor::EngineEditor::Update()
 		{
 			auto _c = (MeshRendererComponent*)_obj->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE);
 			_c->material = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
-			_c->SetMesh(Mesh::CreateDefaultCube());
+			_c->SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
 		}
 	}
 
@@ -202,7 +198,7 @@ void cs::editor::EngineEditor::Exit()
 	Input::RemoveMapping("editor_mode_switch");
 	Input::RemoveMapping("editor_snap");
 	Input::RemoveMapping("editor_save_scene");
-	Input::RemoveMapping("editor_load_scene");
+	Input::RemoveMapping("editor_reload_scene");
 	Input::RemoveMapping("editor_new_scene");
 	Input::RemoveMapping("editor_new_entity");
 

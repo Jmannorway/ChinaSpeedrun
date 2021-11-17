@@ -253,6 +253,22 @@ RawData cs::ResourceManager::LoadRaw(const std::string filename)
 	return _buffer;
 }
 
+void cs::ResourceManager::ReloadScene(Scene* scene, std::string filename)
+{
+	std::ifstream _inStream(filename);
+
+	if (_inStream.bad() || !_inStream.is_open())
+		return;
+
+	cereal::JSONInputArchive _inArchive(_inStream);
+
+	LoadComponentsInScene<AudioComponent>(_inArchive, scene);
+	LoadComponentsInScene<CameraComponent>(_inArchive, scene);
+	LoadComponentsInScene<MeshRendererComponent>(_inArchive, scene);
+	LoadComponentsInScene<TransformComponent>(_inArchive, scene);
+	LoadComponentsInScene<PhysicsComponent>(_inArchive, scene);
+}
+
 cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 {
 	std::ifstream _inStream(filename);
@@ -275,45 +291,16 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 		_inArchive(*_obj);
 
 		for (int ii = 0; ii < Component::__COMPONENT_ENUM_TYPE_MAX; ii++)
-		{
 			for (int iii = 0; iii < _cc[i][ii]; iii++)
-			{
-				Debug::LogInfo(i, ", ", ii, ", ", iii);
 				_obj->AddComponentType(static_cast<Component::Type>(ii));
-			}
-		}
 	}
 
-	LoadComponentsInScene<AudioComponent>		(_inArchive, _scene);
-	LoadComponentsInScene<CameraComponent>		(_inArchive, _scene);
+	LoadComponentsInScene<AudioComponent>(_inArchive, _scene);
+	LoadComponentsInScene<CameraComponent>(_inArchive, _scene);
 	LoadComponentsInScene<MeshRendererComponent>(_inArchive, _scene);
-	LoadComponentsInScene<TransformComponent>	(_inArchive, _scene);
-	LoadComponentsInScene<PhysicsComponent>		(_inArchive, _scene);
-
-	/*for (auto e : _scene->registry.view<MeshRendererComponent>())
-	{
-		auto c = _scene->registry.get<MeshRendererComponent>(e);
-		c.SetMesh(LoadModel("../Resources/models/icosphere.obj"));
-		c.material = LoadMaterial("../Resources/materials/test1.mat");
-		c.material->shader = Load<Shader>("../Resources/shaders/default_shader");
-		std::cout << c.gameObject->name << "material: " << c.material->GetResourcePath() << std::endl;
-		std::cout << c.gameObject->name << "shader: " << c.material->shader->GetResourcePath() << std::endl;
-		std::cout << c.gameObject->name << "mesh: " << c.mesh->GetResourcePath() << std::endl << std::endl;
-	}*/
-
-
-
-	//for (auto e : _scene->registry.view<AudioComponent>())
-	//	_inArchive(_scene->registry.get<AudioComponent>(e));
-	//for (auto e : _scene->registry.view<CameraComponent>())
-	//	_inArchive(_scene->registry.get<CameraComponent>(e));
-	//for (auto e : _scene->registry.view<MeshRendererComponent>())
-	//	_inArchive(_scene->registry.get<MeshRendererComponent>(e));
-	//for (auto e : _scene->registry.view<TransformComponent>())
-	//	_inArchive(_scene->registry.get<TransformComponent>(e));
-	//for (auto e : _scene->registry.view<PhysicsComponent>())
-	//	_inArchive(_scene->registry.get<PhysicsComponent>(e));
-
+	LoadComponentsInScene<TransformComponent>(_inArchive, _scene);
+	LoadComponentsInScene<PhysicsComponent>(_inArchive, _scene);
+	
 	return _scene;
 }
 

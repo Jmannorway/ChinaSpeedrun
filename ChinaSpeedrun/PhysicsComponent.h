@@ -37,6 +37,7 @@ namespace cs
 		void Init() override;
 		void UpdateFixtures();
 		void DeleteFixtures();
+		void DestroyBody();
 		b2Shape* CreateDefaultShape() const;
 		b2FixtureDef CreateDefaultFixtureDefinition() const;
 
