@@ -3,14 +3,14 @@
         [
             0,
             0,
-            0,
+            1,
             1,
             1
         ],
         [
             0,
             0,
-            0,
+            1,
             1,
             1
         ],
@@ -38,6 +38,16 @@
         "fov": 45.0,
         "near": 0.009999999776482582,
         "far": 1000.0
+    },
+    "Ball2.MeshRenderer": {
+        "mesh": "../Resources/models/icosphere.obj",
+        "material": "../Resources/materials/test1.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "Ball.MeshRenderer": {
+        "mesh": "../Resources/models/icosphere.obj",
+        "material": "../Resources/materials/test1.mat",
+        "shader": "../Resources/shaders/default_shader"
     },
     "Camera.Transform": {
         "position": {
@@ -131,7 +141,7 @@
             "awake": true,
             "fixed rotation": false,
             "bullet": false,
-            "type": 2,
+            "type": 0,
             "enabled": true,
             "gravity scale": 1.0
         }

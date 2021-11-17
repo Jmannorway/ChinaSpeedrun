@@ -100,5 +100,6 @@ void cs::MeshRendererComponent::GenerateOBBExtents(OBB& obb)
 
 cs::MeshRendererComponent::~MeshRendererComponent()
 {
+	// TODO: This will point to invalid memory
 	ChinaEngine::renderer.SolveRenderer(this, Solve::REMOVE);
 }

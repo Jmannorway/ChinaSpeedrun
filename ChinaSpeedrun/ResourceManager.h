@@ -57,6 +57,8 @@ namespace cs
 
 		static void ForcePushMesh(Mesh* mesh);
 
+		// TODO: change IsDuplicateResource to use .find() instead of []
+
 		template<>
 		static Mesh* IsDuplicateResource(std::string filename)
 		{
@@ -88,7 +90,8 @@ namespace cs
 		template<>
 		static Material* IsDuplicateResource(std::string filename)
 		{
-			return materials[filename];
+			auto _iter{ materials.find(filename) };
+			return _iter != materials.end() ? _iter->second : nullptr;
 		}
 		template<>
 		static Material* Load(const std::string filename)

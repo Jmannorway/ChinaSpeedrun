@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "GameObject.h"
 #include "Material.h"
+#include "Mesh.h"
 #include "MeshRenderer.h"
 #include "Scene.h"
 
@@ -72,7 +73,11 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_load_scene", GLFW_KEY_F11);
 	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
 	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
-	Input::AddMapping("editor_test", GLFW_KEY_F4);
+	Input::AddMapping("editor_add_transform", GLFW_KEY_F4);
+	Input::AddMapping("editor_add_mesh_renderer", GLFW_KEY_F5);
+	Input::AddMapping("editor_add_camera", GLFW_KEY_F6);
+	Input::AddMapping("editor_add_physics", GLFW_KEY_F7);
+	Input::AddMapping("editor_add_audio", GLFW_KEY_F8);
 
 	editorCamera = new EditorCamera(this);
 	Camera::CalculatePerspective(*editorCamera);
@@ -106,26 +111,62 @@ void cs::editor::EngineEditor::Update()
 			SceneManager::Load(_scene);
 	}
 
-	// TODO: Remove this shit once serialization is in
-	if (Input::GetActionPressed("editor_test"))
+	if (Input::GetActionPressed("editor_new_scene"))
 	{
-		Scene* _currentScene = SceneManager::GetCurrentActiveScene();
-		unsigned _objectCount = _currentScene->GetObjectCount();
-		GameObject* _testObject = _currentScene->AddGameObject();
-		auto _transform = (TransformComponent*)_testObject->AddComponentType(Component::TRANSFORM_COMPONENT_TYPE);
-		auto _meshRenderer = static_cast<MeshRendererComponent*>(_testObject->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE));
-		//auto _meshRenderer = _testObject->AddComponent<MeshRendererComponent>();
-		// if material is tracked after loading in resouce manager then this should load the shader and texture
-		_meshRenderer->SetMesh(ResourceManager::Load<Mesh>("../Resources/models/sphere_model.obj"));
-		_meshRenderer->material = ResourceManager::Load<Material>("../Resources/materials/test1.mat");
-		_meshRenderer->material->shader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
+		SceneManager::Load(SceneManager::CreateScene("New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+	}
+	
+	if (Input::GetActionPressed("editor_new_entity"))
+	{
+		SceneManager::GetCurrentActiveScene()->AddGameObject();
 	}
 
-	if (Input::GetActionPressed("editor_new_scene"))
-		SceneManager::Load(SceneManager::CreateScene("New Scene"));
+	if (Input::GetActionPressed("editor_add_transform"))
+	{
+		GameObject* _obj{ GetSelectedGameObject() };
+		if (_obj && !_obj->HasComponent<TransformComponent>())
+		{
+			_obj->AddComponentType(Component::TRANSFORM_COMPONENT_TYPE);
+		}
+	}
 
-	if (Input::GetActionPressed("editor_new_entity"))
-		SceneManager::GetCurrentActiveScene()->AddGameObject();
+	if (Input::GetActionPressed("editor_add_mesh_renderer"))
+	{
+		GameObject* _obj{ GetSelectedGameObject() };
+		if (_obj && !_obj->HasComponent<MeshRendererComponent>())
+		{
+			auto _c = (MeshRendererComponent*)_obj->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE);
+			_c->material = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
+			_c->SetMesh(Mesh::CreateDefaultCube());
+		}
+	}
+
+	if (Input::GetActionPressed("editor_add_camera"))
+	{
+		GameObject* _obj{ GetSelectedGameObject() };
+		if (_obj && !_obj->HasComponent<CameraComponent>())
+		{
+			_obj->AddComponentType(Component::CAMERA_COMPONENT_TYPE);
+		}
+	}
+
+	if (Input::GetActionPressed("editor_add_physics"))
+	{
+		GameObject* _obj{ GetSelectedGameObject() };
+		if (_obj && !_obj->HasComponent<PhysicsComponent>())
+		{
+			_obj->AddComponentType(Component::PHYSICS_COMPONENT_TYPE);
+		}
+	}
+
+	if (Input::GetActionPressed("editor_add_audio"))
+	{
+		GameObject* _obj{ GetSelectedGameObject() };
+		if (_obj && !_obj->HasComponent<AudioComponent>())
+		{
+			_obj->AddComponentType(Component::AUDIO_COMPONENT_TYPE);
+		}
+	}
 
 	if (mode == Playmode::EDITOR)
 	{
@@ -164,7 +205,6 @@ void cs::editor::EngineEditor::Exit()
 	Input::RemoveMapping("editor_load_scene");
 	Input::RemoveMapping("editor_new_scene");
 	Input::RemoveMapping("editor_new_entity");
-	Input::RemoveMapping("editor_test");
 
 	delete editorCamera;
 	delete uiLayer;

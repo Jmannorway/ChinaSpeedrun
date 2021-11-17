@@ -290,16 +290,16 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 	LoadComponentsInScene<TransformComponent>	(_inArchive, _scene);
 	LoadComponentsInScene<PhysicsComponent>		(_inArchive, _scene);
 
-	for (auto e : _scene->registry.view<MeshRendererComponent>())
+	/*for (auto e : _scene->registry.view<MeshRendererComponent>())
 	{
 		auto c = _scene->registry.get<MeshRendererComponent>(e);
-		c.material = materials["../Resources/materials/test1.mat"];
-		c.mesh = meshes["../Resources/models/icosphere.obj"];
+		c.SetMesh(LoadModel("../Resources/models/icosphere.obj"));
+		c.material = LoadMaterial("../Resources/materials/test1.mat");
+		c.material->shader = Load<Shader>("../Resources/shaders/default_shader");
 		std::cout << c.gameObject->name << "material: " << c.material->GetResourcePath() << std::endl;
 		std::cout << c.gameObject->name << "shader: " << c.material->shader->GetResourcePath() << std::endl;
 		std::cout << c.gameObject->name << "mesh: " << c.mesh->GetResourcePath() << std::endl << std::endl;
-		//c.material = Load<Material>("../Resources/materials/test1.mat");
-	}
+	}*/
 
 
 

@@ -156,7 +156,9 @@ namespace cs
 
 		c.SetMesh(ResourceManager::Load<Mesh>(meshPath));
 		c.material = ResourceManager::Load<Material>(materialPath);
-		c.material->shader = ResourceManager::Load <Shader>(shaderPath);
+		c.material->shader = ResourceManager::Load<Shader>(shaderPath);
+
+
 	}
 
 	template<class Archive>
