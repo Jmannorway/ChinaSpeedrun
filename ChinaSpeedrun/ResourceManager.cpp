@@ -42,6 +42,11 @@ std::unordered_map<std::string, cs::Scene*> cs::ResourceManager::scenes;
 // One thing that the resource manager will do automatically is allocation to the vulkan buffers
 // In other words, we have direct contact with the VulkanRenderer, and we can tell it to allocate and free resources at will
 
+void cs::ResourceManager::LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene)
+{
+
+}
+
 cs::Mesh* cs::ResourceManager::LoadModel(const std::string filename)
 {
 	Mesh* _outMesh{ IsDuplicateResource<Mesh>(filename) };
@@ -107,6 +112,144 @@ cs::Mesh* cs::ResourceManager::LoadModel(const std::string filename)
 	}
 
 	return _outMesh;
+}
+
+cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
+{
+	std::vector<Vector3> _points;
+
+	// Load points from file
+	{
+		std::ifstream _file(filename);
+
+		if (!_file.is_open() || _file.bad())
+		{
+			Debug::LogWarning("LoadModelFromMapData failed to open file");
+			return nullptr;
+		}
+
+		constexpr unsigned _USER_POINT_NUMBER = 2000;
+
+		// Skip header (in a funny way)
+		{
+			unsigned _header;
+			_file >> _header;
+		}
+
+		// Push back all read vectors into a VECTOR (array (fuck std))
+		Vector3 _vec;
+
+		for (unsigned i = 0; !_file.eof() && i < _USER_POINT_NUMBER; i++)
+		{
+			_file >> _vec.x;
+			_file >> _vec.y;
+			_file >> _vec.z;
+			_points.push_back(_vec);
+		}
+	}
+
+	// Get minimum and maximum point values
+	Vector3 _minPoint = _points[0], _maxPoint = _points[0];
+
+	for (auto p : _points)
+	{
+		_minPoint.x = glm::min(_minPoint.x, p.x);
+		_minPoint.y = glm::min(_minPoint.y, p.y);
+		_minPoint.z = glm::min(_minPoint.z, p.z);
+
+		_maxPoint.x = glm::max(_maxPoint.x, p.x);
+		_maxPoint.y = glm::max(_maxPoint.y, p.y);
+		_maxPoint.z = glm::max(_maxPoint.z, p.z);
+	}
+
+	Debug::LogInfo(_minPoint.x, ", ", _minPoint.y, ", ", _minPoint.z);
+	Debug::LogInfo(_maxPoint.x, ", ", _maxPoint.y, ", ", _maxPoint.z);
+
+	// Offset the collection of points to be centered
+	{
+		Vector3 _offset = -_minPoint;
+
+		for (auto& p : _points)
+		{
+			p += _offset;
+		}
+
+		_minPoint += _offset;
+		_maxPoint += _offset;
+	}
+
+	{
+		Vector3 _firstPoint = _points[0];
+		Vector3 _lastPoint = _points[_points.size() - 1];
+		Debug::LogInfo(_firstPoint.x, ", ", _firstPoint.y, ", ", _firstPoint.z);
+		Debug::LogInfo(_lastPoint.x, ", ", _lastPoint.y, ", ", _lastPoint.z);
+	}
+
+	// Create an array of vertices and fit them to their closest read-in counterpart
+	std::vector<Vertex> _vertices;
+	std::vector<uint32_t> _indices;
+
+	{
+		const unsigned _TRIANGLE_NUMBER_X = 30;
+		const unsigned _TRIANGLE_NUMBER_Y = 30;
+		const Vector2 _distance =
+			(Vector2(_maxPoint.x, _maxPoint.y) - Vector2(_minPoint.x, _minPoint.y)) /
+			Vector2(_TRIANGLE_NUMBER_X, _TRIANGLE_NUMBER_Y);
+		Vector3 vec;
+		int _closestPoint;
+		float _pointDistance, _closestPointDistance;
+
+		_vertices.resize(_TRIANGLE_NUMBER_X * _TRIANGLE_NUMBER_Y);
+
+		auto _verticesVectorGetIndex = [](unsigned x, unsigned y) -> unsigned {return x * _TRIANGLE_NUMBER_Y + y; };
+
+		for (unsigned x = 0; x < _TRIANGLE_NUMBER_X; x++)
+		{
+			for (unsigned y = 0; y < _TRIANGLE_NUMBER_Y; y++)
+			{
+				vec = { x * _distance.x, y * _distance.y, 0.f };
+
+				_closestPointDistance = distance(vec, Vector3(_points[0].x, _points[0].y, 0.f));
+				_closestPoint = 0;
+
+				for (int i = 1; i < _points.size(); i++)
+				{
+					_pointDistance = distance(vec, Vector3(_points[i].x, _points[i].y, 0.f));
+
+					if (_pointDistance < _closestPointDistance)
+					{
+						_closestPoint = i;
+						_closestPointDistance = _pointDistance;
+					}
+				}
+
+				_vertices[_verticesVectorGetIndex(x, y)] = Vertex({
+					_points[_closestPoint],
+					{ 0.f, 1.f, 1.f },
+					{Mathf::RandRange(0.f, 1.f), Mathf::RandRange(0.f, 1.f)} });
+			}
+		}
+
+		_indices.reserve(_TRIANGLE_NUMBER_X* _TRIANGLE_NUMBER_Y * 6);
+
+		for (unsigned x = 0; x < _TRIANGLE_NUMBER_X - 1; x++)
+		{
+			for (unsigned y = 0; y < _TRIANGLE_NUMBER_Y - 1; y++)
+			{
+				_indices.push_back(_verticesVectorGetIndex(x, y));
+				_indices.push_back(_verticesVectorGetIndex(x + 1, y));
+				_indices.push_back(_verticesVectorGetIndex(x, y + 1));
+				_indices.push_back(_verticesVectorGetIndex(x + 1, y));
+				_indices.push_back(_verticesVectorGetIndex(x + 1, y + 1));
+				_indices.push_back(_verticesVectorGetIndex(x, y + 1));
+			}
+		}
+	}
+
+	Debug::LogInfo(_vertices.size(), ", ", _indices.size());
+	Mesh* _mesh = new Mesh(_vertices, _indices);
+	meshes.insert({ filename, _mesh });
+	return _mesh;
 }
 
 cs::AudioData* cs::ResourceManager::LoadAudio(const std::string filename)
@@ -300,7 +443,7 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 	LoadComponentsInScene<MeshRendererComponent>(_inArchive, _scene);
 	LoadComponentsInScene<TransformComponent>(_inArchive, _scene);
 	LoadComponentsInScene<PhysicsComponent>(_inArchive, _scene);
-	
+
 	return _scene;
 }
 

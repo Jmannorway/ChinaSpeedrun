@@ -94,6 +94,11 @@ void cs::SceneManager::Resolve()
 			break;
 		case SceneAction::START:
 			sceneAction.sceneRef->Start();
+			ResourceManager::Save<Scene>(
+				sceneAction.sceneRef->GetResourcePath().empty() ?
+					"../Resources/scenes/scene.txt" :
+					sceneAction.sceneRef->GetResourcePath(),
+				sceneAction.sceneRef);
 			break;
 		case SceneAction::EXIT:
 			sceneAction.sceneRef->Exit();
@@ -152,6 +157,21 @@ void cs::SceneManager::Load(Scene* scene)
 	SolveScene(scene, SceneAction::INIT);
 
 	activeScenes.push_back(scene);
+}
+
+void cs::SceneManager::Reload(Scene* scene)
+{
+	std::string _path = scene->GetResourcePath();
+
+	// Makeshift solution
+	if (_path.empty())
+		_path = "../Resources/scenes/scene.txt";
+
+	ResourceManager::ReloadScene(scene, _path);
+
+	// TODO: Find a better way to reinitialize
+	for (auto o : scene->gameObjects)
+		o->Init();
 }
 
 void cs::SceneManager::Unload(Scene* scene)

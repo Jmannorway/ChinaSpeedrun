@@ -6,60 +6,22 @@
             1,
             1,
             0
-        ],
-        [
-            0,
-            1,
-            1,
-            1,
-            0
         ]
     ],
     "Game Object (0)": {
         "name": "Game Object (0)",
         "active": true
     },
-    "Game Object (1)": {
-        "name": "Game Object (1)",
-        "active": true
-    },
-    "Game Object (1).Camera": {
-        "fov": 45.0,
-        "near": 0.009999999776482582,
-        "far": 1000.0
-    },
-    "Game Object (1).MeshRenderer": {
-        "mesh": "../Resources/models/icosphere.obj",
-        "material": "../Resources/materials/default_material.mat",
-        "shader": "../Resources/shaders/default_shader"
-    },
     "Game Object (0).MeshRenderer": {
         "mesh": "../Resources/models/icosphere.obj",
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
-    "Game Object (1).Transform": {
-        "position": {
-            "x": 6.956315517425537,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "rotation": {
-            "x": 0.0,
-            "y": -0.0,
-            "z": 0.0
-        },
-        "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        }
-    },
     "Game Object (0).Transform": {
         "position": {
-            "x": 2.618314027786255,
+            "x": 0.0,
             "y": 0.0,
-            "z": 4.271951675415039
+            "z": 0.0
         },
         "rotation": {
             "x": 0.0,

@@ -52,7 +52,6 @@ namespace cs
 		static void CreateDescriptorPools();
 		static void SetCurrentFocusedScene(const uint32_t newCurrentScene);
 
-		static void SolveScene(Scene* scene, const SceneAction action);
 		static Scene* GetCurrentActiveScene();
 		static unsigned GetCurrentActiveSceneNumber();
 		static void Resolve();
@@ -64,6 +63,7 @@ namespace cs
 		static Scene* CreateScene(std::string name);
 		static void Save(); // saves the current scene (it should already have a resource path, otherwise we ask to save somewhere)
 		static void Load(Scene* scene); // load the scene in from memory
+		static void Reload(Scene* scene); // reload the scene by keeping it in memory and setting the components back to their beginning state
 		static void Unload(Scene* scene); // unload it from the scene
 		static void UnloadEverything();
 		static Scene* GetCurrentScene();
@@ -73,6 +73,7 @@ namespace cs
 		static std::vector<Scene*> activeScenes;
 		static uint32_t currentScene;
 
+		static void SolveScene(Scene* scene, const SceneAction action);
 		static void FreeScene(Scene* scene);
 		static void DrawScenes();
 	};

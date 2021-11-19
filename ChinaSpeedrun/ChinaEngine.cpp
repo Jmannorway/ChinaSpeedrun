@@ -117,6 +117,12 @@ void cs::ChinaEngine::EngineInit()
 		_defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj");
 	}
 
+	SceneManager::Load(SceneManager::CreateScene("Scene"));
+	auto _obj = SceneManager::InstanceObject("map");
+	auto& _c = _obj->AddComponent<MeshRendererComponent>();
+	_c.SetMesh(ResourceManager::LoadModelFromMapData("../Resources/models/map_data.txt"));
+	_c.material = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
+
 	// Set up scene
 	{
 		/*SceneManager::Load(SceneManager::CreateScene("Scene"));

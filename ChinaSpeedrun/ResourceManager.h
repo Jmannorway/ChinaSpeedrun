@@ -44,8 +44,10 @@ namespace cs
 		static void SaveComponentsInScene(cereal::JSONOutputArchive& archive, const Scene* scene);
 		template <class T>
 		static void LoadComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
+		static void LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
 
 		static Mesh* LoadModel(const std::string filename);
+		static Mesh* LoadModelFromMapData(const std::string filename);
 		static AudioData* LoadAudio(const std::string filename);
 		static Texture* LoadTexture(const std::string filename);
 		static Shader* LoadShader(std::vector<std::string> filenames);

@@ -191,6 +191,7 @@ void cs::editor::ImGuiLayer::DrawStopSimulationButton()
     {
         editorRoot->SetPlaymode(EngineEditor::Playmode::EDITOR);
         SceneManager::GetCurrentScene()->Exit();
+        SceneManager::Reload(SceneManager::GetCurrentActiveScene());
     }
 }
 

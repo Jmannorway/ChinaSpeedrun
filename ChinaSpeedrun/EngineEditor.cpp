@@ -38,6 +38,7 @@ void cs::editor::EngineEditor::SetPlaymode(const Playmode newPlaymode)
 		SceneManager::mainCamera = editorCamera;
 		break;
 	case cs::editor::EngineEditor::Playmode::PLAY:
+		// TODO: Switch to game camera
 		break;
 	case cs::editor::EngineEditor::Playmode::PAUSE:
 		
@@ -71,6 +72,7 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
 	Input::AddMapping("editor_save_scene", GLFW_KEY_F10);
 	Input::AddMapping("editor_reload_scene", GLFW_KEY_F11);
+	Input::AddMapping("editor_load_scene", GLFW_KEY_F12);
 	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
 	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
 	Input::AddMapping("editor_add_transform", GLFW_KEY_F4);
@@ -105,7 +107,10 @@ void cs::editor::EngineEditor::Update()
 
 	if (Input::GetActionPressed("editor_reload_scene"))
 		if (const auto _currentScene{ SceneManager::GetCurrentActiveScene() })
-			ResourceManager::ReloadScene(_currentScene, "../resources/scenes/scene.txt");
+			SceneManager::Reload(_currentScene);
+
+	if (Input::GetActionPressed("editor_load_scene"))
+		SceneManager::Load(ResourceManager::Load<Scene>("../resources/scenes/scene.txt"));
 
 	if (Input::GetActionPressed("editor_new_scene"))
 	{
