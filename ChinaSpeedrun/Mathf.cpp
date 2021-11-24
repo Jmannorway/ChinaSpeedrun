@@ -19,7 +19,7 @@ int cs::Mathf::Rand()
 
 float cs::Mathf::RandRange(const float min, const float max)
 {
-    return min + (rand() / (float)INT_MAX) * (max - min);
+    return min + (rand() / (float)RAND_MAX) * (max - min);
 }
 
 float cs::Mathf::Project(const Vector3 projVec, const Plane plane)

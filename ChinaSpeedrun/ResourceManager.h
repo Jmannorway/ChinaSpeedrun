@@ -47,7 +47,7 @@ namespace cs
 		static void LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
 
 		static Mesh* LoadModel(const std::string filename);
-		static Mesh* LoadModelFromMapData(const std::string filename);
+		static Mesh* LoadModelFromMapData(const std::string filename, const unsigned maxPoints = 25000);
 		static AudioData* LoadAudio(const std::string filename);
 		static Texture* LoadTexture(const std::string filename);
 		static Shader* LoadShader(std::vector<std::string> filenames);

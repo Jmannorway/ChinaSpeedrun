@@ -112,6 +112,7 @@ void cs::ChinaEngine::EngineInit()
 
 		_defaultMaterial = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
 		_defaultMaterial->shader = _defaultShader;
+		_defaultMaterial->cullMode = Material::CullMode::NONE;
 		_defaultMaterial->shaderParams["texSampler"] = _defaultTexture;
 
 		_defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj");

@@ -114,7 +114,7 @@ cs::Mesh* cs::ResourceManager::LoadModel(const std::string filename)
 	return _outMesh;
 }
 
-cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
+cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename, const unsigned maxPoints)
 {
 	std::vector<Vector3> _points;
 
@@ -128,8 +128,6 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
 			return nullptr;
 		}
 
-		constexpr unsigned _USER_POINT_NUMBER = 2000;
-
 		// Skip header (in a funny way)
 		{
 			unsigned _header;
@@ -139,7 +137,7 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
 		// Push back all read vectors into a VECTOR (array (fuck std))
 		Vector3 _vec;
 
-		for (unsigned i = 0; !_file.eof() && i < _USER_POINT_NUMBER; i++)
+		for (unsigned i = 0; !_file.eof() && i < maxPoints; i++)
 		{
 			_file >> _vec.x;
 			_file >> _vec.y;
@@ -149,33 +147,33 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
 	}
 
 	// Get minimum and maximum point values
-	Vector3 _minPoint = _points[0], _maxPoint = _points[0];
+	Vector3 _minPointPosition = _points[0], _maxPointPosition = _points[0];
 
-	for (auto p : _points)
+	for (const auto p : _points)
 	{
-		_minPoint.x = glm::min(_minPoint.x, p.x);
-		_minPoint.y = glm::min(_minPoint.y, p.y);
-		_minPoint.z = glm::min(_minPoint.z, p.z);
+		_minPointPosition.x = glm::min(_minPointPosition.x, p.x);
+		_minPointPosition.y = glm::min(_minPointPosition.y, p.y);
+		_minPointPosition.z = glm::min(_minPointPosition.z, p.z);
 
-		_maxPoint.x = glm::max(_maxPoint.x, p.x);
-		_maxPoint.y = glm::max(_maxPoint.y, p.y);
-		_maxPoint.z = glm::max(_maxPoint.z, p.z);
+		_maxPointPosition.x = glm::max(_maxPointPosition.x, p.x);
+		_maxPointPosition.y = glm::max(_maxPointPosition.y, p.y);
+		_maxPointPosition.z = glm::max(_maxPointPosition.z, p.z);
 	}
 
-	Debug::LogInfo(_minPoint.x, ", ", _minPoint.y, ", ", _minPoint.z);
-	Debug::LogInfo(_maxPoint.x, ", ", _maxPoint.y, ", ", _maxPoint.z);
+	Debug::LogInfo(_minPointPosition.x, ", ", _minPointPosition.y, ", ", _minPointPosition.z);
+	Debug::LogInfo(_maxPointPosition.x, ", ", _maxPointPosition.y, ", ", _maxPointPosition.z);
 
 	// Offset the collection of points to be centered
 	{
-		Vector3 _offset = -_minPoint;
+		Vector3 _offset = -_minPointPosition;
 
 		for (auto& p : _points)
 		{
 			p += _offset;
 		}
 
-		_minPoint += _offset;
-		_maxPoint += _offset;
+		_minPointPosition += _offset;
+		_maxPointPosition += _offset;
 	}
 
 	{
@@ -190,10 +188,10 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
 	std::vector<uint32_t> _indices;
 
 	{
-		const unsigned _TRIANGLE_NUMBER_X = 30;
-		const unsigned _TRIANGLE_NUMBER_Y = 30;
+		const unsigned _TRIANGLE_NUMBER_X = 48;
+		const unsigned _TRIANGLE_NUMBER_Y = 48;
 		const Vector2 _distance =
-			(Vector2(_maxPoint.x, _maxPoint.y) - Vector2(_minPoint.x, _minPoint.y)) /
+			(Vector2(_maxPointPosition.x, _maxPointPosition.y) - Vector2(_minPointPosition.x, _minPointPosition.y)) /
 			Vector2(_TRIANGLE_NUMBER_X, _TRIANGLE_NUMBER_Y);
 		Vector3 vec;
 		int _closestPoint;
@@ -224,8 +222,8 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename)
 				}
 
 				_vertices[_verticesVectorGetIndex(x, y)] = Vertex({
-					_points[_closestPoint],
-					{ 0.f, 1.f, 1.f },
+					{_points[_closestPoint].x, _points[_closestPoint].z, _points[_closestPoint].y},
+					{ Mathf::RandRange(0.f, 1.f), Mathf::RandRange(0.f, 1.f), Mathf::RandRange(0.f, 1.f) },
 					{Mathf::RandRange(0.f, 1.f), Mathf::RandRange(0.f, 1.f)} });
 			}
 		}
