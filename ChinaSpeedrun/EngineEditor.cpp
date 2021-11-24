@@ -70,16 +70,6 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_scale", GLFW_KEY_R);
 	Input::AddMapping("editor_mode_switch", GLFW_KEY_LEFT_CONTROL);
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
-	Input::AddMapping("editor_save_scene", GLFW_KEY_F10);
-	Input::AddMapping("editor_reload_scene", GLFW_KEY_F11);
-	Input::AddMapping("editor_load_scene", GLFW_KEY_F12);
-	Input::AddMapping("editor_new_scene", GLFW_KEY_F2);
-	Input::AddMapping("editor_new_entity", GLFW_KEY_F3);
-	Input::AddMapping("editor_add_transform", GLFW_KEY_F4);
-	Input::AddMapping("editor_add_mesh_renderer", GLFW_KEY_F5);
-	Input::AddMapping("editor_add_camera", GLFW_KEY_F6);
-	Input::AddMapping("editor_add_physics", GLFW_KEY_F7);
-	Input::AddMapping("editor_add_audio", GLFW_KEY_F8);
 
 	editorCamera = new EditorCamera(this);
 	Camera::CalculatePerspective(*editorCamera);
@@ -99,64 +89,6 @@ void cs::editor::EngineEditor::Update()
 	// by moving the ui layer (editor ui) here, we have more control over when things are executed
 	uiLayer->Begin();
 	uiLayer->Step();
-
-	// TODO: Treat loading and saving paths properly
-	if (Input::GetActionPressed("editor_save_scene"))
-		if (const auto _currentScene{SceneManager::GetCurrentActiveScene()})
-			ResourceManager::Save<Scene>("../resources/scenes/scene.txt", _currentScene);
-
-	if (Input::GetActionPressed("editor_reload_scene"))
-		if (const auto _currentScene{ SceneManager::GetCurrentActiveScene() })
-			SceneManager::Reload(_currentScene);
-
-	if (Input::GetActionPressed("editor_load_scene"))
-		SceneManager::Load(ResourceManager::Load<Scene>("../resources/scenes/scene.txt"));
-
-	if (Input::GetActionPressed("editor_new_scene"))
-		SceneManager::Load(SceneManager::CreateScene("New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
-	
-	if (Input::GetActionPressed("editor_new_entity"))
-		SceneManager::GetCurrentActiveScene()->AddGameObject();
-
-	if (Input::GetActionPressed("editor_add_transform"))
-	{
-		GameObject* _obj{ GetSelectedGameObject() };
-		if (_obj && !_obj->HasComponent<TransformComponent>())
-			_obj->AddComponentType(Component::TRANSFORM_COMPONENT_TYPE);
-	}
-
-	if (Input::GetActionPressed("editor_add_mesh_renderer"))
-	{
-		GameObject* _obj{ GetSelectedGameObject() };
-		if (_obj && !_obj->HasComponent<MeshRendererComponent>())
-		{
-			auto _c = (MeshRendererComponent*)_obj->AddComponentType(Component::MESH_RENDERER_COMPONENT_TYPE);
-			_c->material = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
-			_c->SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
-		}
-	}
-
-	// TODO: Add these to the editor GUI
-	if (Input::GetActionPressed("editor_add_camera"))
-	{
-		GameObject* _obj{ GetSelectedGameObject() };
-		if (_obj && !_obj->HasComponent<CameraComponent>())
-			_obj->AddComponentType(Component::CAMERA_COMPONENT_TYPE);
-	}
-
-	if (Input::GetActionPressed("editor_add_physics"))
-	{
-		GameObject* _obj{ GetSelectedGameObject() };
-		if (_obj && !_obj->HasComponent<PhysicsComponent>())
-			_obj->AddComponentType(Component::PHYSICS_COMPONENT_TYPE);
-	}
-
-	if (Input::GetActionPressed("editor_add_audio"))
-	{
-		GameObject* _obj{ GetSelectedGameObject() };
-		if (_obj && !_obj->HasComponent<AudioComponent>())
-			_obj->AddComponentType(Component::AUDIO_COMPONENT_TYPE);
-	}
 
 	if (mode == Playmode::EDITOR)
 	{
@@ -191,10 +123,6 @@ void cs::editor::EngineEditor::Exit()
 	Input::RemoveMapping("editor_scale");
 	Input::RemoveMapping("editor_mode_switch");
 	Input::RemoveMapping("editor_snap");
-	Input::RemoveMapping("editor_save_scene");
-	Input::RemoveMapping("editor_reload_scene");
-	Input::RemoveMapping("editor_new_scene");
-	Input::RemoveMapping("editor_new_entity");
 
 	delete editorCamera;
 	delete uiLayer;

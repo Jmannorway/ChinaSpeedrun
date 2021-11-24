@@ -5,7 +5,7 @@
 
 cs::CameraComponent::CameraComponent()
 {
-	type = CAMERA_COMPONENT_TYPE;
+	type = ComponentMeta::CAMERA_COMPONENT_TYPE;
 }
 
 void cs::CameraComponent::Init()

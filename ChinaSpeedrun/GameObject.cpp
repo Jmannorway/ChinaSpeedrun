@@ -39,15 +39,31 @@ void cs::GameObject::QueueFree()
 	scene->registry.destroy(entity);
 }
 
-cs::Component* cs::GameObject::AddComponentType(Component::Type type)
+bool cs::GameObject::HasComponentType(ComponentMeta::Type type)
 {
 	switch (type)
 	{
-	case Component::AUDIO_COMPONENT_TYPE:			return &AddComponent<AudioComponent>();
-	case Component::CAMERA_COMPONENT_TYPE:			return &AddComponent<CameraComponent>();
-	case Component::MESH_RENDERER_COMPONENT_TYPE:	return &AddComponent<MeshRendererComponent>();
-	case Component::PHYSICS_COMPONENT_TYPE:			return &AddComponent<PhysicsComponent>();
-	case Component::TRANSFORM_COMPONENT_TYPE:		return &AddComponent<TransformComponent>();
+	case ComponentMeta::AUDIO_COMPONENT_TYPE:			return HasComponent<AudioComponent>();
+	case ComponentMeta::CAMERA_COMPONENT_TYPE:			return HasComponent<CameraComponent>();
+	case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:	return HasComponent<MeshRendererComponent>();
+	case ComponentMeta::PHYSICS_COMPONENT_TYPE:			return HasComponent<PhysicsComponent>();
+	case ComponentMeta::TRANSFORM_COMPONENT_TYPE:		return HasComponent<TransformComponent>();
+
+	default:
+		Debug::LogWarning("HasComponentType: Cannot check for an unregistered or non-existent component");
+		return false;
+	}
+}
+
+cs::Component* cs::GameObject::AddComponentType(ComponentMeta::Type type)
+{
+	switch (type)
+	{
+	case ComponentMeta::AUDIO_COMPONENT_TYPE:			return &AddComponent<AudioComponent>();
+	case ComponentMeta::CAMERA_COMPONENT_TYPE:			return &AddComponent<CameraComponent>();
+	case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:	return &AddComponent<MeshRendererComponent>();
+	case ComponentMeta::PHYSICS_COMPONENT_TYPE:			return &AddComponent<PhysicsComponent>();
+	case ComponentMeta::TRANSFORM_COMPONENT_TYPE:		return &AddComponent<TransformComponent>();
 
 	default:
 		Debug::LogWarning("AddComponentType: Cannot emplace unregistered or non-existent component");

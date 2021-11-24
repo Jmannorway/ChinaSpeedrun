@@ -118,6 +118,8 @@ void cs::ChinaEngine::EngineInit()
 		_defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj");
 	}
 
+	SceneManager::Load(SceneManager::CreateScene("Scene"));
+
 	/*SceneManager::Load(SceneManager::CreateScene("Scene"));
 	auto _obj = SceneManager::InstanceObject("map");
 	auto& _c = _obj->AddComponent<MeshRendererComponent>();

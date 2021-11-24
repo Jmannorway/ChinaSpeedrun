@@ -51,11 +51,13 @@ namespace cs
 		// Checks to see if we have at least one of the component type
 		template<class ...T>
 		bool HasComponent();
+		// Checks to see if the object has one of component type by using its enumerated type
+		bool HasComponentType(ComponentMeta::Type type);
 		// Add the spesified component
 		template<class T>
 		T& AddComponent();
 		// Add the specified component by supplying its' enumerated type
-		Component* AddComponentType(Component::Type type);
+		Component* AddComponentType(ComponentMeta::Type type);
 		// Gets a component of this type
 		template<class T>
 		T& GetComponent();

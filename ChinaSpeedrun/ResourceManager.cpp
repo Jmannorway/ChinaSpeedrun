@@ -441,9 +441,9 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 		auto _obj{ _scene->AddGameObject() };
 		_inArchive(*_obj);
 
-		for (int ii = 0; ii < Component::__COMPONENT_ENUM_TYPE_MAX; ii++)
+		for (int ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
 			for (int iii = 0; iii < _cc[i][ii]; iii++)
-				_obj->AddComponentType(static_cast<Component::Type>(ii));
+				_obj->AddComponentType(static_cast<ComponentMeta::Type>(ii));
 	}
 
 	LoadComponentsInScene<AudioComponent>(_inArchive, _scene);
@@ -483,16 +483,16 @@ void cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 	_cc.resize(scene->gameObjects.size());
 	for (int i = 0; i < scene->gameObjects.size(); i++)
 	{
-		_cc[i].resize(Component::__COMPONENT_ENUM_TYPE_MAX);
+		_cc[i].resize(ComponentMeta::__COMPONENT_ENUM_TYPE_MAX);
 
-		for (int ii = 0; ii < Component::__COMPONENT_ENUM_TYPE_MAX; ii++)
+		for (int ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
 			_cc[i][ii] = 0;
 
 		for (auto c : scene->gameObjects[i]->GetAllComponents())
 		{
-			Component::Type _type(c->GetType());
+			ComponentMeta::Type _type(c->GetType());
 
-			if (_type > 0 && _type < Component::__COMPONENT_ENUM_TYPE_MAX)
+			if (_type > 0 && _type < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX)
 				_cc[i][c->GetType()]++;
 			else
 				std::cerr << c->gameObject->name << " component: " << c->GetType() << " is not a valid component" << std::endl;

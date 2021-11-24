@@ -73,9 +73,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>ecs</Filter>
-    </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>ecs\old physics</Filter>
     </ClCompile>
@@ -172,6 +169,12 @@
     <ClCompile Include="WindowsPlatformUtils.cpp">
       <Filter>editor</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>ecs\component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMeta.cpp">
+      <Filter>ecs\component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -250,9 +253,6 @@
     <ClInclude Include="Material.h">
       <Filter>resources</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>ecs</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>ecs\old physics</Filter>
     </ClInclude>
@@ -328,11 +328,17 @@
     <ClInclude Include="Signal.h">
       <Filter>types</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>ecs</Filter>
-    </ClInclude>
     <ClInclude Include="WindowsPlatformUtils.h">
       <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMeta.h">
+      <Filter>ecs\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +380,9 @@
     </Filter>
     <Filter Include="deprecated">
       <UniqueIdentifier>{e0c48ddc-b495-4ced-ae68-c2a4ca661d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\component">
+      <UniqueIdentifier>{1ca9db9e-0fe8-4c77-8e15-e31320d4ab62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

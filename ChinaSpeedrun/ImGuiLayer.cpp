@@ -132,17 +132,53 @@ void cs::editor::ImGuiLayer::Step()
         }
 
         ImGui::SameLine();
-        ImGui::Button("Save");
+        ImGui::Button("New Scene");
+        if (ImGui::IsItemClicked())
+        {
+            SceneManager::Load(
+                SceneManager::CreateScene("New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+        }
+
+        ImGui::SameLine();
+        ImGui::Button("Save Scene");
         if (ImGui::IsItemClicked())
         {
             SceneManager::Save();
         }
 
         ImGui::SameLine();
-        ImGui::Button("Load");
+        ImGui::Button("Load Scene");
         if (ImGui::IsItemClicked())
         {
             SceneManager::Load();
+        }
+
+        ImGui::SameLine();
+        ImGui::Button("Add Entity");
+        if (ImGui::IsItemClicked())
+        {
+            std::string _objectName = "New Entity " + std::to_string(SceneManager::GetCurrentActiveScene()->GetObjectCount());
+            SceneManager::InstanceObject(_objectName.c_str());
+        }
+
+        {
+            ImGui::SameLine();
+            GameObject* _obj = editorRoot->GetSelectedGameObject();
+            if (ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton) && _obj)
+            {
+                for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
+                {
+                    auto _type = static_cast<ComponentMeta::Type>(i);
+
+                    ImGui::Selectable(
+                        ComponentMeta::TypeToName(_type).c_str());
+
+                    if (ImGui::IsItemClicked() && !_obj->HasComponentType(_type))
+                        _obj->AddComponentType(_type);
+                }
+
+                ImGui::EndCombo();
+            }
         }
 
         IsWindowHovered();
@@ -168,6 +204,8 @@ void cs::editor::ImGuiLayer::Step()
         IsWindowHovered();
     }
 	ImGui::End();
+
+    ImGui::ShowDemoWindow();
 
     if (ImGui::Begin("Debugger"))
     {

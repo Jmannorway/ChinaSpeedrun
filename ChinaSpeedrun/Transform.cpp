@@ -46,5 +46,5 @@ void cs::TransformComponent::GenerateOBBExtents(OBB& obb)
 
 cs::TransformComponent::TransformComponent()
 {
-	type = TRANSFORM_COMPONENT_TYPE;
+	type = ComponentMeta::TRANSFORM_COMPONENT_TYPE;
 }
