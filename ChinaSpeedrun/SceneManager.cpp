@@ -143,13 +143,18 @@ void cs::SceneManager::Save()
 {
 	if (Scene* _currentScene{ GetCurrentActiveScene() })
 	{
-		if (_currentScene->resourcePath.empty())
-		{
-			// ask to save with a new resource path
-		}
-
 		ResourceManager::Save<Scene>(_currentScene->resourcePath, _currentScene);
 	}
+}
+
+void cs::SceneManager::Load()
+{
+	auto* _scene = ResourceManager::Load<Scene>();
+
+	if (_scene == nullptr)
+		return;
+
+	Load(_scene);
 }
 
 void cs::SceneManager::Load(Scene* scene)

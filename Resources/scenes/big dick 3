@@ -1,0 +1,38 @@
+{
+    "Scene Name": "Big Dick",
+    "construction count": [
+        [
+            0,
+            0,
+            1,
+            1,
+            0
+        ]
+    ],
+    "Game Object (0)": {
+        "name": "Game Object (0)",
+        "active": true
+    },
+    "Game Object (0).MeshRenderer": {
+        "mesh": "../Resources/models/icosphere.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "Game Object (0).Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}

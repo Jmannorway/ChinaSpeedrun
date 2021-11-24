@@ -35,7 +35,7 @@ namespace cs
 		template<class T>
 		static T* IsDuplicateResource(std::string filename);
 		template<class T>
-		static T* Load(const std::string filename);
+		static T* Load(const std::string filename = "");
 		template<class T>
 		static void Save(const std::string filename, T* resource);
 		template<class T>
@@ -52,11 +52,11 @@ namespace cs
 		static Texture* LoadTexture(const std::string filename);
 		static Shader* LoadShader(std::vector<std::string> filenames);
 		static Material* LoadMaterial(const std::string filename);
-		static Scene* LoadScene(const std::string filename);
+		static Scene* LoadScene(std::string filename);
 		static RawData LoadRaw(const std::string filename);
 
 		static void ReloadScene(Scene* scene, std::string filename);
-		static void SaveScene(const std::string filename, Scene* scene);
+		static void SaveScene(std::string filename, Scene* scene);
 
 		static void ForcePushMesh(Mesh* mesh);
 

@@ -113,22 +113,16 @@ void cs::editor::EngineEditor::Update()
 		SceneManager::Load(ResourceManager::Load<Scene>("../resources/scenes/scene.txt"));
 
 	if (Input::GetActionPressed("editor_new_scene"))
-	{
 		SceneManager::Load(SceneManager::CreateScene("New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
-	}
 	
 	if (Input::GetActionPressed("editor_new_entity"))
-	{
 		SceneManager::GetCurrentActiveScene()->AddGameObject();
-	}
 
 	if (Input::GetActionPressed("editor_add_transform"))
 	{
 		GameObject* _obj{ GetSelectedGameObject() };
 		if (_obj && !_obj->HasComponent<TransformComponent>())
-		{
 			_obj->AddComponentType(Component::TRANSFORM_COMPONENT_TYPE);
-		}
 	}
 
 	if (Input::GetActionPressed("editor_add_mesh_renderer"))
@@ -142,31 +136,26 @@ void cs::editor::EngineEditor::Update()
 		}
 	}
 
+	// TODO: Add these to the editor GUI
 	if (Input::GetActionPressed("editor_add_camera"))
 	{
 		GameObject* _obj{ GetSelectedGameObject() };
 		if (_obj && !_obj->HasComponent<CameraComponent>())
-		{
 			_obj->AddComponentType(Component::CAMERA_COMPONENT_TYPE);
-		}
 	}
 
 	if (Input::GetActionPressed("editor_add_physics"))
 	{
 		GameObject* _obj{ GetSelectedGameObject() };
 		if (_obj && !_obj->HasComponent<PhysicsComponent>())
-		{
 			_obj->AddComponentType(Component::PHYSICS_COMPONENT_TYPE);
-		}
 	}
 
 	if (Input::GetActionPressed("editor_add_audio"))
 	{
 		GameObject* _obj{ GetSelectedGameObject() };
 		if (_obj && !_obj->HasComponent<AudioComponent>())
-		{
 			_obj->AddComponentType(Component::AUDIO_COMPONENT_TYPE);
-		}
 	}
 
 	if (mode == Playmode::EDITOR)

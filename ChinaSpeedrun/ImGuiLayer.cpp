@@ -131,6 +131,20 @@ void cs::editor::ImGuiLayer::Step()
             break;
         }
 
+        ImGui::SameLine();
+        ImGui::Button("Save");
+        if (ImGui::IsItemClicked())
+        {
+            SceneManager::Save();
+        }
+
+        ImGui::SameLine();
+        ImGui::Button("Load");
+        if (ImGui::IsItemClicked())
+        {
+            SceneManager::Load();
+        }
+
         IsWindowHovered();
     }
     ImGui::End();

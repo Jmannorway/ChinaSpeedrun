@@ -32,6 +32,10 @@
 #include <shaderc/shaderc.hpp>
 #endif
 
+#ifdef _WIN32
+#include "WindowsPlatformUtils.h"
+#endif
+
 std::unordered_map<std::string, cs::Material*> cs::ResourceManager::materials;
 std::unordered_map<std::string, cs::Texture*> cs::ResourceManager::textures;
 std::unordered_map<std::string, cs::Mesh*> cs::ResourceManager::meshes;
@@ -410,8 +414,13 @@ void cs::ResourceManager::ReloadScene(Scene* scene, std::string filename)
 	LoadComponentsInScene<PhysicsComponent>(_inArchive, scene);
 }
 
-cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
+cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 {
+	if (filename.empty())
+	{
+		filename = wutil::OpenFile();
+	}
+
 	std::ifstream _inStream(filename);
 
 	if (_inStream.bad() || !_inStream.is_open())
@@ -419,12 +428,13 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 
 	cereal::JSONInputArchive _inArchive(_inStream);
 
-	std::vector<std::vector<unsigned>> _cc;
-
-	_inArchive(cereal::make_nvp("construction count", _cc));
-
 	// TODO: save and load scene name, and check if scene is already loaded (name == name?)
-	auto _scene{ SceneManager::CreateScene("Loaded Scene") };
+	std::string _sceneName;
+	_inArchive(cereal::make_nvp("Scene Name", _sceneName));
+	auto _scene{ SceneManager::CreateScene(_sceneName) };
+
+	std::vector<std::vector<unsigned>> _cc;
+	_inArchive(cereal::make_nvp("construction count", _cc));
 	
 	for (int i = 0; i < _cc.size(); i++)
 	{
@@ -445,14 +455,28 @@ cs::Scene* cs::ResourceManager::LoadScene(const std::string filename)
 	return _scene;
 }
 
-void cs::ResourceManager::SaveScene(const std::string filename, Scene* scene)
+void cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 {
+	if (filename.empty())
+	{
+#ifdef _WIN32
+		filename = wutil::SaveFile();
+#endif
+
+		if (filename.empty())
+			return;
+
+		scene->resourcePath = filename;
+	}
+
 	std::ofstream _outStream(filename);
 
 	if (_outStream.bad() || !_outStream.is_open())
 		return;
 
 	cereal::JSONOutputArchive _outArchive(_outStream);
+
+	_outArchive(cereal::make_nvp("Scene Name", scene->GetName()));
 
 	// Count objects and components assigned to each
 	std::vector<std::vector<unsigned>> _cc;
