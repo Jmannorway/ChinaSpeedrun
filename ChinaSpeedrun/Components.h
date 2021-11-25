@@ -5,3 +5,4 @@
 #include "Transform.h"
 #include "AudioComponent.h"
 #include "PhysicsComponent.h"
+#include "BSODComponent.h"

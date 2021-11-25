@@ -48,6 +48,7 @@ bool cs::GameObject::HasComponentType(ComponentMeta::Type type)
 	case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:	return HasComponent<MeshRendererComponent>();
 	case ComponentMeta::PHYSICS_COMPONENT_TYPE:			return HasComponent<PhysicsComponent>();
 	case ComponentMeta::TRANSFORM_COMPONENT_TYPE:		return HasComponent<TransformComponent>();
+	case ComponentMeta::BSOD_COMPONENT_TYPE:			return HasComponent<BSODComponent>();
 
 	default:
 		Debug::LogWarning("HasComponentType: Cannot check for an unregistered or non-existent component");
@@ -64,6 +65,7 @@ cs::Component* cs::GameObject::AddComponentType(ComponentMeta::Type type)
 	case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:	return &AddComponent<MeshRendererComponent>();
 	case ComponentMeta::PHYSICS_COMPONENT_TYPE:			return &AddComponent<PhysicsComponent>();
 	case ComponentMeta::TRANSFORM_COMPONENT_TYPE:		return &AddComponent<TransformComponent>();
+	case ComponentMeta::BSOD_COMPONENT_TYPE:			return &AddComponent<BSODComponent>();
 
 	default:
 		Debug::LogWarning("AddComponentType: Cannot emplace unregistered or non-existent component");

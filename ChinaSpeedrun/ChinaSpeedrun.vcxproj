@@ -166,6 +166,7 @@
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioData.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="BSODComponent.cpp" />
     <ClCompile Include="BulletManagerComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioData.h" />
     <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="BSODComponent.h" />
     <ClInclude Include="BulletManagerComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraBase.h" />

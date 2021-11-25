@@ -175,6 +175,9 @@
     <ClCompile Include="ComponentMeta.cpp">
       <Filter>ecs\component</Filter>
     </ClCompile>
+    <ClCompile Include="BSODComponent.cpp">
+      <Filter>ecs\bsod</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -340,6 +343,9 @@
     <ClInclude Include="ComponentMeta.h">
       <Filter>ecs\component</Filter>
     </ClInclude>
+    <ClInclude Include="BSODComponent.h">
+      <Filter>ecs\bsod</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">
@@ -383,6 +389,9 @@
     </Filter>
     <Filter Include="ecs\component">
       <UniqueIdentifier>{1ca9db9e-0fe8-4c77-8e15-e31320d4ab62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\bsod">
+      <UniqueIdentifier>{eded514a-79b1-4fcc-aba5-5f0e3e1132a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
