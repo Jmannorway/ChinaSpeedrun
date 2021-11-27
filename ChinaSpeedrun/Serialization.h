@@ -130,7 +130,11 @@ namespace cs
 			cereal::make_nvp("fov", c.fov),
 			cereal::make_nvp("near", c.nearPlane),
 			cereal::make_nvp("far", c.farPlane),
-			cereal::make_nvp("projection", c.projection)
+			cereal::make_nvp("projection", c.projection),
+			cereal::make_nvp("left", c.leftPlane),
+			cereal::make_nvp("right", c.rightPlane),
+			cereal::make_nvp("up", c.topPlane),
+			cereal::make_nvp("down", c.bottomPlane)
 		);
 	}
 
