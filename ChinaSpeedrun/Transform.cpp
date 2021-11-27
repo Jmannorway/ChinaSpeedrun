@@ -18,7 +18,9 @@ Matrix4x4& cs::Transform::GetMatrixTransform(TransformComponent& transform)
 
 cs::TransformComponent::TransformComponent() :
 	isQueued{ false }
-{}
+{
+	type = ComponentMeta::TRANSFORM_COMPONENT_TYPE;
+}
 
 cs::TransformComponent::operator Matrix4x4& ()
 {
@@ -46,9 +48,4 @@ void cs::TransformComponent::ImGuiDrawComponent()
 void cs::TransformComponent::GenerateOBBExtents(OBB& obb)
 {
 	obb = { Vector3(1.0f), Vector3(1.0f) };
-}
-
-cs::TransformComponent::TransformComponent()
-{
-	type = ComponentMeta::TRANSFORM_COMPONENT_TYPE;
 }

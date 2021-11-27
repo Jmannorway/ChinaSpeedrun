@@ -27,11 +27,11 @@ void cs::Camera::CalculateProjection(CameraBase& camera)
 {
 	switch (camera.projection)
 	{
-	case CameraComponent::Projection::ORTHOGRAPHIC:
+	case CameraBase::Projection::ORTHOGRAPHIC:
 		// we might want to multiply aspect ratio into this somewhere, or just pass window size directly
 		camera.proj = glm::ortho(camera.leftPlane, camera.rightPlane, camera.bottomPlane, camera.topPlane, camera.nearPlane, camera.farPlane);
 		break;
-	case CameraComponent::Projection::PERSPECTIVE:
+	case CameraBase::Projection::PERSPECTIVE:
 		camera.proj = glm::perspective(glm::radians(camera.fov), ChinaEngine::AspectRatio(), camera.nearPlane, camera.farPlane);
 		break;
 	}

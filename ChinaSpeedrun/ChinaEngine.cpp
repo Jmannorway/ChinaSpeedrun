@@ -74,31 +74,23 @@ void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth
 
 void cs::ChinaEngine::EngineInit()
 {
-	Shader* _defaultShader;
-	Texture* _defaultTexture;
-	Material* _defaultMaterial;
-	Mesh* _defaultMesh;
+	Shader* _shader{ ResourceManager::Load<Shader>("../Resources/shaders/default_shader") };
+	_shader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
+	_shader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
+	_shader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
+	//_shader->AssignShaderVertexInputAttrib("normal", 3, Shader::Data::VEC3);
+	_shader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
 
-	// Default resources setup
-	{
-		_defaultShader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
-		_defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3, offsetof(Vertex, position));
-		_defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3, offsetof(Vertex, color));
-		_defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2, offsetof(Vertex, texCoord));
-		_defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
-		_defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
+	_shader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
+	_shader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
 
-		_defaultTexture = ResourceManager::Load<Texture>("../Resources/textures/default_texture.png");
+	Texture* _debugTexture{ ResourceManager::Load<Texture>("../Resources/textures/debug_texture.png") };
+	_debugTexture->filter = Texture::Filter::NEAREST;
 
-		_defaultMaterial = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
-		_defaultMaterial->shader = _defaultShader;
-		_defaultMaterial->cullMode = Material::CullMode::NONE;
-		_defaultMaterial->shaderParams["texSampler"] = _defaultTexture;
+	Material* _material1{ ResourceManager::Load<Material>("../Resources/materials/test1.mat") };
 
-		_defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj");
-	}
-
-	SceneManager::Load(SceneManager::CreateScene("Scene"));
+	_material1->shader = _shader;
+	_material1->shaderParams["texSampler"] = _debugTexture;
 
 	/*SceneManager::Load(SceneManager::CreateScene("Scene"));
 	auto _obj = SceneManager::InstanceObject("map");

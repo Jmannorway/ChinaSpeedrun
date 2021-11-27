@@ -550,12 +550,14 @@ cs::Script* cs::ResourceManager::LoadScript(const std::string filename)
 	return _newScript;
 }
 
-void cs::ResourceManager::SaveScript(const std::string& filename, Script* script)
+bool cs::ResourceManager::SaveScript(const std::string& filename, Script* script)
 {
 	std::ofstream _file{ filename };
 
 	_file << script->scriptText;
 	_file.close();
+
+	return true;
 }
 
 void cs::ResourceManager::ForcePushMesh(Mesh* mesh)

@@ -129,17 +129,24 @@ namespace cs
 		ar(
 			cereal::make_nvp("fov", c.fov),
 			cereal::make_nvp("near", c.nearPlane),
-			cereal::make_nvp("far", c.farPlane)
+			cereal::make_nvp("far", c.farPlane),
+			cereal::make_nvp("projection", c.projection)
 		);
 	}
 
 	template<class Archive>
 	void save(Archive& ar, const MeshRendererComponent& c)
 	{
+		// TODO: Check for nullptr
+		std::string
+		_meshPath = c.mesh ? c.mesh->GetResourcePath() : std::string(),
+		_materialPath = c.material ? c.material->GetResourcePath() : std::string(),
+		_shaderPath = c.material && c.material->shader ? c.material->shader->GetResourcePath() : std::string();
+
 		ar(
-			cereal::make_nvp("mesh", c.mesh->GetResourcePath()),
-			cereal::make_nvp("material", c.material->GetResourcePath()),
-			cereal::make_nvp("shader", c.material->shader->GetResourcePath())
+			cereal::make_nvp("mesh", _meshPath),
+			cereal::make_nvp("material", _materialPath),
+			cereal::make_nvp("shader", _shaderPath)
 		);
 	}
 

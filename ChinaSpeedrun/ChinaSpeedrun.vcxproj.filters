@@ -133,9 +133,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>ecs</Filter>
     </ClCompile>
-    <ClCompile Include="Gizmos.cpp">
-      <Filter>editor</Filter>
-    </ClCompile>
     <ClCompile Include="Mathf.cpp">
       <Filter>types</Filter>
     </ClCompile>
@@ -160,9 +157,6 @@
     <ClCompile Include="VulkanEngineRenderer.cpp">
       <Filter>ecs\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
     <ClCompile Include="Signal.cpp">
       <Filter>types</Filter>
     </ClCompile>
@@ -178,6 +172,10 @@
     <ClCompile Include="BSODComponent.cpp">
       <Filter>ecs\bsod</Filter>
     </ClCompile>
+    <ClCompile Include="BSpline.cpp" />
+    <ClCompile Include="CameraBase.cpp" />
+    <ClCompile Include="Delaunay.cpp" />
+    <ClCompile Include="Draw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -298,9 +296,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>ecs</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmos.h">
-      <Filter>editor</Filter>
-    </ClInclude>
     <ClInclude Include="Mathf.h">
       <Filter>types</Filter>
     </ClInclude>
@@ -325,14 +320,8 @@
     <ClInclude Include="VulkanEngineRenderer.h">
       <Filter>ecs\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="Signal.h">
       <Filter>types</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowsPlatformUtils.h">
-      <Filter>editor</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>ecs\component</Filter>
@@ -345,6 +334,11 @@
     </ClInclude>
     <ClInclude Include="BSODComponent.h">
       <Filter>ecs\bsod</Filter>
+    </ClInclude>
+    <ClInclude Include="Delaunay.h" />
+    <ClInclude Include="Draw.h" />
+    <ClInclude Include="WindowsPlatformUtils.h">
+      <Filter>editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,5 +387,8 @@
     <Filter Include="ecs\bsod">
       <UniqueIdentifier>{eded514a-79b1-4fcc-aba5-5f0e3e1132a9}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\scripts\lua_test.lua" />
   </ItemGroup>
 </Project>

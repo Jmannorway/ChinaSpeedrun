@@ -60,7 +60,7 @@ namespace cs
 		static RawData LoadRaw(const std::string filename);
 		static Script* LoadScript(const std::string filename);
 
-		static void SaveScript(const std::string& filename, Script* script);
+		static bool SaveScript(const std::string& filename, Script* script);
 
 		// TODO: Inspect this function
 		static bool SaveScene(std::string filename, Scene* scene);
@@ -82,9 +82,9 @@ namespace cs
 		}
 
 		template<>
-		static void Save(const std::string filename, Script* resource)
+		static bool Save(const std::string filename, Script* resource)
 		{
-			SaveScript(filename, resource);
+			return SaveScript(filename, resource);
 		}
 
 		template<>

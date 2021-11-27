@@ -273,6 +273,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VulkanEngineRenderer.h" />
+    <ClInclude Include="WindowsPlatformUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\scripts\lua_test.lua" />

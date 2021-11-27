@@ -1,8 +1,6 @@
 #include "CameraComponent.h"
 #include "imgui.h"
-
-//cs::CameraComponent* cs::CameraComponent::currentActiveCamera;
-
+	
 cs::CameraComponent::CameraComponent()
 {
 	type = ComponentMeta::CAMERA_COMPONENT_TYPE;
