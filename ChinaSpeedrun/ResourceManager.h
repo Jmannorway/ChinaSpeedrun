@@ -37,7 +37,7 @@ namespace cs
 		template<class T>
 		static T* Load(const std::string filename = "");
 		template<class T>
-		static void Save(const std::string filename, T* resource);
+		static bool Save(const std::string filename, T* resource);
 		template<class T>
 		static void ForcePush(T* resource);
 		template <class T>
@@ -55,10 +55,11 @@ namespace cs
 		static Scene* LoadScene(std::string filename);
 		static RawData LoadRaw(const std::string filename);
 
-		static void ReloadScene(Scene* scene, std::string filename);
-		static void SaveScene(std::string filename, Scene* scene);
+		// TODO: Inspect this function
+		static bool SaveScene(std::string filename, Scene* scene);
 
 		static void ForcePushMesh(Mesh* mesh);
+		static std::string GetNameFromPath(std::string path);
 
 		// TODO: change IsDuplicateResource to use .find() instead of []
 
@@ -149,9 +150,9 @@ namespace cs
 		}
 
 		template<>
-		static void Save(const std::string filename, Scene* resource)
+		static bool Save(const std::string filename, Scene* resource)
 		{
-			SaveScene(filename, resource);
+			return SaveScene(filename, resource);
 		}
 
 		// It is EXTREMELY dangerous to call this function from a normal script in-game. NEVER do this.

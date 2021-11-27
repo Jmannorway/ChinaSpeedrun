@@ -38,11 +38,12 @@ cs::PhysicsComponent::PhysicsComponent() : body(nullptr)
 
 cs::PhysicsComponent::~PhysicsComponent()
 {
-	if (body)
+	// TODO: Since physics world is part of scene this means that body would get destroyed twice
+	/*if (body)
 	{
 		auto _ps(PhysicsLocator::GetPhysicsSystem());
 		_ps->world->DestroyBody(body);
-	}
+	}*/
 }
 
 void cs::PhysicsComponent::ImGuiDrawComponent()

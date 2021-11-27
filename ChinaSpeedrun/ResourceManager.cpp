@@ -398,28 +398,10 @@ RawData cs::ResourceManager::LoadRaw(const std::string filename)
 	return _buffer;
 }
 
-void cs::ResourceManager::ReloadScene(Scene* scene, std::string filename)
-{
-	std::ifstream _inStream(filename);
-
-	if (_inStream.bad() || !_inStream.is_open())
-		return;
-
-	cereal::JSONInputArchive _inArchive(_inStream);
-
-	LoadComponentsInScene<AudioComponent>(_inArchive, scene);
-	LoadComponentsInScene<CameraComponent>(_inArchive, scene);
-	LoadComponentsInScene<MeshRendererComponent>(_inArchive, scene);
-	LoadComponentsInScene<TransformComponent>(_inArchive, scene);
-	LoadComponentsInScene<PhysicsComponent>(_inArchive, scene);
-}
-
 cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 {
 	if (filename.empty())
-	{
 		filename = wutil::OpenFile();
-	}
 
 	std::ifstream _inStream(filename);
 
@@ -436,13 +418,13 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 	std::vector<std::vector<unsigned>> _cc;
 	_inArchive(cereal::make_nvp("construction count", _cc));
 	
-	for (int i = 0; i < _cc.size(); i++)
+	for (unsigned i = 0; i < _cc.size(); i++)
 	{
 		auto _obj{ _scene->AddGameObject() };
 		_inArchive(*_obj);
 
-		for (int ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
-			for (int iii = 0; iii < _cc[i][ii]; iii++)
+		for (unsigned ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
+			for (unsigned iii = 0; iii < _cc[i][ii]; iii++)
 				_obj->AddComponentType(static_cast<ComponentMeta::Type>(ii));
 	}
 
@@ -455,7 +437,7 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 	return _scene;
 }
 
-void cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
+bool cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 {
 	if (filename.empty())
 	{
@@ -464,15 +446,16 @@ void cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 #endif
 
 		if (filename.empty())
-			return;
+			return false;
 
 		scene->resourcePath = filename;
+		scene->name = GetNameFromPath(filename);
 	}
 
 	std::ofstream _outStream(filename);
 
 	if (_outStream.bad() || !_outStream.is_open())
-		return;
+		return false;
 
 	cereal::JSONOutputArchive _outArchive(_outStream);
 
@@ -503,9 +486,7 @@ void cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 
 	// Write game object variables
 	for (int i = 0; i < scene->gameObjects.size(); i++)
-	{
 		_outArchive(cereal::make_nvp(scene->gameObjects[i]->name, *scene->gameObjects[i]));
-	}
 
 	// Write literally all components
 	SaveComponentsInScene<AudioComponent>(_outArchive, scene);
@@ -513,11 +494,24 @@ void cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 	SaveComponentsInScene<MeshRendererComponent>(_outArchive, scene);
 	SaveComponentsInScene<TransformComponent>(_outArchive, scene);
 	SaveComponentsInScene<PhysicsComponent>(_outArchive, scene);
+
+	return true;
 }
 
 void cs::ResourceManager::ForcePushMesh(Mesh* mesh)
 {
 	meshes[mesh->resourcePath] = mesh;
+}
+
+std::string cs::ResourceManager::GetNameFromPath(std::string path)
+{
+	const auto _lastSlash{ path.rfind("\\")};
+	const auto _lastPeriod{ path.rfind(".")};
+
+	if (_lastSlash != std::string::npos && _lastSlash < _lastPeriod)
+		return path.substr(_lastSlash + 1, _lastSlash - _lastPeriod);
+
+	return path.substr(_lastSlash + 1);
 }
 
 void cs::ResourceManager::ClearAllResourcePools()

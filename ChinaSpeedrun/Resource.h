@@ -15,6 +15,7 @@ namespace cs
 		bool operator!=(const Resource& other);
 
 		std::string const& GetResourcePath() const;
+		bool IsResourceSaved() const;
 
 	protected:
 		std::string resourcePath;

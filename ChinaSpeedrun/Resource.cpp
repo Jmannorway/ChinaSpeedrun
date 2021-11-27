@@ -15,3 +15,8 @@ std::string const& cs::Resource::GetResourcePath() const
 {
 	return resourcePath;
 }
+
+bool cs::Resource::IsResourceSaved() const
+{
+	return !resourcePath.empty();
+}

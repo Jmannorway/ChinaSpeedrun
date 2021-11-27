@@ -139,12 +139,14 @@ cs::Scene* cs::SceneManager::CreateScene(std::string name)
 	return _newScene;
 }
 
-void cs::SceneManager::Save()
+bool cs::SceneManager::Save()
 {
 	if (Scene* _currentScene{ GetCurrentActiveScene() })
 	{
-		ResourceManager::Save<Scene>(_currentScene->resourcePath, _currentScene);
+		return ResourceManager::Save<Scene>(_currentScene->resourcePath, _currentScene);
 	}
+
+	return false;
 }
 
 void cs::SceneManager::Load()
@@ -166,17 +168,11 @@ void cs::SceneManager::Load(Scene* scene)
 
 void cs::SceneManager::Reload(Scene* scene)
 {
-	std::string _path = scene->GetResourcePath();
+	auto _filename = scene->GetResourcePath();
 
-	// Makeshift solution
-	if (_path.empty())
-		_path = "../Resources/scenes/scene.txt";
+	Unload(scene);
 
-	ResourceManager::ReloadScene(scene, _path);
-
-	// TODO: Find a better way to reinitialize
-	for (auto o : scene->gameObjects)
-		o->Init();
+	Load(ResourceManager::LoadScene(_filename));
 }
 
 void cs::SceneManager::Unload(Scene* scene)

@@ -111,11 +111,16 @@ void cs::editor::ImGuiLayer::Step()
             ImGui::Button("Play");
             if (ImGui::IsItemClicked())
             {
+                
+                if (SceneManager::GetCurrentScene()->GetResourcePath().empty())
+                    if (!SceneManager::Save())
+                        break;
+
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PLAY);
                 SceneManager::GetCurrentScene()->Start();
             }
             break;
-        case editor::EngineEditor::Playmode::PLAY:
+        case EngineEditor::Playmode::PLAY:
             ImGui::Button("Pause");
             if (ImGui::IsItemClicked())
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PAUSE);
@@ -135,8 +140,8 @@ void cs::editor::ImGuiLayer::Step()
         ImGui::Button("New Scene");
         if (ImGui::IsItemClicked())
         {
-            SceneManager::Load(
-                SceneManager::CreateScene("New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+            SceneManager::Load(SceneManager::CreateScene(
+                "New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
         }
 
         ImGui::SameLine();
@@ -161,24 +166,23 @@ void cs::editor::ImGuiLayer::Step()
             SceneManager::InstanceObject(_objectName.c_str());
         }
 
+        // TODO: Move to inspector (there was a bug that didn't let me open the combo last time I attempted this)
+        ImGui::SameLine();
+        if (activeObject && ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
         {
-            ImGui::SameLine();
-            GameObject* _obj = editorRoot->GetSelectedGameObject();
-            if (ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton) && _obj)
+            for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
             {
-                for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
-                {
-                    auto _type = static_cast<ComponentMeta::Type>(i);
+                auto _type = static_cast<ComponentMeta::Type>(i);
 
-                    ImGui::Selectable(
-                        ComponentMeta::TypeToName(_type).c_str());
+                ImGui::Selectable(
+                    ComponentMeta::TypeToName(_type).c_str());
 
-                    if (ImGui::IsItemClicked() && !_obj->HasComponentType(_type))
-                        _obj->AddComponentType(_type);
-                }
-
-                ImGui::EndCombo();
+                // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
+                if (ImGui::IsItemClicked() && !activeObject->HasComponentType(_type))
+                    activeObject->AddComponentType(_type);
             }
+
+            ImGui::EndCombo();
         }
 
         IsWindowHovered();
@@ -204,8 +208,6 @@ void cs::editor::ImGuiLayer::Step()
         IsWindowHovered();
     }
 	ImGui::End();
-
-    ImGui::ShowDemoWindow();
 
     if (ImGui::Begin("Debugger"))
     {

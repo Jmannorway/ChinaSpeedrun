@@ -1,6 +1,6 @@
 #include "ComponentMeta.h"
 
-std::string cs::ComponentMeta::TypeToName(ComponentMeta::Type type)
+std::string cs::ComponentMeta::TypeToName(Type type)
 {
 	switch (type)
 	{
