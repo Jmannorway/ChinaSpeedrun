@@ -58,6 +58,8 @@ namespace cs
 		static void Update();
 		static bool HasScenes();
 
+		static void SendInput(int keycode, int scancode, int action, int mods);
+
 		static entt::registry& GetRegistry();
 
 		static Scene* CreateScene(std::string name);
@@ -66,7 +68,7 @@ namespace cs
 		static void Load(Scene* scene); // load the scene in from memory
 		static void Reload(Scene* scene); // reload the scene by keeping it in memory and setting the components back to their beginning state
 		static void Unload(Scene* scene); // unload it from the scene
-		static void UnloadEverything();
+		static void DestroyEverything();
 		static Scene* GetCurrentScene();
 
 	private:

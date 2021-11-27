@@ -10,6 +10,8 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "AudioData.h"
+#include "Script.h"
+#include "Mathf.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
@@ -42,9 +44,42 @@ std::unordered_map<std::string, cs::Mesh*> cs::ResourceManager::meshes;
 std::unordered_map<std::string, cs::Shader*> cs::ResourceManager::shaders;
 std::unordered_map<std::string, cs::AudioData*> cs::ResourceManager::audio;
 std::unordered_map<std::string, cs::Scene*> cs::ResourceManager::scenes;
+std::unordered_map<std::string, cs::Script*> cs::ResourceManager::scripts;
 
-// One thing that the resource manager will do automatically is allocation to the vulkan buffers
-// In other words, we have direct contact with the VulkanRenderer, and we can tell it to allocate and free resources at will
+std::vector<Vector3> cs::ResourceManager::LoadLAS(const std::string& filename)
+{
+	std::ifstream _file{ filename };
+	std::vector<Vector3> _reservedPoints;
+	std::string _currentLine{};
+
+	if (_file.bad())
+		return _reservedPoints;
+
+	std::getline(_file, _currentLine);
+
+	const int _size{ std::stoi(_currentLine) };
+
+	for (int i{ 0 }; i < _size; i++)
+	{
+		std::getline(_file, _currentLine);
+
+		uint32_t _startStringIndex{ 0 };
+		float _x{ 0.0f }, _y{ 0.0f }, _z{ 0.0f };
+
+		_x = std::stof(_currentLine.substr(_startStringIndex, _currentLine.find_first_of('\t')));
+		_startStringIndex = _currentLine.find_first_of('\t');
+
+		std::string _midSubStr{ _currentLine.substr(_startStringIndex) };
+		_z = std::stof(_currentLine.substr(_startStringIndex, _currentLine.find_first_of('\t')));
+		_startStringIndex += _midSubStr.find_first_of('\t', _startStringIndex);
+
+		_y = std::stof(_currentLine.substr(_startStringIndex));
+
+		_reservedPoints.push_back(Vector3(_x, _y, _z));
+	}
+
+	return _reservedPoints;
+}
 
 void cs::ResourceManager::LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene)
 {
@@ -61,7 +96,7 @@ cs::Mesh* cs::ResourceManager::LoadModel(const std::string filename)
 
 		tinyobj::attrib_t _attributes;
 		std::vector<tinyobj::shape_t> _shapes;
-		std::vector<tinyobj::material_t> _materials; // currently we don't do anything with the materials, but in the future we will automatically make the materials
+		std::vector<tinyobj::material_t> _materials; // currently we don't do anything with the materials, but in the future we will automatically make the materials (maybe)
 		std::string _warning, _error;
 
 		if (!tinyobj::LoadObj(&_attributes, &_shapes, &_materials, &_warning, &_error, filename.c_str()))
@@ -292,7 +327,7 @@ cs::Texture* cs::ResourceManager::LoadTexture(const std::string filename)
 			Debug::LogWarning("Cannot open file : [" + filename + ']');
 			return nullptr;
 		}
-		
+
 		_outTexture->mipLevels = static_cast<uint32_t>(std::floor(std::log2(_outTexture->width > _outTexture->height ? _outTexture->width : _outTexture->height))) + 1;
 		_outTexture->resourcePath = filename;
 		textures[filename] = _outTexture;
@@ -349,7 +384,7 @@ cs::Shader* cs::ResourceManager::LoadShader(std::vector<std::string> filenames)
 		_newFilepath.insert(_newFilepath.find_last_of('.'), '_' + _shaderType);
 		_newFilepath.replace(_newFilepath.find_last_of('.') + 1, _newFilepath.length(), "spv");
 
-		_outShaderSPVs[_shaderType] = LoadRaw(_newFilepath);		
+		_outShaderSPVs[_shaderType] = LoadRaw(_newFilepath);
 #endif // NDEBUG
 	}
 
@@ -417,7 +452,7 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 
 	std::vector<std::vector<unsigned>> _cc;
 	_inArchive(cereal::make_nvp("construction count", _cc));
-	
+
 	for (unsigned i = 0; i < _cc.size(); i++)
 	{
 		auto _obj{ _scene->AddGameObject() };
@@ -498,6 +533,31 @@ bool cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 	return true;
 }
 
+cs::Script* cs::ResourceManager::LoadScript(const std::string filename)
+{
+	std::ifstream _readFile{ filename };
+
+	if (_readFile.bad())
+	{
+		_readFile.close();
+		return nullptr;
+	}
+
+	Script* _newScript{ new Script };
+	_newScript->scriptText = std::string(std::istreambuf_iterator<char>(_readFile), std::istreambuf_iterator<char>());
+	_readFile.close();
+	_newScript->resourcePath = filename;
+	return _newScript;
+}
+
+void cs::ResourceManager::SaveScript(const std::string& filename, Script* script)
+{
+	std::ofstream _file{ filename };
+
+	_file << script->scriptText;
+	_file.close();
+}
+
 void cs::ResourceManager::ForcePushMesh(Mesh* mesh)
 {
 	meshes[mesh->resourcePath] = mesh;
@@ -535,4 +595,8 @@ void cs::ResourceManager::ClearAllResourcePools()
 	/*for (const std::pair<std::string, AudioData*> audio : audioTracks)
 		delete audio.second;
 	audioTracks.clear();*/
+
+	for (const std::pair<std::string, Script*> script : scripts)
+		delete script.second;
+	scripts.clear();
 }

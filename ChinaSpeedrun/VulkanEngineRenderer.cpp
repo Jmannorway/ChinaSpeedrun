@@ -17,7 +17,9 @@
 #include "CameraComponent.h"
 #include "ChinaEngine.h"
 #include "ResourceManager.h"
+#include "BulletManagerComponent.h"
 
+#include "Draw.h"
 #include "Scene.h"
 #include "SceneManager.h"
 
@@ -139,14 +141,14 @@ void cs::VulkanEngineRenderer::AllocateTexture(Texture* texture)
 
 	VkSamplerCreateInfo _samplerInfo{};
 	_samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-	_samplerInfo.magFilter = VK_FILTER_LINEAR;
-	_samplerInfo.minFilter = VK_FILTER_LINEAR;
+	_samplerInfo.magFilter = static_cast<VkFilter>(texture->filter);
+	_samplerInfo.minFilter = static_cast<VkFilter>(texture->filter);
 	_samplerInfo.addressModeU = static_cast<VkSamplerAddressMode>(texture->tilingX);
 	_samplerInfo.addressModeV = static_cast<VkSamplerAddressMode>(texture->tilingY);
 	_samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 	_samplerInfo.anisotropyEnable = VK_FALSE;
 	_samplerInfo.maxAnisotropy = 1.0f;
-	_samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+	_samplerInfo.borderColor = VK_BORDER_COLOR_INT_TRANSPARENT_BLACK; // VK_BORDER_COLOR_INT_OPAQUE_BLACK
 	_samplerInfo.compareEnable = VK_FALSE;
 	_samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
 	_samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
@@ -158,7 +160,7 @@ void cs::VulkanEngineRenderer::AllocateTexture(Texture* texture)
 		Debug::LogFail("Could not crate a texture sampler.");
 }
 
-void cs::VulkanEngineRenderer::SolveMesh(Mesh* mesh, Solve solveMode)
+void cs::VulkanEngineRenderer::SolveMesh(Mesh* mesh, Solve solveMode, const bool& immediate)
 {
 	if (mesh == nullptr)
 	{
@@ -166,10 +168,27 @@ void cs::VulkanEngineRenderer::SolveMesh(Mesh* mesh, Solve solveMode)
 		return;
 	}
 
-	solveMeshes[mesh] = solveMode;
+	if (immediate)
+	{
+		switch (solveMode)
+		{
+		case Solve::NONE:
+			break;
+		case Solve::ADD:
+			AllocateMesh(mesh);
+			break;
+		case Solve::UPDATE:
+			break;
+		case Solve::REMOVE:
+			FreeMesh(mesh);
+			break;
+		}
+	}
+	else
+		solveMeshes[mesh] = solveMode;
 }
 
-void cs::VulkanEngineRenderer::SolveShader(Shader* shader, Solve solveMode)
+void cs::VulkanEngineRenderer::SolveShader(Shader* shader, Solve solveMode, const bool& immediate)
 {
 	if (shader == nullptr)
 	{
@@ -177,10 +196,28 @@ void cs::VulkanEngineRenderer::SolveShader(Shader* shader, Solve solveMode)
 		return;
 	}
 
-	solveShaders[shader] = solveMode;
+	if (immediate)
+	{
+		switch (solveMode)
+		{
+		case Solve::NONE:
+			break;
+		case Solve::ADD:
+			AllocateShader(shader);
+			break;
+		case Solve::UPDATE:
+			UpdateShader(shader);
+			break;
+		case Solve::REMOVE:
+			FreeShader(shader);
+			break;
+		}
+	}
+	else
+		solveShaders[shader] = solveMode;
 }
 
-void cs::VulkanEngineRenderer::SolveTexture(Texture* texture, Solve solveMode)
+void cs::VulkanEngineRenderer::SolveTexture(Texture* texture, Solve solveMode, const bool& immediate)
 {
 	if (texture == nullptr)
 	{
@@ -188,10 +225,28 @@ void cs::VulkanEngineRenderer::SolveTexture(Texture* texture, Solve solveMode)
 		return;
 	}
 
-	solveTextures[texture] = solveMode;
+	if (immediate)
+	{
+		switch (solveMode)
+		{
+		case Solve::NONE:
+			break;
+		case Solve::ADD:
+			AllocateTexture(texture);
+			break;
+		case Solve::UPDATE:
+			UpdateTexture(texture);
+			break;
+		case Solve::REMOVE:
+			FreeTexture(texture);
+			break;
+		}
+	}
+	else
+		solveTextures[texture] = solveMode;
 }
 
-void cs::VulkanEngineRenderer::SolveMaterial(Material* material, Solve solveMode)
+void cs::VulkanEngineRenderer::SolveMaterial(Material* material, Solve solveMode, const bool& immediate)
 {
 	if (material == nullptr)
 	{
@@ -199,10 +254,28 @@ void cs::VulkanEngineRenderer::SolveMaterial(Material* material, Solve solveMode
 		return;
 	}
 
-	solveMaterials[material] = solveMode;
+	if (immediate)
+	{
+		switch (solveMode)
+		{
+		case Solve::NONE:
+			break;
+		case Solve::ADD:
+			AllocateMaterial(material);
+			break;
+		case Solve::UPDATE:
+			UpdateMaterial(material);
+			break;
+		case Solve::REMOVE:
+			FreeMaterial(material);
+			break;
+		}
+	}
+	else
+		solveMaterials[material] = solveMode;
 }
 
-void cs::VulkanEngineRenderer::SolveRenderer(RenderComponent* renderer, Solve solveMode)
+void cs::VulkanEngineRenderer::SolveRenderer(RenderComponent* renderer, Solve solveMode, const bool& immediate)
 {
 	if (renderer == nullptr)
 	{
@@ -210,7 +283,29 @@ void cs::VulkanEngineRenderer::SolveRenderer(RenderComponent* renderer, Solve so
 		return;
 	}
 
-	solveRenderers[renderer] = solveMode;
+	if (immediate)
+	{
+		switch (solveMode)
+		{
+		case Solve::NONE:
+			break;
+		case Solve::ADD:
+			CreateDescriptorPool(*renderer);
+			CreateDescriptorSets(*renderer);
+			break;
+		case Solve::UPDATE:
+			DestroyDescriptorPool(renderer->descriptorPool);
+
+			CreateDescriptorPool(*renderer);
+			CreateDescriptorSets(*renderer);
+			break;
+		case Solve::REMOVE:
+			DestroyDescriptorPool(renderer->descriptorPool);
+			break;
+		}
+	}
+	else
+		solveRenderers[renderer] = solveMode;
 }
 
 void cs::VulkanEngineRenderer::DestroyDescriptorPool(VkDescriptorPool& descriptorPool)
@@ -250,6 +345,7 @@ void cs::VulkanEngineRenderer::FreeTexture(Texture* texture)
 
 void cs::VulkanEngineRenderer::FreeShader(Shader* shader)
 {
+	vkDestroyDescriptorSetLayout(device, shader->descriptorSetLayout, nullptr);
 	vkDestroyPipelineLayout(device, shader->layout, nullptr);
 }
 
@@ -375,8 +471,13 @@ void cs::VulkanEngineRenderer::Resolve()
 			CreateDescriptorSets(*renderer.first);
 			break;
 		case Solve::UPDATE:
+			DestroyDescriptorPool(renderer.first->descriptorPool);
+
+			CreateDescriptorPool(*renderer.first);
+			CreateDescriptorSets(*renderer.first);
 			break;
 		case Solve::REMOVE:
+			DestroyDescriptorPool(renderer.first->descriptorPool);
 			break;
 		}
 	}
@@ -530,6 +631,12 @@ const cs::VulkanStatus& cs::VulkanEngineRenderer::GetStatus() const
 	return status;
 }
 
+void cs::VulkanEngineRenderer::DestroyBuffer(VulkanBufferInfo& bufferInfo)
+{
+	vkDestroyBuffer(device, bufferInfo.buffer, nullptr);
+	vkFreeMemory(device, bufferInfo.bufferMemory, nullptr);
+}
+
 float cs::VulkanEngineRenderer::AspectRatio() const
 {
 	// This will change, I want to remove the if statement, and I want to not use this every frame, for every object
@@ -564,14 +671,8 @@ void cs::VulkanEngineRenderer::Cleanup()
 
 	// --------------------------------------------------------------------------
 
-	//for (auto shader : registeredShaders)
-	//	vkDestroyDescriptorSetLayout(device, shader->descriptorSetLayout, nullptr);
-
-	vkDestroyBuffer(device, indexBuffer.buffer, nullptr);
-	vkFreeMemory(device, indexBuffer.bufferMemory, nullptr);
-
-	vkDestroyBuffer(device, vertexBuffer.buffer, nullptr);
-	vkFreeMemory(device, vertexBuffer.bufferMemory, nullptr);
+	DestroyBuffer(indexBuffer);
+	DestroyBuffer(vertexBuffer);
 
 	for (size_t i{ 0 }; i < MAX_FRAMES_IN_FLIGHT; i++)
 	{
@@ -604,7 +705,7 @@ void cs::VulkanEngineRenderer::ImGuiRenderPass()
 	_attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	_attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 	_attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	_attachment.initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	_attachment.initialLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 	_attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
 	VkAttachmentReference _colorAttachment{};
@@ -759,14 +860,24 @@ void cs::VulkanEngineRenderer::UpdateDrawCommands(const uint32_t& imageIndex)
 
 	vkCmdBeginRenderPass(commandBuffers[imageIndex], &_renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
+	Draw::VulkanDraw(commandBuffers[imageIndex], imageIndex, vertexBuffer.buffer, indexBuffer.buffer);
+
 	if (SceneManager::GetCurrentScene() != nullptr)
 		for (auto* renderer : SceneManager::GetCurrentScene()->renderableObjects)
-			if (renderer->visible)
+			if (renderer->IsRendererValid())
 				renderer->VulkanDraw(commandBuffers[imageIndex], imageIndex, vertexBuffer.buffer, indexBuffer.buffer);
 
 	vkCmdEndRenderPass(commandBuffers[imageIndex]);
 	if (vkEndCommandBuffer(commandBuffers[imageIndex]) != VK_SUCCESS)
 		Debug::LogFail("Failed to record command buffer.");
+}
+
+void cs::VulkanEngineRenderer::CopyDataToBuffer(VkDeviceMemory& bufferMemory, const void* data, const VkDeviceSize& mappedOffset, const size_t& dataSize)
+{
+	void* _data;
+	vkMapMemory(device, bufferMemory, mappedOffset, dataSize, 0, &_data);
+	memcpy(_data, data, dataSize);
+	vkUnmapMemory(device, bufferMemory);
 }
 
 void cs::VulkanEngineRenderer::InitImGui()
@@ -925,6 +1036,7 @@ void cs::VulkanEngineRenderer::CreateLogicalDevice()
 	}
 
 	VkPhysicalDeviceFeatures _deviceFeatures{};
+	_deviceFeatures.fillModeNonSolid = VK_TRUE;
 
 	VkDeviceCreateInfo _createInfo{};
 	_createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -1020,20 +1132,6 @@ void cs::VulkanEngineRenderer::CreateDescriptorSetLayout(Shader* shader)
 	for (std::pair<std::string, VkDescriptorSetLayoutBinding> binding : shader->descriptorBindings)
 		_bindings.push_back(binding.second);
 
-	/*VkDescriptorSetLayoutBinding _uboLayoutBinding{};
-	_uboLayoutBinding.binding = 0;
-	_uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-	_uboLayoutBinding.descriptorCount = 1;
-	_uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-	_uboLayoutBinding.pImmutableSamplers = nullptr;
-
-	VkDescriptorSetLayoutBinding _samplerLayoutBinding{};
-	_samplerLayoutBinding.binding = 1;
-	_samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	_samplerLayoutBinding.descriptorCount = 1;
-	_samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-	_samplerLayoutBinding.pImmutableSamplers = nullptr;*/
-
 	VkDescriptorSetLayoutCreateInfo _layoutInfo{};
 	_layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 	_layoutInfo.bindingCount = static_cast<uint32_t>(_bindings.size());
@@ -1072,36 +1170,17 @@ void cs::VulkanEngineRenderer::CreateGraphicsPipeline(Material* material)
 		_shaderStages.push_back(_shaderStageInfo);
 	}
 
-	/*auto _vertShaderCode{ ResourceManager::LoadRaw("../Resources/shaders/default_shader_vert.spv") };
-	auto _fragShaderCode{ ResourceManager::LoadRaw("../Resources/shaders/default_shader_frag.spv") };
-
-	VkShaderModule _vertShaderModule{ CreateShaderModule(_vertShaderCode) };
-	VkShaderModule _fragShaderModule{ CreateShaderModule(_fragShaderCode) };
-
-	VkPipelineShaderStageCreateInfo _vertShaderStageInfo{};
-	_vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	_vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	_vertShaderStageInfo.module = _vertShaderModule;
-	_vertShaderStageInfo.pName = "main";
-
-	VkPipelineShaderStageCreateInfo _fragShaderStageInfo{};
-	_fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	_fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	_fragShaderStageInfo.module = _fragShaderModule;
-	_fragShaderStageInfo.pName = "main";
-
-	VkPipelineShaderStageCreateInfo _shaderStages[]{ _vertShaderStageInfo, _fragShaderStageInfo };*/
-
 	VkPipelineVertexInputStateCreateInfo _vertexInputInfo{};
 	_vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 
-	// we get these from the shader instead
-	auto _bindingDescription{ Vertex::GetBindingDescription() };
-	auto _attributeDescriptions{ Vertex::GetAttributeDescriptions() };
+	std::vector<VkVertexInputAttributeDescription> _attributeDescriptions{};
 
-	_vertexInputInfo.vertexBindingDescriptionCount = 1;
+	for (auto& _itAttrib : material->shader->vertexAttributes)
+		_attributeDescriptions.push_back(_itAttrib.second);
+
+	_vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(material->shader->vertexInputDescription.size());
 	_vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(_attributeDescriptions.size());
-	_vertexInputInfo.pVertexBindingDescriptions = &_bindingDescription;
+	_vertexInputInfo.pVertexBindingDescriptions = material->shader->vertexInputDescription.data();
 	_vertexInputInfo.pVertexAttributeDescriptions = _attributeDescriptions.data();
 
 	VkPipelineInputAssemblyStateCreateInfo _inputAssembly{};
@@ -1147,8 +1226,8 @@ void cs::VulkanEngineRenderer::CreateGraphicsPipeline(Material* material)
 	_multisampling.rasterizationSamples = msaaSamples;
 	_multisampling.minSampleShading = 1.0f;
 	_multisampling.pSampleMask = nullptr;
-	_multisampling.alphaToCoverageEnable = VK_FALSE;
 	_multisampling.alphaToOneEnable = VK_FALSE;
+	_multisampling.alphaToCoverageEnable = VK_FALSE;
 
 	VkPipelineDepthStencilStateCreateInfo _depthStencil{};
 	_depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
@@ -1175,7 +1254,6 @@ void cs::VulkanEngineRenderer::CreateGraphicsPipeline(Material* material)
 	_depthStencil.front = {};
 	_depthStencil.back = {};
 
-	// Make this attachment "visible" for materials would be preferable
 	VkPipelineColorBlendAttachmentState _colorBlendAttachment{};
 	_colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 	_colorBlendAttachment.blendEnable = VK_FALSE;
@@ -1190,6 +1268,8 @@ void cs::VulkanEngineRenderer::CreateGraphicsPipeline(Material* material)
 		_colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
 		_colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 		_colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+
+		_multisampling.alphaToCoverageEnable = VK_TRUE;
 		break;
 	case Material::RenderMode::OPEQUE_:
 	default:
@@ -1212,25 +1292,6 @@ void cs::VulkanEngineRenderer::CreateGraphicsPipeline(Material* material)
 	_colorBlending.blendConstants[1] = 0.0f;
 	_colorBlending.blendConstants[2] = 0.0f;
 	_colorBlending.blendConstants[3] = 0.0f;
-
-	// DescriptorSetLayouts can be shader spesific and not object dependent
-	/*std::vector<VkDescriptorSetLayout> _allDescriptorSetLayouts;
-	auto _renderers{ ChinaEngine::world.registry.view<MeshRendererComponent>() };
-	for (auto e : _renderers)
-	{
-		MeshRendererComponent& _meshRenderer{ ChinaEngine::world.registry.get<MeshRendererComponent>(e) };
-		_allDescriptorSetLayouts.push_back(_meshRenderer.descriptorSetLayout);
-	}
-
-	VkPipelineLayoutCreateInfo _pipelineLayoutInfo{};
-	_pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	_pipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(_allDescriptorSetLayouts.size());
-	_pipelineLayoutInfo.pSetLayouts = _allDescriptorSetLayouts.data();
-	_pipelineLayoutInfo.pushConstantRangeCount = 0;
-	_pipelineLayoutInfo.pPushConstantRanges = nullptr;
-
-	if (vkCreatePipelineLayout(device, &_pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS)
-		Debug::LogFail("Failed to create pipeline layout.");*/
 
 	VkGraphicsPipelineCreateInfo _pipelineInfo{};
 	_pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -1255,9 +1316,6 @@ void cs::VulkanEngineRenderer::CreateGraphicsPipeline(Material* material)
 
 	for (VkShaderModule shaderModule : _shaderModules)
 		vkDestroyShaderModule(device, shaderModule, nullptr);
-
-	//vkDestroyShaderModule(device, _fragShaderModule, nullptr);
-	//vkDestroyShaderModule(device, _vertShaderModule, nullptr);
 }
 
 void cs::VulkanEngineRenderer::CreateRenderPass()
@@ -1467,9 +1525,6 @@ void cs::VulkanEngineRenderer::CreateUniformBuffers()
 
 void cs::VulkanEngineRenderer::CreateDescriptorPool(RenderComponent& renderer)
 {
-	if (renderer.material == nullptr)
-		return;
-
 	uint32_t _swapChainSize{ static_cast<uint32_t>(swapChainImages.size()) };
 	VkDescriptorPoolSize _poolSizes[]
 	{
@@ -1510,7 +1565,6 @@ void cs::VulkanEngineRenderer::CreateDescriptorSets(RenderComponent& renderer)
 		for (auto& descriptorBinding : renderer.material->shader->descriptorBindings)
 		{
 			VkWriteDescriptorSet _descriptor{};
-
 			_descriptor.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 			_descriptor.dstSet = renderer.descriptorSets[i];
 			_descriptor.dstBinding = descriptorBinding.second.binding;
@@ -1535,15 +1589,15 @@ void cs::VulkanEngineRenderer::CreateDescriptorSets(RenderComponent& renderer)
 				{
 					Texture* _texture{ std::get<Texture*>(renderer.material->shaderParams[descriptorBinding.first]) };
 
-					VkDescriptorImageInfo _imageInfo{};
-					_imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-					_imageInfo.imageView = _texture->textureView;
-					_imageInfo.sampler = _texture->textureSampler;
+					VkDescriptorImageInfo* _imageInfo{ new VkDescriptorImageInfo };
+					_imageInfo->imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+					_imageInfo->imageView = _texture->textureView;
+					_imageInfo->sampler = _texture->textureSampler;
 
-					_descriptor.pImageInfo = &_imageInfo;
+					_descriptor.pImageInfo = _imageInfo;
 					break;
 				}
-				catch (const std::exception& e)
+				catch (const std::bad_variant_access& e)
 				{
 					Debug::LogIssue(e.what());
 					break;
@@ -1633,6 +1687,58 @@ void cs::VulkanEngineRenderer::CreateSyncObjects()
 	for (size_t i{ 0 }; i < MAX_FRAMES_IN_FLIGHT; i++)
 		if (vkCreateSemaphore(device, &_semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS || vkCreateSemaphore(device, &_semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS || vkCreateFence(device, &_fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS)
 			Debug::LogFail("Failed to create semaphores.");
+}
+
+void cs::VulkanEngineRenderer::CreateDebugDrawDescriptorPool()
+{
+	uint32_t _swapChainSize{ static_cast<uint32_t>(swapChainImages.size()) };
+	VkDescriptorPoolSize _poolSizes[]
+	{
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, _swapChainSize }
+	};
+
+	VkDescriptorPoolCreateInfo _poolInfo{};
+	_poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	_poolInfo.poolSizeCount = IM_ARRAYSIZE(_poolSizes);
+	_poolInfo.pPoolSizes = _poolSizes;
+	_poolInfo.maxSets = _swapChainSize;
+
+	if (vkCreateDescriptorPool(device, &_poolInfo, nullptr, &Draw::descriptorPool) != VK_SUCCESS)
+		Debug::LogFail("Failed to create descriptor pool.");
+}
+
+void cs::VulkanEngineRenderer::CreateDebugDrawDescriptorSets()
+{
+	std::vector<VkDescriptorSetLayout> _layouts(swapChainImages.size(), Draw::material->shader->descriptorSetLayout);
+	VkDescriptorSetAllocateInfo _allocInfo{};
+	_allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	_allocInfo.descriptorPool = Draw::descriptorPool;
+	_allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
+	_allocInfo.pSetLayouts = _layouts.data();
+
+	Draw::descriptorSets.resize(swapChainImages.size());
+	if (vkAllocateDescriptorSets(device, &_allocInfo, Draw::descriptorSets.data()) != VK_SUCCESS)
+		Debug::LogFail("Failed to allocate descriptor sets.");
+
+	for (size_t i{ 0 }; i < swapChainImages.size(); i++)
+	{
+		VkWriteDescriptorSet _descriptorWrites{};
+		_descriptorWrites.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		_descriptorWrites.dstSet = Draw::descriptorSets[i];
+		_descriptorWrites.dstBinding = 0;
+		_descriptorWrites.dstArrayElement = 0;
+		_descriptorWrites.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		_descriptorWrites.descriptorCount = 1;
+
+		VkDescriptorBufferInfo _bufferInfo{};
+		_bufferInfo.buffer = uniformBuffers[i];
+		_bufferInfo.offset = 0;
+		_bufferInfo.range = static_cast<VkDeviceSize>(UniformBufferObject::GetByteSize());
+
+		_descriptorWrites.pBufferInfo = &_bufferInfo;
+
+		vkUpdateDescriptorSets(device, 1, &_descriptorWrites, 0, nullptr);
+	}
 }
 
 void cs::VulkanEngineRenderer::CreateImage(uint32_t width, uint32_t height, uint32_t mipmapLevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory)
@@ -1819,24 +1925,15 @@ void cs::VulkanEngineRenderer::UpdateUniformBuffer(uint32_t currentImage)
 {
 	if (SceneManager::HasScenes())
 	{
-		VkDeviceSize _index{ 0 };
-		auto _renderers{ SceneManager::GetRegistry().view<MeshRendererComponent>() };
-		for (auto e : _renderers)
+		CopyDataToBuffer(uniformBuffersMemory[currentImage], &Draw::ubo, 0, UniformBufferObject::GetByteSize());
+
+		for (auto _renderer : SceneManager::GetCurrentScene()->renderableObjects)
 		{
-			MeshRendererComponent& _meshRenderer{ SceneManager::GetRegistry().get<MeshRendererComponent>(e) };
-
 			void* _data;
-			vkMapMemory(device, uniformBuffersMemory[currentImage], _meshRenderer.uboOffset, UniformBufferObject::GetByteSize(), 0, &_data);
-			memcpy(_data, &_meshRenderer.ubo, UniformBufferObject::GetByteSize());
+			vkMapMemory(device, uniformBuffersMemory[currentImage], _renderer->uboOffset, UniformBufferObject::GetByteSize(), 0, &_data);
+			memcpy(_data, &_renderer->ubo, UniformBufferObject::GetByteSize());
 			vkUnmapMemory(device, uniformBuffersMemory[currentImage]);
-
-			_index++;
 		}
-
-		/*void* _data;
-		vkMapMemory(device, uniformBuffersMemory[currentImage], 0, (VkDeviceSize)UniformBufferObject::GetByteSize() * 2, 0, &_data);
-		memcpy(_data, ubos, (size_t)UniformBufferObject::GetByteSize() * 2);
-		vkUnmapMemory(device, uniformBuffersMemory[currentImage]);*/
 	}
 }
 
@@ -2006,6 +2103,8 @@ void cs::VulkanEngineRenderer::RecreateSwapChain()
 	CreateDepthResources();
 	CreateFramebuffers();
 	CreateUniformBuffers();
+	CreateDebugDrawDescriptorPool();
+	CreateDebugDrawDescriptorSets();
 	SceneManager::CreateDescriptorPools();
 	CreateCommandBuffers();
 
@@ -2035,10 +2134,6 @@ void cs::VulkanEngineRenderer::CleanupSwapChain()
 
 	vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
 
-	/*for (Material* material : registeredMaterials)
-		vkDestroyPipeline(device, material->pipeline, nullptr);
-	for (Shader* shader : registeredShaders)
-		vkDestroyPipelineLayout(device, shader->layout, nullptr);*/
 	vkDestroyRenderPass(device, renderPass, nullptr);
 
 	for (auto imageView : swapChainImageViews)
@@ -2052,19 +2147,10 @@ void cs::VulkanEngineRenderer::CleanupSwapChain()
 		vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
 	}
 
+	vkDestroyDescriptorPool(device, Draw::descriptorPool, nullptr);
+
 	if (SceneManager::GetCurrentScene() != nullptr)
 		SceneManager::DestroyDescriptorPools();
-
-	/*auto _renderers{ SceneManager::GetRegistry().view<MeshRendererComponent>() };
-	for (auto e : _renderers)
-	{
-		MeshRendererComponent& _meshRenderer{ SceneManager::GetRegistry().get<MeshRendererComponent>(e) };
-
-		if (!_meshRenderer.IsRendererValid())
-			continue;
-
-		vkDestroyDescriptorPool(device, _meshRenderer.descriptorPool, nullptr);
-	}*/
 
 	// ----------------------------------------------------------------------
 	//    Destroy ImGui Stuff
@@ -2345,6 +2431,10 @@ bool cs::QueueFamilyIndices::IsComplete()
 {
 	return graphicsFamily.has_value() && presentFamily.has_value();
 }
+
+cs::VulkanBufferInfo::VulkanBufferInfo() :
+	buffer{ nullptr }, bufferMemory{ nullptr }, bufferSize{ 0 }, dataSize{ 0 }
+{}
 
 cs::VulkanBufferInfo::VulkanBufferInfo(VkDeviceSize newBufferSize) :
 	buffer{ nullptr }, bufferMemory{ nullptr }, bufferSize{ newBufferSize }, dataSize{ 0 }

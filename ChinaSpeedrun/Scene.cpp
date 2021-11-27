@@ -8,8 +8,8 @@
 #include "ChinaEngine.h"
 #include "VulkanEngineRenderer.h"
 
-#include "Debug.h"
-
+#include "Script.h"
+#include "BulletManagerComponent.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
 #include "Camera.h"
@@ -20,6 +20,8 @@
 #include "PhysicsServer.h"
 #include "PhysicsSystem.h"
 #include "Rigidbody.h"
+
+#include "Debug.h"
 
 cs::Scene::Scene() :
 	audioSystem{ new AudioSystem }, physicsServer{ new PhysicsServer }, physicsSystem{ new PhysicsSystem }
@@ -42,6 +44,14 @@ void cs::Scene::Initialize()
 void cs::Scene::Start()
 {
 	Debug::LogSuccess("Start ", name);
+
+	auto _scriptableObjects{ registry.view<ScriptComponent>() };
+	for (auto e : _scriptableObjects)
+	{
+		auto& _script{ registry.get<ScriptComponent>(e) };
+
+		_script.Start();
+	}
 }
 
 void cs::Scene::Update()
@@ -62,11 +72,20 @@ void cs::Scene::Update()
 void cs::Scene::Exit()
 {
 	Debug::LogIssue("Exiting ", name);
+
+	auto _scriptableObjects{ registry.view<ScriptComponent>() };
+	for (auto e : _scriptableObjects)
+	{
+		auto& _script{ registry.get<ScriptComponent>(e) };
+
+		_script.Exit();
+	}
 }
 
 void cs::Scene::Free()
 {
 	ClearScene();
+	QueueExit();
 
 	delete this;
 }
@@ -98,7 +117,7 @@ unsigned cs::Scene::GetObjectCount() const
 
 void cs::Scene::ClearScene()
 {
-	DestroyDescriptorPools();
+	//DestroyDescriptorPools();
 
 	// currently the resources will just not be deleted (they are stored in ResourceManager)
     for (GameObject* object : gameObjects)
@@ -163,6 +182,17 @@ void cs::Scene::CreateDescriptorPools()
 		ChinaEngine::renderer.MakeDescriptorPool(*object);
 }
 
+void cs::Scene::Input(int keycode, int scancode, int action, int mods)
+{
+	auto _scriptableObjects{ registry.view<ScriptComponent>() };
+	for (auto e : _scriptableObjects)
+	{
+		auto& _script{ registry.get<ScriptComponent>(e) };
+
+		_script.Input(keycode);
+	}
+}
+
 bool cs::Scene::ImGuiDrawGameObjects()
 {
 	bool _isClicked{ false };
@@ -204,10 +234,26 @@ void cs::Scene::UpdateEditorComponents()
 
 		MeshRenderer::UpdateUBO(_meshRenderer, _transform, *SceneManager::mainCamera);
 	}
+
+	auto _bulletManagerObjects{ registry.view<BulletManagerComponent>() };
+	for (auto e : _bulletManagerObjects)
+	{
+		auto& _bulletManagerComponent{ registry.get<BulletManagerComponent>(e) };
+
+		_bulletManagerComponent.Update();
+	}
 }
 
 void cs::Scene::UpdateComponents()
 {
+	auto _scriptableObjects{ registry.view<ScriptComponent>() };
+	for (auto e : _scriptableObjects)
+	{
+		auto& _script{ registry.get<ScriptComponent>(e) };
+
+		_script.Update();
+	}
+
 	auto _audioComponentView{ registry.view<AudioComponent>() };
 	for (auto e : _audioComponentView)
 	{

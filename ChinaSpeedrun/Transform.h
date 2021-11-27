@@ -3,6 +3,8 @@
 #include "Mathf.h"
 #include "Component.h"
 
+#include <queue>
+
 namespace cs
 {
 	class TransformComponent : public Component
@@ -14,6 +16,12 @@ namespace cs
 		Vector3 globalPosition{ 0.f }, globalRotation{ 0.f }, globalScale{ 1.f };
 
 		operator Matrix4x4&();
+
+		void SetPosition(const Vector3 pos);
+		void SetRotation(const Vector3 rot);
+		void SetRotationInDegrees(const Vector3 rotDeg);
+		void SetScale(const Vector3 scale);
+
 		virtual void Init() override;
 		virtual void ImGuiDrawComponent() override;
 		void GenerateOBBExtents(OBB& obb);
@@ -22,11 +30,16 @@ namespace cs
 
 	protected:
 		Matrix4x4 matrix{ Matrix4x4(1.0f) };
+
+	private:
+		bool isQueued;
 	};
 
 	class Transform
 	{
 	public:
+		static std::queue<TransformComponent*> updateTransform;
+
 		static void CalculateMatrix(TransformComponent& transform);
 		static Matrix4x4& GetMatrixTransform(TransformComponent& transform);
 	};

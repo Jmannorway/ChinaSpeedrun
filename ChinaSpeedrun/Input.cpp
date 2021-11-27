@@ -3,6 +3,7 @@
 #include "imgui_impl_glfw.h"
 
 #include "Debug.h"
+#include "SceneManager.h"
 
 #include <GLFW/glfw3.h>
 
@@ -62,6 +63,8 @@ void Input::GlfwKeyfunCallback(GLFWwindow* window, int keycode, int scancode, in
 	access.at(keycode)->held |= (action == 1);
 	access.at(keycode)->pressed |= (action == 1);
 	access.at(keycode)->released |= (action == 0);
+
+	cs::SceneManager::SendInput(keycode, scancode, action, mods);
 }
 
 void Input::GlfwCursorPosCallback(GLFWwindow* window, double x, double y)

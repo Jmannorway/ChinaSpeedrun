@@ -40,6 +40,7 @@ namespace cs
 	{
 		CollisionInfo SphereSphereIntersection(const TransformComponent* t, const SphereColliderComponent* c, const TransformComponent* ot, const SphereColliderComponent* oc);
 		CollisionInfo SpherePolygonIntersection(const TransformComponent* t, const SphereColliderComponent* c, const TransformComponent* ot, const PolygonColliderComponent* oc);
+		CollisionInfo BarycentricIntersection(const TransformComponent* t, const SphereColliderComponent* c, const TransformComponent* ot, const PolygonColliderComponent* oc);
 	}
 
 	class PhysicsServer
@@ -51,6 +52,8 @@ namespace cs
 		std::vector<class PhysicsBodyComponent*> bodies;
 
 		static RaycastHit Raycast(const Vector3 origin, const Vector3 direction, const float distance, const OBB& obb, const Matrix4x4& matrix);
+
+		void Reset();
 
 		void Step();
 		void Test();

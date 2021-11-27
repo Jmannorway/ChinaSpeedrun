@@ -16,9 +16,11 @@ namespace cs
 	class Material : public Resource
 	{
 	public:
+		friend class Draw;
 		friend class VulkanEngineRenderer;
 		friend class ResourceManager;
 		friend class MeshRendererComponent;
+		friend class BulletManagerComponent;
 
 		enum class RenderMode
 		{
@@ -50,10 +52,9 @@ namespace cs
 
 		void Initialize() override;
 
+		~Material();
+
 	private:
 		VkPipeline pipeline;
-
-		// Based on what the shader has; we update shaderParams accordingly
-		void UpdateShaderParams();
 	};
 }

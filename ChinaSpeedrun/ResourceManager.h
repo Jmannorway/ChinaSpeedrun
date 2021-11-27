@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Mathf.h"
+
 #include <string>
 #include <unordered_map>
 #include <iostream>
@@ -26,6 +28,7 @@ namespace cs
 	struct AudioData;
 	class Mesh;
 	class Scene;
+	class Script;
 
 	class ResourceManager
 	{
@@ -46,6 +49,7 @@ namespace cs
 		static void LoadComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
 		static void LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
 
+		static std::vector<Vector3> LoadLAS(const std::string& filename);
 		static Mesh* LoadModel(const std::string filename);
 		static Mesh* LoadModelFromMapData(const std::string filename, const unsigned maxPoints = 25000);
 		static AudioData* LoadAudio(const std::string filename);
@@ -54,6 +58,9 @@ namespace cs
 		static Material* LoadMaterial(const std::string filename);
 		static Scene* LoadScene(std::string filename);
 		static RawData LoadRaw(const std::string filename);
+		static Script* LoadScript(const std::string filename);
+
+		static void SaveScript(const std::string& filename, Script* script);
 
 		// TODO: Inspect this function
 		static bool SaveScene(std::string filename, Scene* scene);
@@ -62,6 +69,23 @@ namespace cs
 		static std::string GetNameFromPath(std::string path);
 
 		// TODO: change IsDuplicateResource to use .find() instead of []
+
+		template<>
+		static Script* IsDuplicateResource(std::string filename)
+		{
+			return scripts[filename];
+		}
+		template<>
+		static Script* Load(const std::string filename)
+		{
+			return LoadScript(filename);
+		}
+
+		template<>
+		static void Save(const std::string filename, Script* resource)
+		{
+			SaveScript(filename, resource);
+		}
 
 		template<>
 		static Mesh* IsDuplicateResource(std::string filename)
@@ -164,7 +188,8 @@ namespace cs
 		static std::unordered_map<std::string, cs::Texture*> textures;
 		static std::unordered_map<std::string, cs::Shader*> shaders;
 		static std::unordered_map<std::string, cs::Material*> materials;
-		static std::unordered_map<std::string, cs::Scene*> scenes; // TODO: Is this necessary?
+		static std::unordered_map<std::string, cs::Scene*> scenes;
+		static std::unordered_map<std::string, cs::Script*> scripts;
 	};
 
 	template <class T>

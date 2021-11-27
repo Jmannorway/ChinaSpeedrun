@@ -17,31 +17,39 @@
 #include "GameObject.h"
 #include "Components.h"
 #include "Camera.h"
+#include "BSpline.h"
+#include "PolygonCollider.h"
 
 #include "SphereCollider.h"
 #include "StaticBody.h"
 #include "Rigidbody.h"
+#include "Script.h"
+#include "BulletManagerComponent.h"
+
+#include "Delaunay.h"
 
 #include "Editor.h"
+#include "Draw.h"
 #include "SceneManager.h"
 //#include "EditorProfiler.h"
 
 #include "Time.h"
-
-#include "lua.hpp"
 
 cs::VulkanEngineRenderer cs::ChinaEngine::renderer;
 cs::editor::EngineEditor cs::ChinaEngine::editor;
 
 void cs::ChinaEngine::Run()
 {
-	LuaTest();
 	Time::CycleInit();
 	Mathf::InitRand();
 
 	renderer.Create(800, 600, "China Speedrun");
 
 	editor.Start();
+	Draw::Setup();
+	renderer.Resolve();
+	Draw::CreateDescriptorSets();
+	Draw::DebugGrid();
 
 	EngineInit();
 
@@ -58,38 +66,10 @@ float cs::ChinaEngine::AspectRatio()
 	return renderer.AspectRatio();
 }
 
-int cs::ChinaEngine::LuaTest()
-{
-	std::string command = "a = 30 + 90";
-	int result = 0;
-
-	lua_State* L = luaL_newstate();
-
-	int r = luaL_dostring(L, command.c_str());
-
-	if (r == LUA_OK)
-	{
-		lua_getglobal(L, "a");
-
-		if (lua_isnumber(L, -1))
-		{
-			float a_in_cpp = static_cast<float>(lua_tonumber(L, -1));
-			Debug::Log(a_in_cpp);
-		}
-	}
-	else
-	{
-		result = 1;
-	}
-
-	lua_close(L);
-	return result;
-}
-
 void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth, int newHeight)
 {
 	if (newWidth * newHeight > 0) // don't recalculate the perspective if the screen size is 0
-		Camera::CalculatePerspective(*SceneManager::mainCamera);
+		Camera::CalculateProjection(*SceneManager::mainCamera);
 }
 
 void cs::ChinaEngine::EngineInit()
@@ -173,6 +153,7 @@ void cs::ChinaEngine::MainLoop()
 		glfwPollEvents();
 
 		editor.Update();
+		Draw::Update();
 		SceneManager::Update();
 
 		renderer.Resolve();
@@ -188,6 +169,6 @@ void cs::ChinaEngine::MainLoop()
 void cs::ChinaEngine::EngineExit()
 {
 	editor.Exit();
-	SceneManager::UnloadEverything();
 	ResourceManager::ClearAllResourcePools();
+	SceneManager::DestroyEverything();
 }

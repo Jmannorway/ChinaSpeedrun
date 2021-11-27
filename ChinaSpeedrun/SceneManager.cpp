@@ -52,12 +52,14 @@ cs::GameObject* cs::SceneManager::InstanceObject(const char* name, const Vector3
 
 void cs::SceneManager::DestroyDescriptorPools()
 {
-	GetCurrentScene()->DestroyDescriptorPools();
+	if (HasScenes())
+		GetCurrentScene()->DestroyDescriptorPools();
 }
 
 void cs::SceneManager::CreateDescriptorPools()
 {
-	GetCurrentScene()->CreateDescriptorPools();
+	if (HasScenes())
+		GetCurrentScene()->CreateDescriptorPools();
 }
 
 void cs::SceneManager::SetCurrentFocusedScene(const uint32_t newCurrentScene)
@@ -124,6 +126,12 @@ bool cs::SceneManager::HasScenes()
 	return !activeScenes.empty();
 }
 
+void cs::SceneManager::SendInput(int keycode, int scancode, int action, int mods)
+{
+	if (ChinaEngine::editor.GetPlaymodeState() == editor::EngineEditor::Playmode::PLAY && HasScenes())
+		GetCurrentScene()->Input(keycode, scancode, action, mods);
+}
+
 entt::registry& cs::SceneManager::GetRegistry()
 {
 	return GetCurrentScene()->registry;
@@ -182,9 +190,10 @@ void cs::SceneManager::Unload(Scene* scene)
 	SolveScene(scene, SceneAction::FREE);
 }
 
-void cs::SceneManager::UnloadEverything()
+void cs::SceneManager::DestroyEverything()
 {
-
+	for (auto* scene : activeScenes)
+		scene->Free();
 }
 
 cs::Scene* cs::SceneManager::GetCurrentScene()
@@ -211,6 +220,27 @@ void cs::SceneManager::FreeScene(Scene* scene)
 
 void cs::SceneManager::DrawScenes()
 {
+	if (ImGui::Button("Create"))
+	{
+		// prompt the user
+
+		//SceneManager::CreateScene("");
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Save"))
+	{
+		// prompt the user
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Load"))
+	{
+		// prompt the user
+	}
+
 	for (size_t i{ 0 }; i < activeScenes.size(); i++)
 		if (activeScenes[i]->ImGuiDrawGameObjects())
 			SetCurrentFocusedScene(i);

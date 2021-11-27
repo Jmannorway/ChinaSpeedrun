@@ -10,6 +10,7 @@
 #include "Shader.h"
 #include "GameObject.h"
 
+#include "Draw.h"
 #include "SceneManager.h"
 #include "Scene.h"
 
@@ -26,7 +27,7 @@ void cs::MeshRenderer::UpdateUBO(MeshRendererComponent& meshRenderer, TransformC
 }
 
 cs::MeshRendererComponent::MeshRendererComponent() :
-	mesh{ nullptr }
+	mesh{ nullptr }, disableFrustum{ false }
 {
 	type = ComponentMeta::MESH_RENDERER_COMPONENT_TYPE;
 	ChinaEngine::renderer.SolveRenderer(this, Solve::ADD);
@@ -42,7 +43,7 @@ void cs::MeshRendererComponent::SetMesh(Mesh* mesh)
 
 void cs::MeshRendererComponent::Init()
 {
-	
+
 }
 
 void cs::MeshRendererComponent::ImGuiDrawComponent()
@@ -100,6 +101,5 @@ void cs::MeshRendererComponent::GenerateOBBExtents(OBB& obb)
 
 cs::MeshRendererComponent::~MeshRendererComponent()
 {
-	// TODO: This will point to invalid memory
-	ChinaEngine::renderer.SolveRenderer(this, Solve::REMOVE);
+	ChinaEngine::renderer.SolveRenderer(this, Solve::REMOVE, true);
 }

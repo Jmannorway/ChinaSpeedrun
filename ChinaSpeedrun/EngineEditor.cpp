@@ -3,15 +3,14 @@
 #include "imgui.h"
 #include "ImGuizmo.h"
 #include "ChinaEngine.h"
+#include "PhysicsServer.h"
 #include "SceneManager.h"
-#include "ResourceManager.h"
+#include "Scene.h"
 #include "Input.h"
 #include "Camera.h"
-#include "GameObject.h"
-#include "Material.h"
-#include "Mesh.h"
-#include "MeshRenderer.h"
-#include "Scene.h"
+#include "CameraComponent.h"
+
+#include "Debug.h"
 
 const ImGuizmo::OPERATION& cs::editor::EngineEditor::GetOperationState()
 {
@@ -35,14 +34,41 @@ void cs::editor::EngineEditor::SetPlaymode(const Playmode newPlaymode)
 	switch (mode)
 	{
 	case cs::editor::EngineEditor::Playmode::EDITOR:
+	{
 		SceneManager::mainCamera = editorCamera;
 		break;
+	}
 	case cs::editor::EngineEditor::Playmode::PLAY:
-		// TODO: Switch to game camera
+	{
+		Scene* _scene{ SceneManager::GetCurrentScene() };
+
+		if (_scene != nullptr)
+		{
+			auto _camera{ SceneManager::GetRegistry().view<CameraComponent>() };
+
+			if (_camera.empty())
+			{
+				Debug::LogError("Cannot run a scene with no cameras. Add a camera component!");
+				mode = Playmode::EDITOR;
+			}
+			else
+			{
+				SceneManager::mainCamera = &SceneManager::GetRegistry().get<CameraComponent>(_camera.front());
+				_scene->Start();
+			}
+		}
+		else
+		{
+			Debug::LogError("You do not have any scenes active.");
+			mode = Playmode::EDITOR;
+		}
+
 		break;
+	}
 	case cs::editor::EngineEditor::Playmode::PAUSE:
-		
+	{
 		break;
+	}
 	}
 }
 
@@ -72,7 +98,9 @@ void cs::editor::EngineEditor::Start()
 	Input::AddMapping("editor_snap", GLFW_KEY_LEFT_SHIFT);
 
 	editorCamera = new EditorCamera(this);
-	Camera::CalculatePerspective(*editorCamera);
+	//editorCamera->projection = CameraBase::Projection::ORTHOGRAPHIC;
+	//editorCamera->SetExtents(42.0f, 80.0f);
+	Camera::CalculateProjection(*editorCamera);
 
 	uiLayer = new ImGuiLayer(this);
 
