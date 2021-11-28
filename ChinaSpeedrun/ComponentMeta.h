@@ -6,6 +6,7 @@ namespace cs
 	class ComponentMeta
 	{
 	public:
+		// TODO: Find a better way to do reflection
 		enum Type : unsigned
 		{
 			AUDIO_COMPONENT_TYPE,
@@ -14,6 +15,7 @@ namespace cs
 			TRANSFORM_COMPONENT_TYPE,
 			PHYSICS_COMPONENT_TYPE,
 			BSOD_COMPONENT_TYPE,
+			JPHYSICS_COMPONENT_TYPE,
 			__COMPONENT_ENUM_TYPE_MAX,
 			UNDEFINED_COMPONENT_TYPE
 		};

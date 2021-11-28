@@ -1,16 +1,17 @@
 #pragma once
 
-#include "JCollisionAlgorithm.h"
+#include "JCollisionPoints.h"
 
 namespace cs
 {
-	class RigidBodyComponent;
+	class JPhysicsComponent;
 	class TransformComponent;
 
 	struct JCollision
 	{
 		TransformComponent* tc1, * tc2;
-		RigidBodyComponent* rbc1, * rbc2;
+		JPhysicsComponent* pc1, * pc2;
 		JCollisionPoints points;
+		JCollision();
 	};
 }

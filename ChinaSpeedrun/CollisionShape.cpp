@@ -2,7 +2,7 @@
 
 #include <b2/b2_circle_shape.h>
 
-void cs::JCollisionShape::SetType(Type newType)
+void cs::CollisionShape::SetType(Type newType)
 {
 	if (newType != type)
 	{
@@ -36,7 +36,7 @@ void cs::JCollisionShape::SetType(Type newType)
 	}
 }
 
-cs::JCollisionShape::JCollisionShape() : shape(nullptr), type(Type::None)
+cs::CollisionShape::CollisionShape() : shape(nullptr), type(Type::None)
 {
 }
 

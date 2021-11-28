@@ -187,6 +187,16 @@ namespace cs
 			cereal::make_nvp("scale", c.scale)
 		);
 	}
+
+	template<class Archive>
+	void serialize(Archive& ar, JPhysicsComponent& c)
+	{
+		ar(
+			cereal::make_nvp("mass", c.mass),
+			cereal::make_nvp("velocity", c.velocity),
+			cereal::make_nvp("force", c.force)
+		);
+	}
 }
 
 

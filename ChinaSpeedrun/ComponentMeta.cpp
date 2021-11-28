@@ -11,6 +11,7 @@ std::string cs::ComponentMeta::TypeToName(Type type)
 	case MESH_RENDERER_COMPONENT_TYPE:	return "MeshRenderer";
 	case TRANSFORM_COMPONENT_TYPE:		return "Transform";
 	case BSOD_COMPONENT_TYPE:			return "BSOD";
+	case JPHYSICS_COMPONENT_TYPE:		return "JPhysics";
 	default:							return "";
 	}
 }

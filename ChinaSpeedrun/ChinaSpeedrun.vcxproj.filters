@@ -188,8 +188,12 @@
     <ClCompile Include="JPhysicsSystem.cpp">
       <Filter>ecs\physics jarle</Filter>
     </ClCompile>
-    <ClCompile Include="JCollision.cpp" />
-    <ClCompile Include="JCollisionPoints.cpp" />
+    <ClCompile Include="JCollision.cpp">
+      <Filter>ecs\physics jarle</Filter>
+    </ClCompile>
+    <ClCompile Include="JCollisionPoints.cpp">
+      <Filter>ecs\physics jarle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -366,8 +370,12 @@
     <ClInclude Include="JPhysicsSystem.h">
       <Filter>ecs\physics jarle</Filter>
     </ClInclude>
-    <ClInclude Include="JCollision.h" />
-    <ClInclude Include="JCollisionPoints.h" />
+    <ClInclude Include="JCollisionPoints.h">
+      <Filter>ecs\physics jarle</Filter>
+    </ClInclude>
+    <ClInclude Include="JCollision.h">
+      <Filter>ecs\physics jarle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">

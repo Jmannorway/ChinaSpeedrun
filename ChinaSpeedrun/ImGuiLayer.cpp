@@ -93,6 +93,23 @@ void cs::editor::ImGuiLayer::Step()
 	{
 		if (activeObject != nullptr)
 		{
+            // TODO: Move to inspector (there was a bug that didn't let me open the combo last time I attempted this)
+            ImGui::SameLine();
+            if (ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
+            {
+                for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
+                {
+                    auto _type = static_cast<ComponentMeta::Type>(i);
+
+                    // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
+                    if (ImGui::Selectable(ComponentMeta::TypeToName(_type).c_str()) &&
+                        !activeObject->HasComponentType(_type))
+                        activeObject->AddComponentType(_type);
+                }
+
+                ImGui::EndCombo();
+            }
+
             ImGui::Checkbox("", &activeObject->active);
             ImGui::SameLine();
 			ImGui::Text(activeObject->name.c_str());
@@ -135,55 +152,6 @@ void cs::editor::ImGuiLayer::Step()
 
             DrawStopSimulationButton();
             break;
-        }
-
-        ImGui::SameLine();
-        ImGui::Button("New Scene");
-        if (ImGui::IsItemClicked())
-        {
-            SceneManager::Load(SceneManager::CreateScene(
-                "New scene " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
-        }
-
-        ImGui::SameLine();
-        ImGui::Button("Save Scene");
-        if (ImGui::IsItemClicked())
-        {
-            SceneManager::Save();
-        }
-
-        ImGui::SameLine();
-        ImGui::Button("Load Scene");
-        if (ImGui::IsItemClicked())
-        {
-            SceneManager::Load();
-        }
-
-        ImGui::SameLine();
-        ImGui::Button("Add Entity");
-        if (ImGui::IsItemClicked())
-        {
-            std::string _objectName = "New Entity " + std::to_string(SceneManager::GetCurrentActiveScene()->GetObjectCount());
-            SceneManager::InstanceObject(_objectName.c_str());
-        }
-
-        // TODO: Move to inspector (there was a bug that didn't let me open the combo last time I attempted this)
-        ImGui::SameLine();
-        if (activeObject && ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
-        {
-            for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
-            {
-                auto _type = static_cast<ComponentMeta::Type>(i);
-
-                ImGui::Selectable(
-                    ComponentMeta::TypeToName(_type).c_str());
-
-                // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
-                if (ImGui::IsItemClicked() && !activeObject->HasComponentType(_type))
-                    activeObject->AddComponentType(_type);
-            }
-
-            ImGui::EndCombo();
         }
 
         IsWindowHovered();

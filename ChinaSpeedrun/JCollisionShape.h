@@ -3,9 +3,9 @@
 #include "JCollisionAlgorithm.h"
 
 #define DEFINE_TEST_COLLISION_OVERRIDES()\
-JCollisionPoints TestCollision(const TransformComponent* tc, const JCollisionPlane* cp, const TransformComponent* cptc) const override;\
 JCollisionPoints TestCollision(const TransformComponent* tc, const JCollisionShape* cs, const TransformComponent* cptc) const override;\
 JCollisionPoints TestCollision(const TransformComponent* tc, const JCollisionSphere* cs, const TransformComponent* cstc) const override;\
+JCollisionPoints TestCollision(const TransformComponent* tc, const JCollisionPlane* cp, const TransformComponent* cptc) const override;\
 JCollisionPoints TestCollision(const TransformComponent* tc, const JCollisionTriangle* ct, const TransformComponent* cttc) const override;
 
 namespace cs
@@ -18,6 +18,7 @@ namespace cs
 
 	struct JCollisionShape
 	{
+		// TODO: Fix inconsistencies in shape specific TestCollision implementations
 		virtual JCollisionPoints TestCollision(
 			const TransformComponent* tc, const JCollisionSphere* cs, const TransformComponent* cstc) const = 0;
 		virtual JCollisionPoints TestCollision(

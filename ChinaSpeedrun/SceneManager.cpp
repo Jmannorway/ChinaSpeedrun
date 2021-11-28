@@ -220,25 +220,31 @@ void cs::SceneManager::FreeScene(Scene* scene)
 
 void cs::SceneManager::DrawScenes()
 {
-	if (ImGui::Button("Create"))
+	if (ImGui::Button("New Scene"))
 	{
-		// prompt the user
-
-		//SceneManager::CreateScene("");
+		Load(CreateScene("New scene " + std::to_string(GetCurrentActiveSceneNumber())));
 	}
 
 	ImGui::SameLine();
 
-	if (ImGui::Button("Save"))
+	if (ImGui::Button("Save Scene"))
 	{
-		// prompt the user
+		Save();
 	}
 
 	ImGui::SameLine();
 
-	if (ImGui::Button("Load"))
+	if (ImGui::Button("Load Scene"))
 	{
-		// prompt the user
+		Load();
+	}
+
+	ImGui::SameLine();
+
+	if (GetCurrentActiveScene() && ImGui::Button("+"))
+	{
+		std::string _objectName = "New Entity " + std::to_string(GetCurrentActiveScene()->GetObjectCount());
+		InstanceObject(_objectName.c_str());
 	}
 
 	for (size_t i{ 0 }; i < activeScenes.size(); i++)
