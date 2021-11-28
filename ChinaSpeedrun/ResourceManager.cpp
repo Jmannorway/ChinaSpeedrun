@@ -570,7 +570,7 @@ std::string cs::ResourceManager::GetNameFromPath(std::string path)
 	const auto _lastSlash{ path.rfind("\\")};
 	const auto _lastPeriod{ path.rfind(".")};
 
-	if (_lastSlash != std::string::npos && _lastSlash < _lastPeriod)
+	if (_lastSlash != std::string::npos && _lastPeriod != std::string::npos && _lastSlash < _lastPeriod)
 		return path.substr(_lastSlash + 1, _lastSlash - _lastPeriod);
 
 	return path.substr(_lastSlash + 1);

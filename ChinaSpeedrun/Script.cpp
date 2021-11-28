@@ -6,16 +6,10 @@
 #include "Input.h"
 
 #include "Time.h"
-#include "Editor.h"
 
 #include "ResourceManager.h"
 #include "Transform.h"
-#include "CameraComponent.h"
-#include "MeshRenderer.h"
-#include "SpriteRenderer.h"
 #include "BSpline.h"
-#include "StaticBody.h"
-#include "Rigidbody.h"
 
 cs::ScriptComponent::ScriptComponent() :
 	luaState{ nullptr }, script{ nullptr }, luaOK{ false }

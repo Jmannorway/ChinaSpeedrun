@@ -16,6 +16,7 @@
 #include "ChinaEngine.h"
 #include "SceneManager.h"
 #include "Camera.h"
+#include "ResourceManager.h"
 
 cs::editor::ImGuiLayer::ImGuiLayer(EngineEditor* root) :
     editorRoot{ root }, activeObject{ nullptr }, isManipulating{ false }, isWindowActive{ false }
@@ -93,23 +94,6 @@ void cs::editor::ImGuiLayer::Step()
 	{
 		if (activeObject != nullptr)
 		{
-            if (ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
-            {
-                for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
-                {
-                    auto _type = static_cast<ComponentMeta::Type>(i);
-
-                    ImGui::Selectable(
-                        ComponentMeta::TypeToName(_type).c_str());
-
-                    // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
-                    if (ImGui::IsItemClicked() && !activeObject->HasComponentType(_type))
-                        activeObject->AddComponentType(_type);
-                }
-
-                ImGui::EndCombo();
-            }
-
             ImGui::Checkbox("", &activeObject->active);
             ImGui::SameLine();
 			ImGui::Text(activeObject->name.c_str());
@@ -152,6 +136,25 @@ void cs::editor::ImGuiLayer::Step()
 
             DrawStopSimulationButton();
             break;
+        }
+
+        ImGui::SameLine();
+
+        // TODO: Move to inspector
+        if (activeObject && ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
+        {
+            for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
+            {
+                const auto _type = static_cast<ComponentMeta::Type>(i);
+
+                // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
+                if (ImGui::Selectable(ComponentMeta::TypeToName(_type).c_str()) && !activeObject->HasComponentType(_type))
+                {
+                    auto _c = activeObject->AddComponentType(_type);
+                }
+            }
+
+            ImGui::EndCombo();
         }
 
         IsWindowHovered();
