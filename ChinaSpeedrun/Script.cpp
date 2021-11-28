@@ -19,7 +19,9 @@
 
 cs::ScriptComponent::ScriptComponent() :
 	luaState{ nullptr }, script{ nullptr }, luaOK{ false }
-{}
+{
+	type = ComponentMeta::SCRIPT_COMPONENT_TYPE;
+}
 
 void cs::ScriptComponent::Init()
 {

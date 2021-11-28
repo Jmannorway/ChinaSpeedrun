@@ -6,4 +6,5 @@
 #include "AudioComponent.h"
 #include "PhysicsComponent.h"
 #include "BSODComponent.h"
+#include "Script.h"
 #include "JPhysicsComponent.h"

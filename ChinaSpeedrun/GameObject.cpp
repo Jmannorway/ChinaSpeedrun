@@ -50,6 +50,7 @@ bool cs::GameObject::HasComponentType(ComponentMeta::Type type)
 	case ComponentMeta::TRANSFORM_COMPONENT_TYPE:		return HasComponent<TransformComponent>();
 	case ComponentMeta::BSOD_COMPONENT_TYPE:			return HasComponent<BSODComponent>();
 	case ComponentMeta::JPHYSICS_COMPONENT_TYPE:		return HasComponent<JPhysicsComponent>();
+	case ComponentMeta::SCRIPT_COMPONENT_TYPE:			return HasComponent<ScriptComponent>();
 
 	default:
 		Debug::LogWarning("HasComponentType: Cannot check for an unregistered or non-existent component");
@@ -68,6 +69,7 @@ cs::Component* cs::GameObject::AddComponentType(ComponentMeta::Type type)
 	case ComponentMeta::TRANSFORM_COMPONENT_TYPE:		return &AddComponent<TransformComponent>();
 	case ComponentMeta::BSOD_COMPONENT_TYPE:			return &AddComponent<BSODComponent>();
 	case ComponentMeta::JPHYSICS_COMPONENT_TYPE:		return &AddComponent<JPhysicsComponent>();
+	case ComponentMeta::SCRIPT_COMPONENT_TYPE:			return &AddComponent<ScriptComponent>();
 
 	default:
 		Debug::LogWarning("AddComponentType: Cannot emplace unregistered or non-existent component");

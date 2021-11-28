@@ -197,6 +197,24 @@ namespace cs
 			cereal::make_nvp("force", c.force)
 		);
 	}
+
+	template<class Archive>
+	void save(Archive& ar, const ScriptComponent& c)
+	{
+		ar(
+			cereal::make_nvp("script", c.GetScript()->GetResourcePath())
+		);
+	}
+
+	template<class Archive>
+	void load(Archive& ar, ScriptComponent& c)
+	{
+		std::string _scriptPath;
+
+		ar(
+			cereal::make_nvp("script", _scriptPath)
+		);
+
+		c.SetScript(ResourceManager::LoadScript(_scriptPath));
+	}
 }
-
-

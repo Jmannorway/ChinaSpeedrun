@@ -4,7 +4,6 @@ std::string cs::ComponentMeta::TypeToName(Type type)
 {
 	switch (type)
 	{
-	case UNDEFINED_COMPONENT_TYPE:		return "Component";
 	case AUDIO_COMPONENT_TYPE:			return "Audio";
 	case CAMERA_COMPONENT_TYPE:			return "Camera";
 	case PHYSICS_COMPONENT_TYPE:		return "Physics";
@@ -12,6 +11,8 @@ std::string cs::ComponentMeta::TypeToName(Type type)
 	case TRANSFORM_COMPONENT_TYPE:		return "Transform";
 	case BSOD_COMPONENT_TYPE:			return "BSOD";
 	case JPHYSICS_COMPONENT_TYPE:		return "JPhysics";
+	case SCRIPT_COMPONENT_TYPE:			return "Script";
+	case UNDEFINED_COMPONENT_TYPE:		return "Component";
 	default:							return "";
 	}
 }
