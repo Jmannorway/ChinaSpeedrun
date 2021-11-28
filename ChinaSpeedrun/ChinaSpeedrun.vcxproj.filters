@@ -176,10 +176,20 @@
     <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="Delaunay.cpp" />
     <ClCompile Include="Draw.cpp" />
-    <ClCompile Include="JCollisionAlgorithm.cpp" />
-    <ClCompile Include="JPhysicsSystem.cpp" />
-    <ClCompile Include="JCollisionShape.cpp" />
-    <ClCompile Include="JPhysicsComponent.cpp" />
+    <ClCompile Include="JCollisionAlgorithm.cpp">
+      <Filter>ecs\physics jarle</Filter>
+    </ClCompile>
+    <ClCompile Include="JCollisionShape.cpp">
+      <Filter>ecs\physics jarle</Filter>
+    </ClCompile>
+    <ClCompile Include="JPhysicsComponent.cpp">
+      <Filter>ecs\physics jarle</Filter>
+    </ClCompile>
+    <ClCompile Include="JPhysicsSystem.cpp">
+      <Filter>ecs\physics jarle</Filter>
+    </ClCompile>
+    <ClCompile Include="JCollision.cpp" />
+    <ClCompile Include="JCollisionPoints.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -344,10 +354,20 @@
     <ClInclude Include="WindowsPlatformUtils.h">
       <Filter>editor</Filter>
     </ClInclude>
-    <ClInclude Include="JCollisionAlgorithm.h" />
-    <ClInclude Include="JPhysicsSystem.h" />
-    <ClInclude Include="JCollisionShape.h" />
-    <ClInclude Include="JPhysicsComponent.h" />
+    <ClInclude Include="JCollisionAlgorithm.h">
+      <Filter>ecs\physics jarle</Filter>
+    </ClInclude>
+    <ClInclude Include="JCollisionShape.h">
+      <Filter>ecs\physics jarle</Filter>
+    </ClInclude>
+    <ClInclude Include="JPhysicsComponent.h">
+      <Filter>ecs\physics jarle</Filter>
+    </ClInclude>
+    <ClInclude Include="JPhysicsSystem.h">
+      <Filter>ecs\physics jarle</Filter>
+    </ClInclude>
+    <ClInclude Include="JCollision.h" />
+    <ClInclude Include="JCollisionPoints.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">

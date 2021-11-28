@@ -186,7 +186,9 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ImGuiLayer.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="JCollision.cpp" />
     <ClCompile Include="JCollisionAlgorithm.cpp" />
+    <ClCompile Include="JCollisionPoints.cpp" />
     <ClCompile Include="JCollisionShape.cpp" />
     <ClCompile Include="JPhysicsComponent.cpp" />
     <ClCompile Include="JPhysicsSystem.cpp" />
@@ -248,7 +250,9 @@
     <ClInclude Include="Editor.h" />
     <ClInclude Include="ImGuiLayer.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="JCollision.h" />
     <ClInclude Include="JCollisionAlgorithm.h" />
+    <ClInclude Include="JCollisionPoints.h" />
     <ClInclude Include="JCollisionShape.h" />
     <ClInclude Include="JPhysicsComponent.h" />
     <ClInclude Include="JPhysicsSystem.h" />
