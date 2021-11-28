@@ -473,6 +473,8 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 	LoadComponentsInScene<MeshRendererComponent>(_inArchive, _scene);
 	LoadComponentsInScene<TransformComponent>(_inArchive, _scene);
 	LoadComponentsInScene<PhysicsComponent>(_inArchive, _scene);
+	LoadComponentsInScene<JPhysicsComponent>(_inArchive, _scene);
+	LoadComponentsInScene<ScriptComponent>(_inArchive, _scene);
 
 	return _scene;
 }
@@ -506,16 +508,16 @@ bool cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 	_cc.resize(scene->gameObjects.size());
 	for (int i = 0; i < scene->gameObjects.size(); i++)
 	{
-		_cc[i].resize(ComponentMeta::__COMPONENT_ENUM_TYPE_MAX);
+		_cc[i].resize(ComponentMeta::GetComponentTypeMax());
 
-		for (int ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
+		for (int ii = 0; ii < ComponentMeta::GetComponentTypeMax(); ii++)
 			_cc[i][ii] = 0;
 
 		for (auto c : scene->gameObjects[i]->GetAllComponents())
 		{
 			ComponentMeta::Type _type(c->GetType());
 
-			if (_type > 0 && _type < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX)
+			if (_type > 0 && _type < ComponentMeta::GetComponentTypeMax())
 				_cc[i][c->GetType()]++;
 			else
 				std::cerr << c->gameObject->name << " component: " << c->GetType() << " is not a valid component" << std::endl;
@@ -534,6 +536,8 @@ bool cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 	SaveComponentsInScene<MeshRendererComponent>(_outArchive, scene);
 	SaveComponentsInScene<TransformComponent>(_outArchive, scene);
 	SaveComponentsInScene<PhysicsComponent>(_outArchive, scene);
+	SaveComponentsInScene<JPhysicsComponent>(_outArchive, scene);
+	SaveComponentsInScene<ScriptComponent>(_outArchive, scene);
 
 	return true;
 }
@@ -599,9 +603,9 @@ void cs::ResourceManager::ClearAllResourcePools()
 		ChinaEngine::renderer.SolveMaterial(material.second, Solve::REMOVE);
 	materials.clear();
 
-	/*for (const std::pair<std::string, AudioData*> audio : audioTracks)
+	/*for (const std::pair<std::string, AudioData*> audio : audio)
 		delete audio.second;
-	audioTracks.clear();*/
+	audio.clear();*/
 
 	for (const std::pair<std::string, Script*> script : scripts)
 		delete script.second;
@@ -610,34 +614,22 @@ void cs::ResourceManager::ClearAllResourcePools()
 
 void cs::ResourceManager::CreateDefaultResources()
 {
-	if (defaultMesh == nullptr)
-	{
-		defaultMesh = Load<Mesh>("default_mesh.obj");
-	}
+	defaultMesh = Load<Mesh>("default_mesh.obj");
 
-	if (defaultTexture == nullptr)
-	{
-		defaultTexture = Load<Texture>("default_texture.png");
-		defaultTexture->filter = Texture::Filter::NEAREST;
-	}
+	defaultTexture = Load<Texture>("default_texture.png");
+	defaultTexture->filter = Texture::Filter::NEAREST;
 
-	if (defaultShader == nullptr)
-	{
-		defaultShader = Load<Shader>("default_shader");
-		defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
-		defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
-		defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
-		defaultShader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
-		defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
-		defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
-	}
+	defaultShader = Load<Shader>("default_shader");
+	defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
+	defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
+	defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
+	defaultShader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
+	defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
+	defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
 
-	if (defaultMaterial == nullptr)
-	{
-		defaultMaterial = Load<Material>("default_material.mat");
-		defaultMaterial->shader = defaultShader;
-		defaultMaterial->shaderParams["texSampler"] = defaultTexture;
-	}
+	defaultMaterial = Load<Material>("default_material.mat");
+	defaultMaterial->shader = defaultShader;
+	defaultMaterial->shaderParams["texSampler"] = defaultTexture;
 }
 
 cs::Mesh* cs::ResourceManager::GetDefaultMesh()
