@@ -11,16 +11,16 @@
       <Filter>ecs\audio</Filter>
     </ClCompile>
     <ClCompile Include="CollisionShape.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsBody.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsServer.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="PolygonCollider.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>ecs\physics</Filter>
@@ -41,13 +41,13 @@
       <Filter>ecs\rendering</Filter>
     </ClCompile>
     <ClCompile Include="StaticBody.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>ecs</Filter>
@@ -74,7 +74,7 @@
       <Filter>resources</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClCompile>
     <ClCompile Include="..\Libraries\imgui\scr\imgui.cpp">
       <Filter>imgui</Filter>
@@ -176,6 +176,10 @@
     <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="Delaunay.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="JCollisionAlgorithm.cpp" />
+    <ClCompile Include="JPhysicsSystem.cpp" />
+    <ClCompile Include="JCollisionShape.cpp" />
+    <ClCompile Include="JPhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -189,16 +193,16 @@
       <Filter>ecs\audio</Filter>
     </ClInclude>
     <ClInclude Include="CollisionShape.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsBody.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsServer.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="PolygonCollider.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
       <Filter>ecs\physics</Filter>
@@ -219,13 +223,13 @@
       <Filter>ecs\rendering</Filter>
     </ClInclude>
     <ClInclude Include="StaticBody.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="Rigidbody.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>ecs</Filter>
@@ -255,7 +259,7 @@
       <Filter>resources</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>ecs\old physics</Filter>
+      <Filter>ecs\physics mads</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiLayer.h">
       <Filter>imgui</Filter>
@@ -340,6 +344,10 @@
     <ClInclude Include="WindowsPlatformUtils.h">
       <Filter>editor</Filter>
     </ClInclude>
+    <ClInclude Include="JCollisionAlgorithm.h" />
+    <ClInclude Include="JPhysicsSystem.h" />
+    <ClInclude Include="JCollisionShape.h" />
+    <ClInclude Include="JPhysicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">
@@ -347,9 +355,6 @@
     </Filter>
     <Filter Include="ecs\audio">
       <UniqueIdentifier>{a2a10cf5-7f4e-4a88-a8ee-bd31ee3db729}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ecs\old physics">
-      <UniqueIdentifier>{d19afd7e-df5e-4167-8868-e03e2d133dd0}</UniqueIdentifier>
     </Filter>
     <Filter Include="ecs\physics">
       <UniqueIdentifier>{d2272386-9593-4f0e-95e2-dba5c5135f23}</UniqueIdentifier>
@@ -386,6 +391,12 @@
     </Filter>
     <Filter Include="ecs\bsod">
       <UniqueIdentifier>{eded514a-79b1-4fcc-aba5-5f0e3e1132a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\physics jarle">
+      <UniqueIdentifier>{76f7258a-5d43-40e7-937b-827a98e63e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs\physics mads">
+      <UniqueIdentifier>{d19afd7e-df5e-4167-8868-e03e2d133dd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
