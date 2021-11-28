@@ -29,7 +29,7 @@ namespace cs
 		b2BodyDef definition;
 		b2Body* body;
 		PhysicsDelta delta;
-		CollisionShape shape;
+		JCollisionShape shape;
 		
 		void QueueForUpdate();
 		void QueueForCreation();

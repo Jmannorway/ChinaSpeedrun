@@ -3,40 +3,40 @@
 #include "JCollisionShape.h"
 #include "Transform.h"
 
-cs::CollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const CollisionSphere* cs, const TransformComponent* cstc,
-	const CollisionPlane* cp, const TransformComponent* cptc)
+cs::CollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSphere* cs, const TransformComponent* cstc,
+	const JCollisionPlane* cp, const TransformComponent* cptc)
 {
-	return CollisionPoints();
+	return JCollisionPoints();
 }
 
-cs::CollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const CollisionSphere* cs,
-	const TransformComponent* cstc, const CollisionTriangle* ct, const TransformComponent* cttc)
+cs::CollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisionSphere* cs,
+	const TransformComponent* cstc, const JCollisionTriangle* ct, const TransformComponent* cttc)
 {
-	return CollisionPoints();
+	return JCollisionPoints();
 }
 
 cs::CollisionPoints cs::algo::FindPlanePlaneCollisionPoints(
-	const CollisionPlane* cp1, const TransformComponent* cptc1, const CollisionPlane* cp2, const TransformComponent* cptc2)
+	const JCollisionPlane* cp1, const TransformComponent* cptc1, const JCollisionPlane* cp2, const TransformComponent* cptc2)
 {
-	return CollisionPoints();
+	return JCollisionPoints();
 }
 
 cs::CollisionPoints cs::algo::FindPlaneTriangleCollisionPoints(
-	const CollisionPlane* cp, const TransformComponent* cptc, const CollisionTriangle* ct, const TransformComponent* cttc)
+	const JCollisionPlane* cp, const TransformComponent* cptc, const JCollisionTriangle* ct, const TransformComponent* cttc)
 {
-	return CollisionPoints();
+	return JCollisionPoints();
 }
 
 cs::CollisionPoints cs::algo::FindTriangleTriangleCollisionPoints(
-	const CollisionTriangle* ct1, const TransformComponent* cttc1, const CollisionTriangle* ct2, const TransformComponent* cttc2)
+	const JCollisionTriangle* ct1, const TransformComponent* cttc1, const JCollisionTriangle* ct2, const TransformComponent* cttc2)
 {
-	return CollisionPoints();
+	return JCollisionPoints();
 }
 
 cs::CollisionPoints cs::algo::FindSphereSphereCollisionPoints(
-	const CollisionSphere* cs1, const TransformComponent* cstc1, const CollisionSphere* cs2, const TransformComponent* cstc2)
+	const JCollisionSphere* cs1, const TransformComponent* cstc1, const JCollisionSphere* cs2, const TransformComponent* cstc2)
 {
-	CollisionPoints _points;
+	JCollisionPoints _points;
 	const float _distance(distance(cstc1->position, cstc2->position));
 	_points.normal = normalize(cstc2->position - cstc1->position);
 	_points.a = cstc1->position + _points.normal * cs1->radius;

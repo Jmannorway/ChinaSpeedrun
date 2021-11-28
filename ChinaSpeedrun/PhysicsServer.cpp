@@ -72,7 +72,7 @@ void cs::PhysicsServer::Test()
 			CollisionInfo _info{ PhysicsBody::CompareBodies(a, b) };
 
 			if (_info.valid)
-				collisionQueue.emplace_back(Collision(a, b, _info));
+				collisionQueue.emplace_back(JCollision(a, b, _info));
 		}
 	}
 }
@@ -191,6 +191,6 @@ cs::CollisionInfo cs::collision_tests::BarycentricIntersection(const TransformCo
 	return CollisionInfo();
 }
 
-cs::Collision::Collision(PhysicsBodyComponent* a, PhysicsBodyComponent* b, CollisionInfo newInfo) :
+cs::JCollision::JCollision(PhysicsBodyComponent* a, PhysicsBodyComponent* b, CollisionInfo newInfo) :
 	bodyA{ a }, bodyB{ b }, info{ newInfo }
 {}

@@ -7,10 +7,10 @@ namespace cs
 	class RigidBodyComponent;
 	class TransformComponent;
 
-	struct Collision
+	struct JCollision
 	{
 		TransformComponent* tc1, * tc2;
 		RigidBodyComponent* rbc1, * rbc2;
-		CollisionPoints points;
+		JCollisionPoints points;
 	};
 }

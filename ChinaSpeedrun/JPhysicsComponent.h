@@ -4,14 +4,14 @@
 
 namespace cs
 {
-	class CollisionShape;
+	class JCollisionShape;
 
 	class JPhysicsComponent : public Component
 	{
 	public:
 		float mass;
 		Vector3 velocity, force;
-		CollisionShape* shape;
+		JCollisionShape* shape;
 		void Init() override;
 		void ImGuiDrawComponent() override;
 		JPhysicsComponent();

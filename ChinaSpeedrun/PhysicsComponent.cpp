@@ -67,7 +67,7 @@ void cs::PhysicsComponent::ImGuiDrawComponent()
 		int _type(static_cast<int>(shape.GetType()));
 		if (ImGui::Combo("Shape", &_type, _options, IM_ARRAYSIZE(_options)))
 		{
-			CollisionShape::Type _newType(static_cast<CollisionShape::Type>(_type));
+			JCollisionShape::Type _newType(static_cast<JCollisionShape::Type>(_type));
 			shape.SetType(_newType);
 		}
 
@@ -77,7 +77,7 @@ void cs::PhysicsComponent::ImGuiDrawComponent()
 		 */
 		switch (shape.GetType())
 		{
-			case CollisionShape::Type::Circle:
+			case JCollisionShape::Type::Circle:
 				if (ImGui::TreeNodeEx("Circle Shape", ImGuiTreeNodeFlags_DefaultOpen))
 				{
 					ImGui::DragFloat("Radius", &shape.shape->m_radius, dragSpeed, -1000.f, 1000.f);
@@ -85,7 +85,7 @@ void cs::PhysicsComponent::ImGuiDrawComponent()
 				}
 				break;
 
-			case CollisionShape::Type::Rectangle:
+			case JCollisionShape::Type::Rectangle:
 				if (ImGui::TreeNodeEx("Rectangle Shape", ImGuiTreeNodeFlags_DefaultOpen))
 				{
 					auto* _rectangle(reinterpret_cast<b2BoxShape*>(shape.shape));

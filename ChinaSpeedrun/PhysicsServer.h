@@ -16,13 +16,13 @@ namespace cs
 		float errorLength{ 0.0f };
 	};
 
-	struct Collision
+	struct JCollision
 	{
 		class PhysicsBodyComponent* bodyA;
 		PhysicsBodyComponent* bodyB;
 		CollisionInfo info;
 
-		Collision(PhysicsBodyComponent* a, PhysicsBodyComponent* b, CollisionInfo newInfo);
+		JCollision(PhysicsBodyComponent* a, PhysicsBodyComponent* b, CollisionInfo newInfo);
 	};
 
 	struct RaycastHit
@@ -61,7 +61,7 @@ namespace cs
 		void Solve();
 
 	private:
-		std::vector<Collision> collisionQueue;
+		std::vector<JCollision> collisionQueue;
 
 		static bool TestRayAgainstAxis(const Vector3 axis, const Vector3& delta, const Vector3& direction, float& minDistance, float& maxDistance, const float& obbMin, const float& obbMax);
 	};
