@@ -23,7 +23,6 @@
 #include "SphereCollider.h"
 #include "StaticBody.h"
 #include "Rigidbody.h"
-#include "Script.h"
 #include "BulletManagerComponent.h"
 
 #include "Delaunay.h"
@@ -74,6 +73,7 @@ void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth
 
 void cs::ChinaEngine::EngineInit()
 {
+<<<<<<< HEAD
 	Shader* _shader{ ResourceManager::Load<Shader>("../Resources/shaders/default_shader") };
 	_shader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
 	_shader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
@@ -117,6 +117,28 @@ void cs::ChinaEngine::EngineInit()
 		GameObject* _camera = SceneManager::InstanceObject("Camera", Vector3(0.f, 0.f, -3.f));
 		CameraComponent& _cameraComponent{ _camera->AddComponent<CameraComponent>() };*/
 	}
+=======
+	Shader* _defaultShader;
+	Texture* _defaultTexture;
+	Material* _defaultMaterial;
+
+	_defaultShader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
+	_defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
+	_defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
+	_defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
+	_defaultShader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
+	_defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
+	_defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
+
+	_defaultTexture = ResourceManager::Load<Texture>("../Resources/textures/default_texture.png");
+	_defaultTexture->filter = Texture::Filter::NEAREST;
+
+	_defaultMaterial = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
+	_defaultMaterial->shader = _defaultShader;
+	_defaultMaterial->shaderParams["texSampler"] = _defaultTexture;
+
+	SceneManager::Load(SceneManager::CreateScene("Default Scene"));
+>>>>>>> parent of 6438da9 (Load default things)
 }
 
 void cs::ChinaEngine::InitInput()
