@@ -113,7 +113,9 @@ void cs::editor::ImGuiLayer::Step()
             if (ImGui::Button("Play"))
             {
 
-                
+                if (SceneManager::GetCurrentScene()->GetResourcePath().empty())
+                    if (!SceneManager::Save())
+                        break;
 
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PLAY);
             }
@@ -149,17 +151,6 @@ void cs::editor::ImGuiLayer::Step()
                 if (ImGui::Selectable(ComponentMeta::TypeToName(_type).c_str()) && !activeObject->HasComponentType(_type))
                 {
                     auto _c = activeObject->AddComponentType(_type);
-
-                    switch(_type)
-                    {
-                    case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:
-	                    {
-                        auto _mrc = static_cast<MeshRendererComponent*>(_c);
-                        _mrc->SetMesh(ResourceManager::GetDefaultMesh());
-                        _mrc->material = ResourceManager::GetDefaultMaterial();
-	                    }
-                        break;
-                    }
                 }
             }
 

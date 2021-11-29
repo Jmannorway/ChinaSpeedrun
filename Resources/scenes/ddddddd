@@ -1,0 +1,36 @@
+{
+    "Scene Name": "ddddddd",
+    "construction count": [
+        [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            1
+        ]
+    ],
+    "New Entity 0": {
+        "name": "New Entity 0",
+        "active": true
+    },
+    "New Entity 0.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}
