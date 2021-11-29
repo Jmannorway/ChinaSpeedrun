@@ -35,12 +35,6 @@ namespace cs
 	public:
 		friend class VulkanEngineRenderer;
 
-		static void CreateDefaultResources();
-		static Mesh* GetDefaultMesh();
-		static Shader* GetDefaultShader();
-		static Texture* GetDefaultTexture();
-		static Material* GetDefaultMaterial();
-
 		template<class T>
 		static T* IsDuplicateResource(std::string filename);
 		template<class T>
@@ -196,11 +190,6 @@ namespace cs
 		static std::unordered_map<std::string, cs::Material*> materials;
 		static std::unordered_map<std::string, cs::Scene*> scenes;
 		static std::unordered_map<std::string, cs::Script*> scripts;
-
-		static Mesh* defaultMesh;
-		static Texture* defaultTexture;
-		static Shader* defaultShader;
-		static Material* defaultMaterial;
 	};
 
 	template <class T>

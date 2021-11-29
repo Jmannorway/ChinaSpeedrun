@@ -46,11 +46,6 @@ std::unordered_map<std::string, cs::AudioData*> cs::ResourceManager::audio;
 std::unordered_map<std::string, cs::Scene*> cs::ResourceManager::scenes;
 std::unordered_map<std::string, cs::Script*> cs::ResourceManager::scripts;
 
-cs::Mesh* cs::ResourceManager::defaultMesh = nullptr;
-cs::Material* cs::ResourceManager::defaultMaterial = nullptr;
-cs::Shader* cs::ResourceManager::defaultShader = nullptr;
-cs::Texture* cs::ResourceManager::defaultTexture = nullptr;
-
 std::vector<Vector3> cs::ResourceManager::LoadLAS(const std::string& filename)
 {
 	std::ifstream _file{ filename };
@@ -606,56 +601,4 @@ void cs::ResourceManager::ClearAllResourcePools()
 	for (const std::pair<std::string, Script*> script : scripts)
 		delete script.second;
 	scripts.clear();
-}
-
-void cs::ResourceManager::CreateDefaultResources()
-{
-	if (defaultMesh == nullptr)
-	{
-		defaultMesh = Load<Mesh>("default_mesh.obj");
-	}
-
-	if (defaultTexture == nullptr)
-	{
-		defaultTexture = Load<Texture>("default_texture.png");
-		defaultTexture->filter = Texture::Filter::NEAREST;
-	}
-
-	if (defaultShader == nullptr)
-	{
-		defaultShader = Load<Shader>("default_shader");
-		defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
-		defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
-		defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
-		defaultShader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
-		defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
-		defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
-	}
-
-	if (defaultMaterial == nullptr)
-	{
-		defaultMaterial = Load<Material>("default_material.mat");
-		defaultMaterial->shader = defaultShader;
-		defaultMaterial->shaderParams["texSampler"] = defaultTexture;
-	}
-}
-
-cs::Mesh* cs::ResourceManager::GetDefaultMesh()
-{
-	return defaultMesh;
-}
-
-cs::Shader* cs::ResourceManager::GetDefaultShader()
-{
-	return defaultShader;
-}
-
-cs::Texture* cs::ResourceManager::GetDefaultTexture()
-{
-	return defaultTexture;
-}
-
-cs::Material* cs::ResourceManager::GetDefaultMaterial()
-{
-	return defaultMaterial;
 }
