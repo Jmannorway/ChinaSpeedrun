@@ -46,9 +46,17 @@ namespace cs
 
 	struct JCollisionTriangle : JCollisionShape
 	{
-		Vector3 p1, p2, p3;
+		void SetPoint(unsigned index, Vector3 point);
+		void SetPoints(Vector3 p1, Vector3 p2, Vector3 p3);
+		Vector3 GetLine(unsigned index) const;
+		Vector3 GetPoint(unsigned index) const;
+		Vector3 GetNormal() const;
 		DEFINE_TEST_COLLISION_OVERRIDES()
 			JCollisionTriangle(
-				Vector3 p1 = Vector3(0.f), Vector3 p2 = Vector3(0.f), Vector3 p3 = Vector3(0.f));
+				Vector3 p1 = Vector3(0.f), Vector3 p2 = { 0.f, 1.f, 0.f }, Vector3 p3 = {0.5f, 0.5f, 0.f});
+	private:
+		void CalculateNormal();
+		Vector3 points[3];
+		Vector3 normal;
 	};
 }

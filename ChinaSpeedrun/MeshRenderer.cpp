@@ -37,6 +37,7 @@ cs::MeshRendererComponent::MeshRendererComponent() :
 
 void cs::MeshRendererComponent::SetMesh(Mesh* mesh)
 {
+
 	this->mesh = mesh;
 	GenerateOBBExtents(gameObject->obb);
 }

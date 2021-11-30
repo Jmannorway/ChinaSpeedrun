@@ -19,12 +19,12 @@
 #include "PhysicsLocator.h"
 #include "PhysicsServer.h"
 #include "PhysicsSystem.h"
-#include "Rigidbody.h"
+#include "JphysicsSystem.h"
 
 #include "Debug.h"
 
 cs::Scene::Scene() :
-	audioSystem{ new AudioSystem }, physicsServer{ new PhysicsServer }, physicsSystem{ new PhysicsSystem }
+	physicsServer{ new PhysicsServer }, audioSystem{ new AudioSystem }, physicsSystem{ new PhysicsSystem }
 {
 	PhysicsLocator::Provide(physicsSystem);
 }
@@ -298,6 +298,45 @@ void cs::Scene::UpdateComponents()
 		auto& _transformComponent{registry.get<TransformComponent>(e)};
 		physicsSystem->UpdatePositions(_physicsComponent, _transformComponent);
 	}
+
+	auto _jphysicsEntities{ registry.view<JPhysicsComponent, TransformComponent>() };
+	for (auto e : _jphysicsEntities)
+	{
+		auto& _jphysicsComponent{ registry.get<JPhysicsComponent>(e) };
+		auto& _transformComponent{ registry.get<TransformComponent>(e) };
+		JPhysicsSystem::CalculateMovement(_jphysicsComponent);
+	}
+
+	for (auto e : _jphysicsEntities)
+	{
+		auto& _jpc1{ registry.get<JPhysicsComponent>(e) };
+		auto& _tc1{ registry.get<TransformComponent>(e) };
+
+		for (auto ee : _jphysicsEntities)
+		{
+			auto& _jpc2{ registry.get<JPhysicsComponent>(ee) };
+			auto& _tc2{ registry.get<TransformComponent>(ee) };
+
+			JPhysicsSystem::DetectCollision(_jpc1, _tc1, _jpc2, _tc2);
+		}
+	}
+
+	JPhysicsSystem::SolveCollisions();
+
+	//for (auto e : _jphysicsEntities)
+	//{
+	//	auto& _jfc1{ registry.get<JPhysicsComponent>(e) };
+	//	auto& _tc1{ registry.get<TransformComponent>(e) };
+
+	//	for (auto ee : _jphysicsEntities)
+	//	{
+	//		auto& _jfc2{ registry.get<JPhysicsComponent>(ee) };
+	//		auto& _tc2{ registry.get<TransformComponent>(ee) };
+
+	//		
+	//		//JPhysicsSystem::DetectCollision(_jfc1, _tc1, _jfc2, _tc2);
+	//	}
+	//}
 
 	//physicsServer->Step();
 

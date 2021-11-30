@@ -69,9 +69,43 @@ cs::JCollisionPoints cs::JCollisionPlane::TestCollision(
 /*
  * Collision triangle
  */
-cs::JCollisionTriangle::JCollisionTriangle(Vector3 p1, Vector3 p2, Vector3 p3) :
-	p1(p1), p2(p2), p3(p3)
+void cs::JCollisionTriangle::SetPoint(unsigned index, Vector3 point)
 {
+	points[index] = point;
+	CalculateNormal();
+}
+
+void cs::JCollisionTriangle::SetPoints(Vector3 p1, Vector3 p2, Vector3 p3)
+{
+	points[0] = p1;
+	points[1] = p2;
+	points[2] = p3;
+	CalculateNormal();
+}
+
+Vector3 cs::JCollisionTriangle::GetLine(unsigned index) const
+{
+	return points[(index + 1) % 3] - points[index];
+}
+
+Vector3 cs::JCollisionTriangle::GetPoint(unsigned index) const
+{
+	return points[index];
+}
+
+Vector3 cs::JCollisionTriangle::GetNormal() const
+{
+	return normal;
+}
+
+cs::JCollisionTriangle::JCollisionTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
+{
+	SetPoints(p1, p2, p3);
+}
+
+void cs::JCollisionTriangle::CalculateNormal()
+{
+	normal = normalize(cross(GetLine(0), GetLine(1)));
 }
 
 cs::JCollisionPoints cs::JCollisionTriangle::TestCollision(

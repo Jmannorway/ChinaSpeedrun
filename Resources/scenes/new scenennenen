@@ -1,11 +1,13 @@
 {
-    "Scene Name": "transformed entity",
+    "Scene Name": "new scenennenen",
     "construction count": [
         [
             0,
             0,
-            0,
             1,
+            1,
+            0,
+            0,
             0,
             0
         ]
@@ -14,9 +16,14 @@
         "name": "New Entity 0",
         "active": true
     },
+    "New Entity 0.MeshRenderer": {
+        "mesh": "../Resources/models/default_mesh.obj",
+        "material": "../Resources/materials/line_material.mat",
+        "shader": "../Resources/shaders/line_shader"
+    },
     "New Entity 0.Transform": {
         "position": {
-            "x": 2.0,
+            "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },

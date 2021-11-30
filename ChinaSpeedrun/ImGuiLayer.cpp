@@ -112,15 +112,15 @@ void cs::editor::ImGuiLayer::Step()
         case EngineEditor::Playmode::EDITOR:
             if (ImGui::Button("Play"))
             {
-
-                if (SceneManager::GetCurrentScene()->GetResourcePath().empty())
+                // TODO: Loading meshes fucks up the scene
+                /*if (SceneManager::GetCurrentScene()->GetResourcePath().empty())
                     if (!SceneManager::Save())
-                        break;
+                        break;*/
 
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PLAY);
             }
             break;
-        case editor::EngineEditor::Playmode::PLAY:
+        case EngineEditor::Playmode::PLAY:
             if (ImGui::Button("Pause"))
             {
                 editorRoot->SetPlaymode(EngineEditor::Playmode::PAUSE);
@@ -151,6 +151,16 @@ void cs::editor::ImGuiLayer::Step()
                 if (ImGui::Selectable(ComponentMeta::TypeToName(_type).c_str()) && !activeObject->HasComponentType(_type))
                 {
                     auto _c = activeObject->AddComponentType(_type);
+
+                    switch (_type)
+                    {
+                    case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:
+	                    {
+                        auto _mrc = static_cast<MeshRendererComponent*>(_c);
+                        _mrc->SetMesh(ResourceManager::GetFirstMesh());
+                        _mrc->material = ResourceManager::GetFirstMaterial();
+	                    }
+                    }
                 }
             }
 
@@ -234,8 +244,9 @@ void cs::editor::ImGuiLayer::DrawStopSimulationButton()
     if (ImGui::IsItemClicked())
     {
         editorRoot->SetPlaymode(EngineEditor::Playmode::EDITOR);
-        SceneManager::GetCurrentScene()->Exit();
-        SceneManager::Reload(SceneManager::GetCurrentActiveScene());
+    	SceneManager::GetCurrentScene()->Exit();
+        // TODO: Reload scene
+    	//SceneManager::Reload(SceneManager::GetCurrentActiveScene());
     }
 }
 

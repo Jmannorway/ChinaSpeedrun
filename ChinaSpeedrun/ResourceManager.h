@@ -35,6 +35,9 @@ namespace cs
 	public:
 		friend class VulkanEngineRenderer;
 
+		static Material* GetFirstMaterial();
+		static Mesh* GetFirstMesh();
+
 		template<class T>
 		static T* IsDuplicateResource(std::string filename);
 		template<class T>
@@ -197,7 +200,7 @@ namespace cs
 	{
 		for (auto e : scene->registry.view<T>())
 		{
-			auto c{ scene->registry.get<T>(e) };
+			const auto c{ scene->registry.get<T>(e) };
 			archive
 			(
 				cereal::make_nvp(c.gameObject->name + "." + c.GetTypeName(), c)

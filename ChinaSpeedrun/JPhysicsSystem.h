@@ -3,22 +3,24 @@
 
 namespace cs
 {
-	struct JCollision;
+	class TransformComponent;
 	class JPhysicsComponent;
-	class JCollisionSolver;
+	struct JCollision;
 
 	class JPhysicsSystem
 	{
 	public:
 		static constexpr float margin = 0.004f;
 		static Vector3 gravity;
-		static void CalculateMovement(JPhysicsComponent* pc);
-		static void DetectCollision(JPhysicsComponent* pc1, JPhysicsComponent* pc2);
-		static void SolveCollisions();
 
+		// Regular update functions
+		static void CalculateMovement(JPhysicsComponent& pc);
+		static void DetectCollision(
+			JPhysicsComponent& pc1, TransformComponent& tc1, JPhysicsComponent& pc2, TransformComponent& tc2);
+		static void SolveCollisions();
 	private:
+		static bool ValidateComponent(JPhysicsComponent& pc);
 		static std::vector<JCollision> collisions;
-		static std::vector<JCollisionSolver> solvers;
 	};
 }
 

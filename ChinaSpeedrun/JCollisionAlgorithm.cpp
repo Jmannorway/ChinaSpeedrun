@@ -2,6 +2,7 @@
 
 #include "JCollisionShape.h"
 #include "Transform.h"
+#include "Debug.h"
 
 cs::JCollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSphere* cs, const TransformComponent* cstc,
 	const JCollisionPlane* cp, const TransformComponent* cptc)
@@ -43,5 +44,6 @@ cs::JCollisionPoints cs::algo::FindSphereSphereCollisionPoints(
 	_points.b = cstc2->position - _points.normal * cs2->radius;
 	_points.depth = -_distance + cs1->radius + cs2->radius;
 	_points.hasCollision = _distance <= cs1->radius + cs2->radius;
+	Debug::LogInfo(_distance);
 	return _points;
 }

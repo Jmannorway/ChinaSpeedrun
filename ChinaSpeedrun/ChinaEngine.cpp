@@ -23,6 +23,7 @@
 #include "SphereCollider.h"
 #include "StaticBody.h"
 #include "Rigidbody.h"
+#include "Script.h"
 #include "BulletManagerComponent.h"
 
 #include "Delaunay.h"
@@ -73,56 +74,13 @@ void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth
 
 void cs::ChinaEngine::EngineInit()
 {
-<<<<<<< HEAD
-	Shader* _shader{ ResourceManager::Load<Shader>("../Resources/shaders/default_shader") };
-	_shader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
-	_shader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
-	_shader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
-	//_shader->AssignShaderVertexInputAttrib("normal", 3, Shader::Data::VEC3);
-	_shader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
+	// Create important resources
+	Mesh* _defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/default_mesh.obj");
 
-	_shader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
-	_shader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
+	Texture* _defaultTexture = ResourceManager::Load<Texture>("../Resources/textures/default_texture.png");
+	_defaultTexture->filter = Texture::Filter::NEAREST;
 
-	Texture* _debugTexture{ ResourceManager::Load<Texture>("../Resources/textures/debug_texture.png") };
-	_debugTexture->filter = Texture::Filter::NEAREST;
-
-	Material* _material1{ ResourceManager::Load<Material>("../Resources/materials/test1.mat") };
-
-	_material1->shader = _shader;
-	_material1->shaderParams["texSampler"] = _debugTexture;
-
-	/*SceneManager::Load(SceneManager::CreateScene("Scene"));
-	auto _obj = SceneManager::InstanceObject("map");
-	auto& _c = _obj->AddComponent<MeshRendererComponent>();
-	_c.SetMesh(ResourceManager::LoadModelFromMapData("../Resources/models/map_data.txt"));
-	_c.material = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");*/
-
-	// Set up scene
-	{
-		/*SceneManager::Load(SceneManager::CreateScene("Scene"));
-
-		GameObject* _obj{ SceneManager::InstanceObject("Ball", Vector3(1.f)) };
-		MeshRendererComponent& _sphereMeshComponent{ _obj->AddComponent<MeshRendererComponent>() };
-		_sphereMeshComponent.SetMesh(_defaultMesh);
-		_sphereMeshComponent.material = _defaultMaterial;
-		_obj->AddComponent<PhysicsComponent>();
-
-		GameObject* _obj2{ SceneManager::InstanceObject("Ball2", Vector3(1.f)) };
-		MeshRendererComponent& _sphereMeshComponent2{ _obj2->AddComponent<MeshRendererComponent>() };
-		_sphereMeshComponent2.SetMesh(_defaultMesh);
-		_sphereMeshComponent2.material = _defaultMaterial;
-		_obj2->AddComponent<PhysicsComponent>();
-
-		GameObject* _camera = SceneManager::InstanceObject("Camera", Vector3(0.f, 0.f, -3.f));
-		CameraComponent& _cameraComponent{ _camera->AddComponent<CameraComponent>() };*/
-	}
-=======
-	Shader* _defaultShader;
-	Texture* _defaultTexture;
-	Material* _defaultMaterial;
-
-	_defaultShader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
+	Shader* _defaultShader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
 	_defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
 	_defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
 	_defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
@@ -130,15 +88,23 @@ void cs::ChinaEngine::EngineInit()
 	_defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
 	_defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
 
-	_defaultTexture = ResourceManager::Load<Texture>("../Resources/textures/default_texture.png");
-	_defaultTexture->filter = Texture::Filter::NEAREST;
-
-	_defaultMaterial = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
+	Material* _defaultMaterial = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
 	_defaultMaterial->shader = _defaultShader;
 	_defaultMaterial->shaderParams["texSampler"] = _defaultTexture;
 
-	SceneManager::Load(SceneManager::CreateScene("Default Scene"));
->>>>>>> parent of 6438da9 (Load default things)
+	// Create scene and 1 object
+	SceneManager::Load(SceneManager::CreateScene("Scene"));
+
+	GameObject* _obj = SceneManager::InstanceObject(
+		"Object", 
+		Vector3(2.1f, 2.8f, 15.8f), 
+		Vector3(-2.5f, 1.2f, 3.14f));
+	CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
+
+	GameObject* _meshObj = SceneManager::InstanceObject("Mesh object");
+	auto& _mrc = _meshObj->AddComponent<MeshRendererComponent>();
+	_mrc.SetMesh(ResourceManager::GetFirstMesh());
+	_mrc.material = ResourceManager::GetFirstMaterial();
 }
 
 void cs::ChinaEngine::InitInput()

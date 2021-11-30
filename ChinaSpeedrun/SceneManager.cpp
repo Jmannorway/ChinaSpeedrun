@@ -96,11 +96,6 @@ void cs::SceneManager::Resolve()
 			break;
 		case SceneAction::START:
 			sceneAction.sceneRef->Start();
-			ResourceManager::Save<Scene>(
-				sceneAction.sceneRef->GetResourcePath().empty() ?
-					"../Resources/scenes/scene.txt" :
-					sceneAction.sceneRef->GetResourcePath(),
-				sceneAction.sceneRef);
 			break;
 		case SceneAction::EXIT:
 			sceneAction.sceneRef->Exit();
@@ -244,7 +239,13 @@ void cs::SceneManager::DrawScenes()
 	if (GetCurrentActiveScene() && ImGui::Button("+"))
 	{
 		std::string _objectName = "New Entity " + std::to_string(GetCurrentActiveScene()->GetObjectCount());
-		InstanceObject(_objectName.c_str());
+
+		// TODO: Stop adding these components to new entities when done testing collision
+		auto _obj = InstanceObject(_objectName.c_str());
+		auto _mrc = _obj->AddComponent<MeshRendererComponent>();
+		_mrc.SetMesh(ResourceManager::GetFirstMesh());
+		_mrc.material = ResourceManager::GetFirstMaterial();
+		_obj->AddComponent<JPhysicsComponent>();
 	}
 
 	for (size_t i{ 0 }; i < activeScenes.size(); i++)

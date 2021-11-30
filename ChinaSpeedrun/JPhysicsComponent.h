@@ -10,8 +10,10 @@ namespace cs
 	{
 	public:
 		float mass;
+		float gravityScale;
 		Vector3 velocity, force;
 		JCollisionShape* shape;
+
 		void Init() override;
 		void ImGuiDrawComponent() override;
 		JPhysicsComponent();
