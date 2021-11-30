@@ -1,5 +1,8 @@
 #include "JCollisionShape.h"
 
+#include <string>
+
+#include "imgui.h"
 #include "JPhysicsSystem.h"
 
 /*
@@ -8,6 +11,15 @@
 cs::JCollisionSphere::JCollisionSphere(float radius) :
 	radius(radius)
 {
+}
+
+void cs::JCollisionSphere::ImGuiDrawCollisionShape()
+{
+	if (ImGui::TreeNodeEx("Sphere Collision Shape"))
+	{
+		ImGui::DragFloat("Radius", &radius);
+		ImGui::TreePop();
+	}
 }
 
 cs::JCollisionPoints cs::JCollisionSphere::TestCollision(
@@ -40,6 +52,11 @@ cs::JCollisionPoints cs::JCollisionSphere::TestCollision(
 cs::JCollisionPlane::JCollisionPlane(Vector3 plane, float length) :
 	plane(plane), length(length)
 {
+}
+
+void cs::JCollisionPlane::ImGuiDrawCollisionShape()
+{
+	
 }
 
 cs::JCollisionPoints cs::JCollisionPlane::TestCollision(
@@ -101,6 +118,21 @@ Vector3 cs::JCollisionTriangle::GetCenter() const
 Vector3 cs::JCollisionTriangle::GetNormal() const
 {
 	return normal;
+}
+
+void cs::JCollisionTriangle::ImGuiDrawCollisionShape()
+{
+	if (ImGui::TreeNodeEx("Triangle Collision Shape"))
+	{
+		bool _changed = false;
+		Vector3 _p[3] = { GetPoint(0), GetPoint(1), GetPoint(2) };
+		for (unsigned i = 0; i < 3; i++)
+			_changed |= ImGui::DragFloat3(("Point " + std::to_string(i)).c_str(), &_p[i].x);
+		if (_changed)
+			SetPoints(_p[0], _p[1], _p[2]);
+
+		ImGui::TreePop();
+	}
 }
 
 cs::JCollisionTriangle::JCollisionTriangle(Vector3 p1, Vector3 p2, Vector3 p3)

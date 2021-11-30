@@ -19,12 +19,15 @@ void cs::JPhysicsComponent::ImGuiDrawComponent()
 		ImGui::DragFloat3("Velocity", &velocity.x);
 		ImGui::DragFloat3("Force", &force.x);
 
+		if (shape)
+			shape->ImGuiDrawCollisionShape();
+
 		ImGui::TreePop();
 	}
 }
 
 cs::JPhysicsComponent::JPhysicsComponent() :
-	mass(0.1f), gravityScale(1.f), velocity(0.f), force(0.f), shape(new JCollisionSphere)
+	mass(0.1f), gravityScale(1.f), velocity(0.f), force(0.f), shape(nullptr)
 {
 	type = ComponentMeta::JPHYSICS_COMPONENT_TYPE;
 }

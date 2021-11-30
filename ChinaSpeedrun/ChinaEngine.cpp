@@ -25,6 +25,7 @@
 #include "SceneManager.h"
 //#include "EditorProfiler.h"
 
+#include "JCollisionShape.h"
 #include "Time.h"
 
 cs::VulkanEngineRenderer cs::ChinaEngine::renderer;
@@ -97,15 +98,15 @@ void cs::ChinaEngine::EngineInit()
 	auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
 	_mrc.SetMesh(ResourceManager::GetFirstMesh());
 	_mrc.material = ResourceManager::GetFirstMaterial();
-	auto _jpc = _obj->AddComponent<JPhysicsComponent>();
+	auto& _jpc = _obj->AddComponent<JPhysicsComponent>();
 	_jpc.velocity = Vector3(0.f, 5.f, 0.f);
+	_jpc.shape = new JCollisionTriangle;
 
 	_obj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 4.f, 0.f));
 	auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
 	_mrc2.SetMesh(ResourceManager::GetFirstMesh());
 	_mrc2.material = ResourceManager::GetFirstMaterial();
-	_obj->AddComponent<JPhysicsComponent>();
-	
+	_obj->AddComponent<JPhysicsComponent>().shape = new JCollisionSphere;
 }
 
 void cs::ChinaEngine::InitInput()
