@@ -50,6 +50,7 @@ namespace cs
 		void SetPoints(Vector3 p1, Vector3 p2, Vector3 p3);
 		Vector3 GetLine(unsigned index) const;
 		Vector3 GetPoint(unsigned index) const;
+		Vector3 GetCenter() const;
 		Vector3 GetNormal() const;
 		DEFINE_TEST_COLLISION_OVERRIDES()
 			JCollisionTriangle(

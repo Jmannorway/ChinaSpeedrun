@@ -93,6 +93,11 @@ Vector3 cs::JCollisionTriangle::GetPoint(unsigned index) const
 	return points[index];
 }
 
+Vector3 cs::JCollisionTriangle::GetCenter() const
+{
+	return (points[0] + points[1] + points[2]) / 3.f;
+}
+
 Vector3 cs::JCollisionTriangle::GetNormal() const
 {
 	return normal;

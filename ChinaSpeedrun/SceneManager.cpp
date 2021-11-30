@@ -239,13 +239,7 @@ void cs::SceneManager::DrawScenes()
 	if (GetCurrentActiveScene() && ImGui::Button("+"))
 	{
 		std::string _objectName = "New Entity " + std::to_string(GetCurrentActiveScene()->GetObjectCount());
-
-		// TODO: Stop adding these components to new entities when done testing collision
-		auto _obj = InstanceObject(_objectName.c_str());
-		auto _mrc = _obj->AddComponent<MeshRendererComponent>();
-		_mrc.SetMesh(ResourceManager::GetFirstMesh());
-		_mrc.material = ResourceManager::GetFirstMaterial();
-		_obj->AddComponent<JPhysicsComponent>();
+		InstanceObject(_objectName.c_str());
 	}
 
 	for (size_t i{ 0 }; i < activeScenes.size(); i++)

@@ -93,19 +93,17 @@ void cs::ChinaEngine::EngineInit()
 		Vector3(-2.5f, 1.2f, 3.14f));
 	CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
 
-	_obj = SceneManager::InstanceObject("Mesh object");
-	auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+	GameObject* _meshObj = SceneManager::InstanceObject("Mesh object");
+	auto& _mrc = _meshObj->AddComponent<MeshRendererComponent>();
 	_mrc.SetMesh(ResourceManager::GetFirstMesh());
 	_mrc.material = ResourceManager::GetFirstMaterial();
-	auto _jpc = _obj->AddComponent<JPhysicsComponent>();
-	_jpc.velocity = Vector3(0.f, 5.f, 0.f);
+	_meshObj->AddComponent<JPhysicsComponent>();
 
-	_obj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 4.f, 0.f));
-	auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
+	_meshObj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 2.f, 0.f));
+	auto& _mrc2 = _meshObj->AddComponent<MeshRendererComponent>();
 	_mrc2.SetMesh(ResourceManager::GetFirstMesh());
 	_mrc2.material = ResourceManager::GetFirstMaterial();
-	_obj->AddComponent<JPhysicsComponent>();
-	
+	_meshObj->AddComponent<JPhysicsComponent>();
 }
 
 void cs::ChinaEngine::InitInput()
