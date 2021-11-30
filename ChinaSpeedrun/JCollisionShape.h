@@ -27,7 +27,15 @@ namespace cs
 			const TransformComponent* tc, const JCollisionTriangle* ct, const TransformComponent* cttc) const = 0;
 		virtual JCollisionPoints TestCollision(
 			const TransformComponent* tc, const JCollisionShape* cs, const TransformComponent* cptc) const = 0;
+
 		virtual void ImGuiDrawCollisionShape() = 0;
+
+		enum class Type : unsigned { Invalid, Sphere, Plane, Triangle, Max };
+
+		Type GetType() const;
+		static std::string TypeToString(Type type);
+	protected:
+		Type type = Type::Invalid;
 	};
 
 	struct JCollisionSphere : JCollisionShape

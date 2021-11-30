@@ -8,9 +8,27 @@
 /*
  * Collision sphere
  */
+
 cs::JCollisionSphere::JCollisionSphere(float radius) :
 	radius(radius)
 {
+	type = Type::Sphere;
+}
+
+cs::JCollisionShape::Type cs::JCollisionShape::GetType() const
+{
+	return type;
+}
+
+std::string cs::JCollisionShape::TypeToString(Type type)
+{
+	switch (type)
+	{
+	case Type::Sphere:		return "Sphere";
+	case Type::Plane:		return "Plane";
+	case Type::Triangle:	return "Triangle";
+	default:				return "Invalid";
+	}
 }
 
 void cs::JCollisionSphere::ImGuiDrawCollisionShape()
@@ -52,6 +70,7 @@ cs::JCollisionPoints cs::JCollisionSphere::TestCollision(
 cs::JCollisionPlane::JCollisionPlane(Vector3 plane, float length) :
 	plane(plane), length(length)
 {
+	type = Type::Plane;
 }
 
 void cs::JCollisionPlane::ImGuiDrawCollisionShape()
@@ -90,6 +109,7 @@ void cs::JCollisionTriangle::SetPoint(unsigned index, Vector3 point)
 {
 	points[index] = point;
 	CalculateNormal();
+	type = Type::Triangle;
 }
 
 void cs::JCollisionTriangle::SetPoints(Vector3 p1, Vector3 p2, Vector3 p3)
@@ -137,6 +157,7 @@ void cs::JCollisionTriangle::ImGuiDrawCollisionShape()
 
 cs::JCollisionTriangle::JCollisionTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
 {
+	type = Type::Triangle;
 	SetPoints(p1, p2, p3);
 }
 
