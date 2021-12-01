@@ -9,7 +9,7 @@ cs::JCollisionPoints cs::algo::FindSphereSphereCollisionPoints(
 {
 	JCollisionPoints _points;
 	const float _distance(distance(cstc1->position, cstc2->position));
-	_points.normal = normalize(cstc2->position - cstc1->position);
+	_points.normal = (cstc2->position - cstc1->position) / _distance;
 	_points.a = cstc1->position + _points.normal * cs1->radius;
 	_points.b = cstc2->position - _points.normal * cs2->radius;
 	_points.depth = -_distance + cs1->radius + cs2->radius;
@@ -33,6 +33,7 @@ cs::JCollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSp
 		float _side = _distanceToPlaneSigned == 0.f ? 1.f : glm::sign(_distanceToPlaneSigned);
 		_points.a = cstc->position - cp->GetNormal() * _side * cs->radius;
 		_points.b = ProjectPointOntoPlane(cstc->position, cptc->position, cp->GetNormal());
+		_points.normal = cp->GetNormal();
 		_points.depth = distance(_points.a, _points.b);
 	}
 

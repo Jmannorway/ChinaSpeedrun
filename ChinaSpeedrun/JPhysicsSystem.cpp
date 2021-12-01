@@ -11,13 +11,15 @@ std::vector<cs::JCollision> cs::JPhysicsSystem::collisions;
 
 void cs::JPhysicsSystem::CalculateMovement(JPhysicsComponent& pc)
 {
+	pc.velocity += pc.force;
+	pc.force = Vector3(0.f);
 	pc.velocity += (gravity * pc.gravityScale) * Time::deltaTime;
 	auto& _tc = pc.gameObject->GetComponent<TransformComponent>();
 	_tc.position += pc.velocity * Time::deltaTime;
 }
 
-void cs::JPhysicsSystem::DetectCollision(JPhysicsComponent& pc1, TransformComponent& tc1, JPhysicsComponent& pc2,
-	TransformComponent& tc2)
+void cs::JPhysicsSystem::DetectCollision(
+	JPhysicsComponent& pc1, TransformComponent& tc1, JPhysicsComponent& pc2, TransformComponent& tc2)
 {
 	// TODO: Don't check collision against self
 	if (&pc1 != &pc2)
@@ -33,10 +35,23 @@ void cs::JPhysicsSystem::DetectCollision(JPhysicsComponent& pc1, TransformCompon
 
 void cs::JPhysicsSystem::SolveCollisions()
 {
-	for (auto& c : collisions)
+	// stopper solver
+	/*for (auto& c : collisions)
 	{
 		c.pc1.velocity = Vector3(0.f);
 		c.pc2.velocity = Vector3(0.f);
+	}*/
+
+	// reflection solver
+	for (auto& c : collisions)
+	{
+		c.at.position += c.points.normal * c.points.depth * glm::sign(c.a.gravityScale);
+		c.bt.position += c.points.normal * c.points.depth * glm::sign(c.b.gravityScale);
+
+		c.a.velocity -= Mathf::Project(c.points.normal, c.a.velocity);
+		c.b.velocity -= Mathf::Project(c.points.normal, c.b.velocity);
+
+		Debug::LogInfo("Calculations done!");
 	}
 
 	collisions.clear();
