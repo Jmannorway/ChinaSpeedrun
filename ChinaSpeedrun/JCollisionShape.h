@@ -50,12 +50,16 @@ namespace cs
 
 	struct JCollisionPlane : JCollisionShape
 	{
-		Vector3 plane;
-		float length;
 		void Draw() override;
 		void ImGuiDraw() override;
 		DEFINE_TEST_COLLISION_OVERRIDES()
-		JCollisionPlane(Vector3 plane = Vector3(0.f, 0.f, 1.f), float length = 0.f);
+		JCollisionPlane(Vector3 plane = Vector3(0.f, 0.f, 1.f));
+		void SetPlane(Vector3 plane);
+		Vector3 GetPlane() const;
+		Vector3 GetNormal() const;
+	private:
+		void CalculateNormal();
+		Vector3 planeVector, normal;
 	};
 
 	struct JCollisionTriangle : JCollisionShape

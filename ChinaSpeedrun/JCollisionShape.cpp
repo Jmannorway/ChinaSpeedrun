@@ -75,10 +75,31 @@ cs::JCollisionPoints cs::JCollisionSphere::TestCollision(
 /*
  * Collision plane
  */
-cs::JCollisionPlane::JCollisionPlane(Vector3 plane, float length) :
-	plane(plane), length(length)
+cs::JCollisionPlane::JCollisionPlane(Vector3 plane)
 {
+	SetPlane(plane);
 	type = Type::Plane;
+}
+
+void cs::JCollisionPlane::SetPlane(Vector3 plane)
+{
+	planeVector = plane;
+	CalculateNormal();
+}
+
+Vector3 cs::JCollisionPlane::GetPlane() const
+{
+	return planeVector;
+}
+
+Vector3 cs::JCollisionPlane::GetNormal() const
+{
+	return normal;
+}
+
+void cs::JCollisionPlane::CalculateNormal()
+{
+	normal = normalize(planeVector);
 }
 
 void cs::JCollisionPlane::Draw()

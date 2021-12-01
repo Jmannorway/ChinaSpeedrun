@@ -4,10 +4,29 @@
 #include "Transform.h"
 #include "Debug.h"
 
+cs::JCollisionPoints cs::algo::FindSphereSphereCollisionPoints(
+	const JCollisionSphere* cs1, const TransformComponent* cstc1, const JCollisionSphere* cs2, const TransformComponent* cstc2)
+{
+	JCollisionPoints _points;
+	const float _distance(distance(cstc1->position, cstc2->position));
+	_points.normal = normalize(cstc2->position - cstc1->position);
+	_points.a = cstc1->position + _points.normal * cs1->radius;
+	_points.b = cstc2->position - _points.normal * cs2->radius;
+	_points.depth = -_distance + cs1->radius + cs2->radius;
+	_points.hasCollision = _distance <= cs1->radius + cs2->radius;
+	Debug::LogInfo(_distance);
+	return _points;
+}
+
+
 cs::JCollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSphere* cs, const TransformComponent* cstc,
 	const JCollisionPlane* cp, const TransformComponent* cptc)
 {
-	return JCollisionPoints();
+	JCollisionPoints _points;
+
+
+
+	return _points;
 }
 
 cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisionSphere* cs,
@@ -40,7 +59,29 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 
 		Debug::LogInfo(_shortestDistanceToLine);
 		if (_shortestDistanceToLine <= _circleRadius)
-			Debug::LogInfo("Intersecting triangle lines");
+		{
+			_cp.hasCollision = true;
+
+			Vector3 _triangleNormal = ct->GetNormal();
+
+			{ // direction the objects need to be moved out of each other
+				float _side = glm::sign(dot(cstc->position + ct->GetPoint(0), _triangleNormal));
+				_side = _side + (_side == 0.f) * 1.f;
+				_cp.normal = _triangleNormal * _side;
+			}
+
+			{ // the first point of contact on the sphere
+				_cp.a;
+			}
+
+			{ // the first point of contact on the triangle
+				_cp.b;
+			}
+
+			{ // The distance from a to b
+				_cp.depth;
+			}
+		}
 		else
 			Debug::LogInfo("Not intersecting triangle lines");
 	}
@@ -67,18 +108,4 @@ cs::JCollisionPoints cs::algo::FindTriangleTriangleCollisionPoints(
 	const JCollisionTriangle* ct1, const TransformComponent* cttc1, const JCollisionTriangle* ct2, const TransformComponent* cttc2)
 {
 	return JCollisionPoints();
-}
-
-cs::JCollisionPoints cs::algo::FindSphereSphereCollisionPoints(
-	const JCollisionSphere* cs1, const TransformComponent* cstc1, const JCollisionSphere* cs2, const TransformComponent* cstc2)
-{
-	JCollisionPoints _points;
-	const float _distance(distance(cstc1->position, cstc2->position));
-	_points.normal = normalize(cstc2->position - cstc1->position);
-	_points.a = cstc1->position + _points.normal * cs1->radius;
-	_points.b = cstc2->position - _points.normal * cs2->radius;
-	_points.depth = -_distance + cs1->radius + cs2->radius;
-	_points.hasCollision = _distance <= cs1->radius + cs2->radius;
-	Debug::LogInfo(_distance);
-	return _points;
 }
