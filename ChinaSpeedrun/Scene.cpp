@@ -22,6 +22,7 @@
 #include "JphysicsSystem.h"
 
 #include "Debug.h"
+#include "JCollisionShape.h"
 
 cs::Scene::Scene() :
 	physicsServer{ new PhysicsServer }, audioSystem{ new AudioSystem }, physicsSystem{ new PhysicsSystem }
@@ -51,6 +52,13 @@ void cs::Scene::Start()
 		auto& _script{ registry.get<ScriptComponent>(e) };
 
 		_script.Start();
+	}
+
+	auto _jphysicsEntities{ registry.view<JPhysicsComponent, TransformComponent>() };
+	for (auto e : _jphysicsEntities)
+	{
+		auto& _jpc{ registry.get<JPhysicsComponent>(e) };
+		_jpc.Enter();
 	}
 }
 
@@ -302,9 +310,12 @@ void cs::Scene::UpdateComponents()
 	auto _jphysicsEntities{ registry.view<JPhysicsComponent, TransformComponent>() };
 	for (auto e : _jphysicsEntities)
 	{
-		auto& _jphysicsComponent{ registry.get<JPhysicsComponent>(e) };
-		auto& _transformComponent{ registry.get<TransformComponent>(e) };
-		JPhysicsSystem::CalculateMovement(_jphysicsComponent);
+		auto& _jpc{ registry.get<JPhysicsComponent>(e) };
+		auto& _tc{ registry.get<TransformComponent>(e) };
+		JPhysicsSystem::CalculateMovement(_jpc);
+
+		if (_jpc.shape)
+			_jpc.shape->Draw();
 	}
 
 	for (auto e : _jphysicsEntities)

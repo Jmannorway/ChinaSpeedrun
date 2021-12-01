@@ -99,10 +99,11 @@ void cs::ChinaEngine::EngineInit()
 	_mrc.SetMesh(ResourceManager::GetFirstMesh());
 	_mrc.material = ResourceManager::GetFirstMaterial();
 	auto& _jpc = _obj->AddComponent<JPhysicsComponent>();
-	_jpc.velocity = Vector3(0.f, 5.f, 0.f);
-	_jpc.shape = new JCollisionTriangle;
+	_jpc.velocity = Vector3(0.f, 0.f, 0.f);
+	_jpc.gravityScale = 0.f;
+	_jpc.shape = new JCollisionTriangle({1, 0, 1}, {-1, 0, 1}, {-1, 0, -1});
 
-	_obj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 4.f, 0.f));
+	_obj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 2.f, 2.f));
 	auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
 	_mrc2.SetMesh(ResourceManager::GetFirstMesh());
 	_mrc2.material = ResourceManager::GetFirstMaterial();

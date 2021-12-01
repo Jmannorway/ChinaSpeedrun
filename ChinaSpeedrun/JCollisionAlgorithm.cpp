@@ -13,7 +13,12 @@ cs::JCollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSp
 cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisionSphere* cs,
 	const TransformComponent* cstc, const JCollisionTriangle* ct, const TransformComponent* cttc)
 {
-	return JCollisionPoints();
+	JCollisionPoints _cp;
+	Vector3 _pointOnPlane = ProjectPointOntoPlane(cstc->position, ct->GetPoint(0), ct->GetNormal());
+	Vector3 _pointOnLine = ProjectPointOnPlaneOntoLine(_pointOnPlane, ct->GetPoint(0), ct->GetLineTangent(0));
+	float _distanceToLine = distance(cstc->position, _pointOnPlane) - cs->radius;
+	Debug::LogInfo("Distance to plane: ", _distanceToLine);
+	return _cp;
 }
 
 cs::JCollisionPoints cs::algo::FindPlanePlaneCollisionPoints(

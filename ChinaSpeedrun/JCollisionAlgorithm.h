@@ -13,6 +13,27 @@ namespace cs
 
 	namespace algo
 	{
+		inline float DistanceFromPointToPlaneSigned(Vector3 point, Vector3 pointOnPlane, Vector3 planeNormal)
+		{
+			return dot(point - pointOnPlane, planeNormal);
+		}
+		inline float DistanceFromPointToPlane(Vector3 point, Vector3 arbitraryPointOnPlane, Vector3 planeNormal)
+		{
+			return abs(DistanceFromPointToPlaneSigned(point, arbitraryPointOnPlane, planeNormal));
+		}
+		inline Vector3 ProjectPointOntoPlane(Vector3 point, Vector3 arbitraryPointOnPlane, Vector3 planeNormal)
+		{
+			return point - planeNormal * DistanceFromPointToPlaneSigned(point, arbitraryPointOnPlane, planeNormal);
+		}
+		inline float DistanceFromPointOnPlaneToLine(Vector3 pointOnPlane, Vector3 pointOnLine, Vector3 lineTangent)
+		{
+			return dot(pointOnPlane - pointOnLine, lineTangent);
+		}
+		inline Vector3 ProjectPointOnPlaneOntoLine(Vector3 pointOnPlane, Vector3 linePos, Vector3 lineTangent)
+		{
+			return pointOnPlane - lineTangent * DistanceFromPointOnPlaneToLine(pointOnPlane, linePos, lineTangent);
+		}
+
 		JCollisionPoints FindSphereSphereCollisionPoints(
 			const JCollisionSphere* cs1, const TransformComponent* cstc1, const JCollisionSphere* cs2, const TransformComponent* cstc2);
 		JCollisionPoints FindSpherePlaneCollisionPoints(

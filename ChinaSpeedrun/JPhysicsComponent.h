@@ -15,6 +15,7 @@ namespace cs
 		JCollisionShape* shape;
 
 		void Init() override;
+		void Enter();
 		void ImGuiDrawComponent() override;
 		JPhysicsComponent();
 		~JPhysicsComponent();

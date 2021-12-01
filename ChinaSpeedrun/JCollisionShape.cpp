@@ -2,7 +2,10 @@
 
 #include <string>
 
+#include "Color.h"
 #include "imgui.h"
+#include "Draw.h"
+#include "Color.h"
 #include "JPhysicsSystem.h"
 
 /*
@@ -31,7 +34,12 @@ std::string cs::JCollisionShape::TypeToString(Type type)
 	}
 }
 
-void cs::JCollisionSphere::ImGuiDrawCollisionShape()
+void cs::JCollisionSphere::Draw()
+{
+	Draw::Circle(radius, Vector3(0.f), Color::magenta);
+}
+
+void cs::JCollisionSphere::ImGuiDraw()
 {
 	if (ImGui::TreeNodeEx("Sphere Collision Shape"))
 	{
@@ -73,7 +81,11 @@ cs::JCollisionPlane::JCollisionPlane(Vector3 plane, float length) :
 	type = Type::Plane;
 }
 
-void cs::JCollisionPlane::ImGuiDrawCollisionShape()
+void cs::JCollisionPlane::Draw()
+{
+}
+
+void cs::JCollisionPlane::ImGuiDraw()
 {
 	
 }
@@ -108,7 +120,7 @@ cs::JCollisionPoints cs::JCollisionPlane::TestCollision(
 void cs::JCollisionTriangle::SetPoint(unsigned index, Vector3 point)
 {
 	points[index] = point;
-	CalculateNormal();
+	Update();
 	type = Type::Triangle;
 }
 
@@ -117,12 +129,17 @@ void cs::JCollisionTriangle::SetPoints(Vector3 p1, Vector3 p2, Vector3 p3)
 	points[0] = p1;
 	points[1] = p2;
 	points[2] = p3;
-	CalculateNormal();
+	Update();
 }
 
 Vector3 cs::JCollisionTriangle::GetLine(unsigned index) const
 {
 	return points[(index + 1) % 3] - points[index];
+}
+
+Vector3 cs::JCollisionTriangle::GetLineTangent(unsigned index) const
+{
+	return lineTangents[index];
 }
 
 Vector3 cs::JCollisionTriangle::GetPoint(unsigned index) const
@@ -140,7 +157,7 @@ Vector3 cs::JCollisionTriangle::GetNormal() const
 	return normal;
 }
 
-void cs::JCollisionTriangle::ImGuiDrawCollisionShape()
+void cs::JCollisionTriangle::ImGuiDraw()
 {
 	if (ImGui::TreeNodeEx("Triangle Collision Shape"))
 	{
@@ -155,15 +172,35 @@ void cs::JCollisionTriangle::ImGuiDrawCollisionShape()
 	}
 }
 
+void cs::JCollisionTriangle::Draw()
+{
+	Draw::Line(
+		{ GetLine(0), GetLine(1), GetLine(2), GetLine(0) }, 
+		{ Color::magenta, Color::magenta, Color::magenta, Color::magenta },
+		Draw::DrawMode::SOLID);
+}
+
 cs::JCollisionTriangle::JCollisionTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
 {
 	type = Type::Triangle;
 	SetPoints(p1, p2, p3);
 }
 
+void cs::JCollisionTriangle::Update()
+{
+	CalculateNormal();
+	CalculateLineTangents();
+}
+
 void cs::JCollisionTriangle::CalculateNormal()
 {
 	normal = normalize(cross(GetLine(0), GetLine(1)));
+}
+
+void cs::JCollisionTriangle::CalculateLineTangents()
+{
+	for (unsigned i = 0; i < 3; i++)
+		lineTangents[i] = normalize(cross(normal, GetLine(i)));
 }
 
 cs::JCollisionPoints cs::JCollisionTriangle::TestCollision(

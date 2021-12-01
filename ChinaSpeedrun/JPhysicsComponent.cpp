@@ -11,6 +11,12 @@ void cs::JPhysicsComponent::Init()
 
 }
 
+void cs::JPhysicsComponent::Enter()
+{
+	if (shape)
+		shape->Draw();
+}
+
 void cs::JPhysicsComponent::ImGuiDrawComponent()
 {
 	if (ImGui::TreeNodeEx("JPhysics", ImGuiTreeNodeFlags_DefaultOpen))
@@ -43,7 +49,7 @@ void cs::JPhysicsComponent::ImGuiDrawComponent()
 
 		if (shape)
 		{
-			shape->ImGuiDrawCollisionShape();
+			shape->ImGuiDraw();
 			_collisionShapeType = shape->GetType();
 		}
 

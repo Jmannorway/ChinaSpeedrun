@@ -22,8 +22,6 @@ void cs::JPhysicsSystem::DetectCollision(JPhysicsComponent& pc1, TransformCompon
 	// TODO: Don't check collision against self
 	if (&pc1 != &pc2)
 	{
-		Debug::LogInfo("Checking for collision");
-
 		JCollisionPoints _cp = pc1.shape->TestCollision(&tc1, pc2.shape, &tc2);
 
 		if (_cp.hasCollision)
