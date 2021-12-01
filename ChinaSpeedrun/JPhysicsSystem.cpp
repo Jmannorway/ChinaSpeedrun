@@ -38,6 +38,8 @@ void cs::JPhysicsSystem::SolveCollisions()
 		c.pc1.velocity = Vector3(0.f);
 		c.pc2.velocity = Vector3(0.f);
 	}
+
+	collisions.clear();
 }
 
 bool cs::JPhysicsSystem::ValidateComponent(JPhysicsComponent& pc)

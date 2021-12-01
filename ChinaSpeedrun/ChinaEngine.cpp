@@ -94,7 +94,8 @@ void cs::ChinaEngine::EngineInit()
 		Vector3(-2.5f, 1.2f, 3.14f));
 	CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
 
-	_obj = SceneManager::InstanceObject("Mesh object", Vector3(0.f), {20.f, 1.f, 20.f});
+	_obj = SceneManager::InstanceObject("Mesh object");
+	_obj->GetComponent<TransformComponent>().scale = { 8.f, 1.f, 8.f };
 	auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
 	_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/plane.obj"));
 	_mrc.material = ResourceManager::GetFirstMaterial();

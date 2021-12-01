@@ -325,6 +325,8 @@ void cs::Scene::UpdateComponents()
 
 		for (auto ee : _jphysicsEntities)
 		{
+			if (e == ee) break;
+
 			auto& _jpc2{ registry.get<JPhysicsComponent>(ee) };
 			auto& _tc2{ registry.get<TransformComponent>(ee) };
 

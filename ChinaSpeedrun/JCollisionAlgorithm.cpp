@@ -36,7 +36,7 @@ cs::JCollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSp
 		_points.depth = distance(_points.a, _points.b);
 	}
 
-	Debug::LogInfo("Plane Collision Test");
+	Debug::LogInfo("Distance: ", abs(_distanceToPlaneSigned) - cs->radius);
 
 	return _points;
 }
