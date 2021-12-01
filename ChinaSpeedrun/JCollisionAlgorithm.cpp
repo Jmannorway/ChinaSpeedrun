@@ -14,8 +14,9 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 	const TransformComponent* cstc, const JCollisionTriangle* ct, const TransformComponent* cttc)
 {
 	JCollisionPoints _cp;
+	float _distanceToPlane = DistanceFromPointToPlane(cstc->position, ct->GetPoint(0) + cttc->position, ct->GetNormal());
 
-	if (DistanceFromPointToPlane(cstc->position, ct->GetPoint(0) + cttc->position, ct->GetNormal()) <= cs->radius)
+	if (_distanceToPlane <= cs->radius)
 	{
 		Vector3 _pointOnPlane = ProjectPointOntoPlane(cstc->position, ct->GetPoint(0), ct->GetNormal());
 		float _shortestDistanceToLine = cs->radius + 1.f;
@@ -35,8 +36,10 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 				distance(cstc->position, _pointOnLine));
 		}
 
+		float _circleRadius = CircleEaseOut(_distanceToPlane / cs->radius) * cs->radius;
+
 		Debug::LogInfo(_shortestDistanceToLine);
-		if (_shortestDistanceToLine <= cs->radius)
+		if (_shortestDistanceToLine <= _circleRadius)
 			Debug::LogInfo("Intersecting triangle lines");
 		else
 			Debug::LogInfo("Not intersecting triangle lines");

@@ -44,6 +44,10 @@ namespace cs
 				glm::clamp(pointOnLine.y, glm::min(linePos1.y, linePos2.y), glm::max(linePos1.y, linePos2.y)),
 				glm::clamp(pointOnLine.z, glm::min(linePos1.z, linePos2.z), glm::max(linePos1.z, linePos2.z)));
 		}
+		inline float CircleEaseOut(float val)
+		{
+			return sqrt(1.f - pow(val - 1.f, 2.f));
+		}
 
 		JCollisionPoints FindSphereSphereCollisionPoints(
 			const JCollisionSphere* cs1, const TransformComponent* cstc1, const JCollisionSphere* cs2, const TransformComponent* cstc2);
