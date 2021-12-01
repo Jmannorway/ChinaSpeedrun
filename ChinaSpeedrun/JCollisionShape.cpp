@@ -108,7 +108,14 @@ void cs::JCollisionPlane::Draw()
 
 void cs::JCollisionPlane::ImGuiDraw()
 {
-	
+	if (ImGui::TreeNodeEx("Collision Plane Shape"))
+	{
+		Vector3 _plane = GetPlane();
+		if (ImGui::DragFloat3("Plane", &_plane.x))
+			SetPlane(_plane);
+
+		ImGui::TreePop();
+	}
 }
 
 cs::JCollisionPoints cs::JCollisionPlane::TestCollision(

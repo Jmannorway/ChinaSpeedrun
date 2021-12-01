@@ -24,7 +24,19 @@ cs::JCollisionPoints cs::algo::FindSpherePlaneCollisionPoints(const JCollisionSp
 {
 	JCollisionPoints _points;
 
+	float _distanceToPlaneSigned = DistanceFromPointToPlaneSigned(cstc->position, cptc->position, cp->GetNormal());
 
+	if (abs(_distanceToPlaneSigned) <= cs->radius)
+	{
+		_points.hasCollision = true;
+
+		float _side = _distanceToPlaneSigned == 0.f ? 1.f : glm::sign(_distanceToPlaneSigned);
+		_points.a = cstc->position - cp->GetNormal() * _side * cs->radius;
+		_points.b = ProjectPointOntoPlane(cstc->position, cptc->position, cp->GetNormal());
+		_points.depth = distance(_points.a, _points.b);
+	}
+
+	Debug::LogInfo("Plane Collision Test");
 
 	return _points;
 }

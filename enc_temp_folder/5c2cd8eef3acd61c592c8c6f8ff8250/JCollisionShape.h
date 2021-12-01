@@ -53,7 +53,7 @@ namespace cs
 		void Draw() override;
 		void ImGuiDraw() override;
 		DEFINE_TEST_COLLISION_OVERRIDES()
-			JCollisionPlane(Vector3 plane = { 0.f, 1.f, 0.f });
+		JCollisionPlane(Vector3 plane = Vector3(0.f, 0.f, 1.f));
 		void SetPlane(Vector3 plane);
 		Vector3 GetPlane() const;
 		Vector3 GetNormal() const;

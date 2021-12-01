@@ -94,20 +94,23 @@ void cs::ChinaEngine::EngineInit()
 		Vector3(-2.5f, 1.2f, 3.14f));
 	CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
 
-	_obj = SceneManager::InstanceObject("Mesh object");
+	_obj = SceneManager::InstanceObject("Mesh object", Vector3(0.f), {20.f, 1.f, 20.f});
 	auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
-	_mrc.SetMesh(ResourceManager::GetFirstMesh());
+	_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/plane.obj"));
 	_mrc.material = ResourceManager::GetFirstMaterial();
 	auto& _jpc = _obj->AddComponent<JPhysicsComponent>();
 	_jpc.velocity = Vector3(0.f, 0.f, 0.f);
 	_jpc.gravityScale = 0.f;
-	_jpc.shape = new JCollisionTriangle({1, 0, 1}, {-1, 0, 1}, {-1, 0, -1});
+	_jpc.shape = new JCollisionPlane;
+	//_jpc.shape = new JCollisionTriangle({1, 0, 1}, {-1, 0, 1}, {-1, 0, -1});
 
 	_obj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 2.f, 2.f));
 	auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
-	_mrc2.SetMesh(ResourceManager::GetFirstMesh());
+	_mrc2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
 	_mrc2.material = ResourceManager::GetFirstMaterial();
-	_obj->AddComponent<JPhysicsComponent>().shape = new JCollisionSphere;
+	auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
+	_jpc2.shape = new JCollisionSphere;
+	_jpc2.gravityScale = 0.1f;
 }
 
 void cs::ChinaEngine::InitInput()
