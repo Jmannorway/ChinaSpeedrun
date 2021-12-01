@@ -25,13 +25,24 @@ namespace cs
 		{
 			return point - planeNormal * DistanceFromPointToPlaneSigned(point, arbitraryPointOnPlane, planeNormal);
 		}
-		inline float DistanceFromPointOnPlaneToLine(Vector3 pointOnPlane, Vector3 pointOnLine, Vector3 lineTangent)
+		inline float DistanceFromPointOnPlaneToLineSigned(Vector3 pointOnPlane, Vector3 pointOnLine, Vector3 lineTangent)
 		{
 			return dot(pointOnPlane - pointOnLine, lineTangent);
 		}
+		inline float DistanceFromPointOnPlaneToLine(Vector3 pointOnPlane, Vector3 pointOnLine, Vector3 lineTangent)
+		{
+			return abs(DistanceFromPointOnPlaneToLineSigned(pointOnPlane, pointOnLine, lineTangent));
+		}
 		inline Vector3 ProjectPointOnPlaneOntoLine(Vector3 pointOnPlane, Vector3 linePos, Vector3 lineTangent)
 		{
-			return pointOnPlane - lineTangent * DistanceFromPointOnPlaneToLine(pointOnPlane, linePos, lineTangent);
+			return pointOnPlane - lineTangent * DistanceFromPointOnPlaneToLineSigned(pointOnPlane, linePos, lineTangent);
+		}
+		inline Vector3 ClampPointOnLineToEnds(Vector3 pointOnLine, Vector3 linePos1, Vector3 linePos2)
+		{
+			return Vector3(
+				glm::clamp(pointOnLine.x, glm::min(linePos1.x, linePos2.x), glm::max(linePos1.x, linePos2.x)),
+				glm::clamp(pointOnLine.y, glm::min(linePos1.y, linePos2.y), glm::max(linePos1.y, linePos2.y)),
+				glm::clamp(pointOnLine.z, glm::min(linePos1.z, linePos2.z), glm::max(linePos1.z, linePos2.z)));
 		}
 
 		JCollisionPoints FindSphereSphereCollisionPoints(

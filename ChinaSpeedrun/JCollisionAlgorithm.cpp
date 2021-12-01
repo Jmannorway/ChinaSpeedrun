@@ -14,10 +14,37 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 	const TransformComponent* cstc, const JCollisionTriangle* ct, const TransformComponent* cttc)
 {
 	JCollisionPoints _cp;
-	Vector3 _pointOnPlane = ProjectPointOntoPlane(cstc->position, ct->GetPoint(0), ct->GetNormal());
-	Vector3 _pointOnLine = ProjectPointOnPlaneOntoLine(_pointOnPlane, ct->GetPoint(0), ct->GetLineTangent(0));
-	float _distanceToLine = distance(cstc->position, _pointOnPlane) - cs->radius;
-	Debug::LogInfo("Distance to plane: ", _distanceToLine);
+
+	if (DistanceFromPointToPlane(cstc->position, ct->GetPoint(0) + cttc->position, ct->GetNormal()) <= cs->radius)
+	{
+		Vector3 _pointOnPlane = ProjectPointOntoPlane(cstc->position, ct->GetPoint(0), ct->GetNormal());
+		float _shortestDistanceToLine = cs->radius + 1.f;
+
+		for (unsigned i = 0; i < 3; i++)
+		{
+			Vector3 _pointOnLine = ClampPointOnLineToEnds(
+				ProjectPointOnPlaneOntoLine(
+					_pointOnPlane,
+					ct->GetPoint(i) + cttc->position,
+					ct->GetLineTangent(i)),
+				ct->GetPoint(i) + cttc->position,
+				ct->GetPoint((i + 1) % 3));
+
+			_shortestDistanceToLine = glm::min(
+				_shortestDistanceToLine,
+				distance(cstc->position, _pointOnLine));
+		}
+
+		Debug::LogInfo(_shortestDistanceToLine);
+		if (_shortestDistanceToLine <= cs->radius)
+			Debug::LogInfo("Intersecting triangle lines");
+		else
+			Debug::LogInfo("Not intersecting triangle lines");
+	}
+	else
+	{
+		Debug::LogInfo("Not intersecting triangle lines");
+	}
 	return _cp;
 }
 
