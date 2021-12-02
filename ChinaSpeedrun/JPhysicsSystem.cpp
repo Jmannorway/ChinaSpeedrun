@@ -35,7 +35,7 @@ void cs::JPhysicsSystem::DetectCollision(
 
 void cs::JPhysicsSystem::SolveCollisions()
 {
-	// reflection solver
+	// Sliding solver
 	for (auto& c : collisions)
 	{
 		c.at.position += c.points.normal * c.points.depth * glm::sign(c.a.gravityScale);

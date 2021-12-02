@@ -5,8 +5,6 @@
 #include "Color.h"
 #include "imgui.h"
 #include "Draw.h"
-#include "Color.h"
-#include "JPhysicsSystem.h"
 
 /*
  * Collision sphere

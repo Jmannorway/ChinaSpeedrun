@@ -48,6 +48,22 @@ namespace cs
 		{
 			return sqrt(1.f - pow(val - 1.f, 2.f));
 		}
+		inline bool IsPointOnPlaneInsideTriangle(Vector3 point, Vector3 tp1, Vector3 tp2, Vector3 tp3)
+		{
+			Vector3 _normals[3] = {
+				normalize(tp1 - point),
+				normalize(tp2 - point),
+				normalize(tp3 - point) };
+
+			float _dotsum = 0.f;
+
+			for (unsigned i = 0; i < 3; i++)
+			{
+				_dotsum += dot(_normals[i], _normals[(i + 1) % 3]);
+			}
+
+			return _dotsum <= -1.f;
+		}
 
 		JCollisionPoints FindSphereSphereCollisionPoints(
 			const JCollisionSphere* cs1, const TransformComponent* cstc1, const JCollisionSphere* cs2, const TransformComponent* cstc2);
