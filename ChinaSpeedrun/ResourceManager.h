@@ -59,7 +59,8 @@ namespace cs
 
 		static std::vector<Vector3> LoadLAS(const std::string& filename);
 		static Mesh* LoadModel(const std::string filename);
-		static Mesh* LoadModelFromMapData(const std::string filename, const unsigned maxPoints = 25000);
+		static Mesh* LoadModelFromMapData(
+			std::string filename, unsigned maxPoints = 25000, unsigned triangleNumX = 48, unsigned triangleNumY = 48);
 		static AudioData* LoadAudio(const std::string filename);
 		static Texture* LoadTexture(const std::string filename);
 		static Shader* LoadShader(std::vector<std::string> filenames);

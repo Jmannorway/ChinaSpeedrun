@@ -1,0 +1,222 @@
+{
+    "Scene Name": "triangle sphere 1",
+    "construction count": [
+        [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            0
+        ]
+    ],
+    "Object": {
+        "name": "Object",
+        "active": true
+    },
+    "Plane mesh": {
+        "name": "Plane mesh",
+        "active": true
+    },
+    "Collision triangle 0": {
+        "name": "Collision triangle 0",
+        "active": true
+    },
+    "Collision triangle 1": {
+        "name": "Collision triangle 1",
+        "active": true
+    },
+    "Mesh object 3": {
+        "name": "Mesh object 3",
+        "active": true
+    },
+    "Object.Camera": {
+        "fov": 45.0,
+        "near": 0.009999999776482582,
+        "far": 1000.0,
+        "projection": 1,
+        "left": 200.0,
+        "right": 200.0,
+        "up": 200.0,
+        "down": 200.0
+    },
+    "Mesh object 3.MeshRenderer": {
+        "mesh": "../Resources/models/icosphere.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "Plane mesh.MeshRenderer": {
+        "mesh": "../Resources/models/stcol1.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "Mesh object 3.Transform": {
+        "position": {
+            "x": -0.75,
+            "y": 2.0,
+            "z": 0.30000001192092898
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 0.4000000059604645,
+            "y": 0.4000000059604645,
+            "z": 0.4000000059604645
+        }
+    },
+    "Collision triangle 1.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "Collision triangle 0.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "Plane mesh.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "Object.Transform": {
+        "position": {
+            "x": 9.699999809265137,
+            "y": 4.0,
+            "z": 5.800000190734863
+        },
+        "rotation": {
+            "x": -0.45378559827804568,
+            "y": 0.7888888120651245,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "Mesh object 3.JPhysics": {
+        "mass": 0.10000000149011612,
+        "gravity scale": 0.25,
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "force": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
+    "Collision triangle 1.JPhysics": {
+        "mass": 0.10000000149011612,
+        "gravity scale": 0.0,
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "force": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    },
+    "Collision triangle 0.JPhysics": {
+        "mass": 0.10000000149011612,
+        "gravity scale": 0.0,
+        "velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "force": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

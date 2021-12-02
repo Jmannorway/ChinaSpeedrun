@@ -1,4 +1,5 @@
 #pragma once
+#include "Mathf.h"
 
 namespace cs
 {
@@ -7,7 +8,7 @@ namespace cs
 	class SceneUtility
 	{
 	public:
-		static bool CreateStaticTriangleCollidersFromMesh(const Mesh* const mesh);
+		static bool CreateStaticTriangleCollidersFromMesh(const Mesh* const mesh, Vector3 offset = Vector3(0.f));
 	};
 }
 

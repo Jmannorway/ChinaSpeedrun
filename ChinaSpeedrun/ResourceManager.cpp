@@ -110,6 +110,7 @@ void cs::ResourceManager::CreateDefaultResources()
 
 	defaultMaterial = Load<Material>("../Resources/materials/default_material.mat");
 	defaultMaterial->shader = defaultShader;
+	defaultMaterial->cullMode = Material::CullMode::NONE;
 	defaultMaterial->shaderParams["texSampler"] = defaultTexture;
 }
 
@@ -200,7 +201,8 @@ cs::Mesh* cs::ResourceManager::LoadModel(const std::string filename)
 	return _outMesh;
 }
 
-cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename, const unsigned maxPoints)
+cs::Mesh* cs::ResourceManager::LoadModelFromMapData(
+	std::string filename, unsigned maxPoints, unsigned triangleNumX, unsigned triangleNumY)
 {
 	std::vector<Vector3> _points;
 
@@ -274,22 +276,20 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename, 
 	std::vector<uint32_t> _indices;
 
 	{
-		const unsigned _TRIANGLE_NUMBER_X = 48;
-		const unsigned _TRIANGLE_NUMBER_Y = 48;
 		const Vector2 _distance =
 			(Vector2(_maxPointPosition.x, _maxPointPosition.y) - Vector2(_minPointPosition.x, _minPointPosition.y)) /
-			Vector2(_TRIANGLE_NUMBER_X, _TRIANGLE_NUMBER_Y);
+			Vector2(triangleNumX, triangleNumY);
 		Vector3 vec;
 		int _closestPoint;
 		float _pointDistance, _closestPointDistance;
 
-		_vertices.resize(_TRIANGLE_NUMBER_X * _TRIANGLE_NUMBER_Y);
+		_vertices.resize(triangleNumX * triangleNumY);
 
-		auto _verticesVectorGetIndex = [](unsigned x, unsigned y) -> unsigned {return x * _TRIANGLE_NUMBER_Y + y; };
+		auto _verticesVectorGetIndex = [triangleNumY](unsigned x, unsigned y) -> unsigned {return x * triangleNumY + y; };
 
-		for (unsigned x = 0; x < _TRIANGLE_NUMBER_X; x++)
+		for (unsigned x = 0; x < triangleNumX; x++)
 		{
-			for (unsigned y = 0; y < _TRIANGLE_NUMBER_Y; y++)
+			for (unsigned y = 0; y < triangleNumY; y++)
 			{
 				vec = { x * _distance.x, y * _distance.y, 0.f };
 
@@ -314,11 +314,11 @@ cs::Mesh* cs::ResourceManager::LoadModelFromMapData(const std::string filename, 
 			}
 		}
 
-		_indices.reserve(_TRIANGLE_NUMBER_X* _TRIANGLE_NUMBER_Y * 6);
+		_indices.reserve(triangleNumX * triangleNumY * 6);
 
-		for (unsigned x = 0; x < _TRIANGLE_NUMBER_X - 1; x++)
+		for (unsigned x = 0; x < triangleNumX - 1; x++)
 		{
-			for (unsigned y = 0; y < _TRIANGLE_NUMBER_Y - 1; y++)
+			for (unsigned y = 0; y < triangleNumY - 1; y++)
 			{
 				_indices.push_back(_verticesVectorGetIndex(x, y));
 				_indices.push_back(_verticesVectorGetIndex(x + 1, y));

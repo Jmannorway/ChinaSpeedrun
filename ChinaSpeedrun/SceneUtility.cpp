@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Mesh.h"
 
-bool cs::SceneUtility::CreateStaticTriangleCollidersFromMesh(const Mesh* const mesh)
+bool cs::SceneUtility::CreateStaticTriangleCollidersFromMesh(const Mesh* const mesh, Vector3 offset)
 {
     if (mesh)
     {
@@ -14,7 +14,9 @@ bool cs::SceneUtility::CreateStaticTriangleCollidersFromMesh(const Mesh* const m
 
         for (unsigned i = 0, _objIndex = 0; i < _indices.size() - 2; i += 3)
         {
-            auto _obj = SceneManager::InstanceObject(("Collision triangle " + std::to_string(_objIndex)).c_str());
+            auto _obj = SceneManager::InstanceObject(
+                ("Collision triangle " + std::to_string(_objIndex)).c_str(),
+                offset);
             auto& _jpc = _obj->AddComponent<JPhysicsComponent>();
             _jpc.shape = new JCollisionTriangle(
                 _vertices[_indices[i]].position,

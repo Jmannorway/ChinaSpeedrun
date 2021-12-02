@@ -146,11 +146,10 @@ void cs::editor::ImGuiLayer::Step()
             activeObject &&
             activeObject->HasComponent<MeshRendererComponent>())
         {
-            if (!SceneUtility::CreateStaticTriangleCollidersFromMesh(
-                activeObject->GetComponent<MeshRendererComponent>().mesh))
-            {
-                Debug::LogWarning("Couldn't create triangle colliders; INVALID MESH");
-            }
+            Vector3 _offset = activeObject->HasComponent<TransformComponent>() ?
+                activeObject->GetComponent<TransformComponent>().position : Vector3(0.f);
+
+            SceneUtility::CreateStaticTriangleCollidersFromMesh(activeObject->GetComponent<MeshRendererComponent>().mesh, _offset);
         }
 
         ImGui::SameLine();
