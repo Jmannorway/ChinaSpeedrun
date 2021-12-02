@@ -194,6 +194,7 @@
     <ClCompile Include="JPhysicsComponent.cpp">
       <Filter>ecs\physics jarle</Filter>
     </ClCompile>
+    <ClCompile Include="SceneUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -376,6 +377,7 @@
     <ClInclude Include="JPhysicsSystem.h">
       <Filter>ecs\physics jarle</Filter>
     </ClInclude>
+    <ClInclude Include="SceneUtility.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">

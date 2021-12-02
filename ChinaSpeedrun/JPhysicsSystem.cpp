@@ -35,13 +35,6 @@ void cs::JPhysicsSystem::DetectCollision(
 
 void cs::JPhysicsSystem::SolveCollisions()
 {
-	// stopper solver
-	/*for (auto& c : collisions)
-	{
-		c.pc1.velocity = Vector3(0.f);
-		c.pc2.velocity = Vector3(0.f);
-	}*/
-
 	// reflection solver
 	for (auto& c : collisions)
 	{

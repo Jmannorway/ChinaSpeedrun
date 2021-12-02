@@ -313,9 +313,6 @@ void cs::Scene::UpdateComponents()
 		auto& _jpc{ registry.get<JPhysicsComponent>(e) };
 		auto& _tc{ registry.get<TransformComponent>(e) };
 		JPhysicsSystem::CalculateMovement(_jpc);
-
-		if (_jpc.shape)
-			_jpc.shape->Draw();
 	}
 
 	for (auto e : _jphysicsEntities)

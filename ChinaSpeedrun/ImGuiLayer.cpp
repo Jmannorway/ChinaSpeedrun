@@ -16,7 +16,10 @@
 #include "ChinaEngine.h"
 #include "SceneManager.h"
 #include "Camera.h"
+#include "JCollisionShape.h"
+#include "Mesh.h"
 #include "ResourceManager.h"
+#include "SceneUtility.h"
 
 cs::editor::ImGuiLayer::ImGuiLayer(EngineEditor* root) :
     editorRoot{ root }, activeObject{ nullptr }, isManipulating{ false }, isWindowActive{ false }
@@ -136,6 +139,18 @@ void cs::editor::ImGuiLayer::Step()
 
             DrawStopSimulationButton();
             break;
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Make colliders for selected object's mesh") &&
+            activeObject &&
+            activeObject->HasComponent<MeshRendererComponent>())
+        {
+            if (!SceneUtility::CreateStaticTriangleCollidersFromMesh(
+                activeObject->GetComponent<MeshRendererComponent>().mesh))
+            {
+                Debug::LogWarning("Couldn't create triangle colliders; INVALID MESH");
+            }
         }
 
         ImGui::SameLine();

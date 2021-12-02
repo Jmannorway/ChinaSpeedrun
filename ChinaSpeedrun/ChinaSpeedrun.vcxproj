@@ -210,6 +210,7 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneUtility.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Signal.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneUtility.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shader.h" />

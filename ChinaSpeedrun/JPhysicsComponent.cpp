@@ -13,8 +13,6 @@ void cs::JPhysicsComponent::Init()
 
 void cs::JPhysicsComponent::Enter()
 {
-	if (shape)
-		shape->Draw();
 }
 
 void cs::JPhysicsComponent::ImGuiDrawComponent()

@@ -26,6 +26,7 @@
 //#include "EditorProfiler.h"
 
 #include "JCollisionShape.h"
+#include "SceneUtility.h"
 #include "Time.h"
 
 cs::VulkanEngineRenderer cs::ChinaEngine::renderer;
@@ -89,47 +90,28 @@ void cs::ChinaEngine::EngineInit()
 	SceneManager::Load(SceneManager::CreateScene("Scene"));
 
 	GameObject* _obj = SceneManager::InstanceObject(
-		"Object", 
+		"Object",
 		Vector3(2.1f, 2.8f, 15.8f), 
 		Vector3(-2.5f, 1.2f, 3.14f));
 	CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
 
-	_obj = SceneManager::InstanceObject("Mesh object");
-	_obj->GetComponent<TransformComponent>().scale = { 8.f, 1.f, 8.f };
+	_obj = SceneManager::InstanceObject("Plane mesh");
 	auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
-	_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/plane.obj"));
+	_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/stcol1.obj"));
 	_mrc.material = ResourceManager::GetFirstMaterial();
-	auto& _jpc = _obj->AddComponent<JPhysicsComponent>();
-	_jpc.velocity = Vector3(0.f, 0.f, 0.f);
-	_jpc.gravityScale = 0.f;
-	_jpc.shape = new JCollisionPlane({1, 1, 0});
-	//_jpc.shape = new JCollisionTriangle({1, 0, 1}, {-1, 0, 1}, {-1, 0, -1});
+	SceneUtility::CreateStaticTriangleCollidersFromMesh(_mrc.mesh);
 
-	_obj = SceneManager::InstanceObject("Mesh object");
-	_obj->GetComponent<TransformComponent>().scale = { 8.f, 1.f, 8.f };
-	auto& _mrc4 = _obj->AddComponent<MeshRendererComponent>();
-	_mrc4.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/plane.obj"));
-	_mrc4.material = ResourceManager::GetFirstMaterial();
-	auto& _jpc4 = _obj->AddComponent<JPhysicsComponent>();
-	_jpc4.velocity = Vector3(0.f, 0.f, 0.f);
-	_jpc4.gravityScale = 0.f;
-	_jpc4.shape = new JCollisionPlane({ 0, 1, 1 });
-
-	_obj = SceneManager::InstanceObject("Mesh object 2", Vector3(0.f, 2.f, 2.f));
-	auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
-	_mrc2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
-	_mrc2.material = ResourceManager::GetFirstMaterial();
-	auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
-	_jpc2.shape = new JCollisionSphere;
-	_jpc2.gravityScale = 0.4f;
-
-	_obj = SceneManager::InstanceObject("Mesh object 3", Vector3(0.f, 4.f, 1.5f));
+	_obj = SceneManager::InstanceObject(
+		"Mesh object 3", 
+		Vector3(-0.75f, 2.f, 0.3f),
+		Vector3(0.0f),
+		Vector3(0.4f));
 	auto& _mrc3 = _obj->AddComponent<MeshRendererComponent>();
 	_mrc3.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
 	_mrc3.material = ResourceManager::GetFirstMaterial();
 	auto& _jpc3 = _obj->AddComponent<JPhysicsComponent>();
-	_jpc3.shape = new JCollisionSphere;
-	_jpc3.gravityScale = 0.4f;
+	_jpc3.shape = new JCollisionSphere(0.4f);
+	_jpc3.gravityScale = 0.25f;
 }
 
 void cs::ChinaEngine::InitInput()
