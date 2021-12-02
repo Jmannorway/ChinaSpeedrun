@@ -46,11 +46,15 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 	const TransformComponent* cstc, const JCollisionTriangle* ct, const TransformComponent* cttc)
 {
 	JCollisionPoints _cp;
-	float _distanceToPlane = DistanceFromPointToPlane(cstc->position, ct->GetPoint(0) + cttc->position, ct->GetNormal());
+
+	const Vector3 _arbitraryPoint = ct->GetPoint(0);
+	const Vector3 _triangleNormal = ct->GetNormal();
+	float _distanceToPlane = DistanceFromPointToPlane(
+		cstc->position, _arbitraryPoint + cttc->position, _triangleNormal);
 
 	if (_distanceToPlane <= cs->radius)
 	{
-		Vector3 _pointOnPlane = ProjectPointOntoPlane(cstc->position, ct->GetPoint(0), ct->GetNormal());
+		const Vector3 _pointOnPlane = ProjectPointOntoPlane(cstc->position, _arbitraryPoint, _triangleNormal);
 		float _shortestDistanceToLine = cs->radius + 1.f;
 
 		for (unsigned i = 0; i < 3; i++)
@@ -65,35 +69,32 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 
 			_shortestDistanceToLine = glm::min(
 				_shortestDistanceToLine,
-				distance(cstc->position, _pointOnLine));
+				distance(_pointOnPlane, _pointOnLine));
 		}
 
 		float _circleRadius = CircleEaseOut(_distanceToPlane / cs->radius) * cs->radius;
 
-		Debug::LogInfo(_shortestDistanceToLine);
+		// Is colliding
 		if (_shortestDistanceToLine <= _circleRadius)
 		{
 			_cp.hasCollision = true;
 
-			Vector3 _triangleNormal = ct->GetNormal();
+			// direction the objects need to be moved out of each other
+			float _side = glm::sign(dot(cstc->position + _arbitraryPoint, _triangleNormal));
+			_side = _side + (_side == 0.f) * 1.f;
+			_cp.normal = _triangleNormal * _side;
 
-			{ // direction the objects need to be moved out of each other
-				float _side = glm::sign(dot(cstc->position + ct->GetPoint(0), _triangleNormal));
-				_side = _side + (_side == 0.f) * 1.f;
-				_cp.normal = _triangleNormal * _side;
-			}
+			Debug::LogInfo(_shortestDistanceToLine, ", ", _circleRadius, ", Side: ", _side);
 
-			{ // the first point of contact on the sphere
-				_cp.a;
-			}
+			// the first point of contact on the sphere
+			_cp.a = cstc->position - cs->radius * _triangleNormal;
 
-			{ // the first point of contact on the triangle
-				_cp.b;
-			}
+			// the first point of contact on the triangle
+			_cp.b = cstc->position - DistanceFromPointToPlane(
+				cstc->position, _arbitraryPoint, _triangleNormal) * _triangleNormal;
 
-			{ // The distance from a to b
-				_cp.depth;
-			}
+			// The distance from a to b
+			_cp.depth = distance(_cp.a, _cp.b);
 		}
 		else
 			Debug::LogInfo("Not intersecting triangle lines");
@@ -102,6 +103,7 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 	{
 		Debug::LogInfo("Not intersecting triangle lines");
 	}
+
 	return _cp;
 }
 
