@@ -38,6 +38,11 @@ namespace cs
 		static Material* GetFirstMaterial();
 		static Mesh* GetFirstMesh();
 
+		static void CreateDefaultResources();
+		static Material* GetDefaultMaterial();
+		static Shader* GetDefaultShader();
+		static Texture* GetDefaultTexture();
+
 		template<class T>
 		static T* IsDuplicateResource(std::string filename);
 		template<class T>
@@ -193,6 +198,10 @@ namespace cs
 		static std::unordered_map<std::string, cs::Material*> materials;
 		static std::unordered_map<std::string, cs::Scene*> scenes;
 		static std::unordered_map<std::string, cs::Script*> scripts;
+
+		static Material* defaultMaterial;
+		static Shader* defaultShader;
+		static Texture* defaultTexture;
 	};
 
 	template <class T>

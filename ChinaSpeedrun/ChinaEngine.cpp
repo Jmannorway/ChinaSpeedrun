@@ -68,37 +68,24 @@ void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth
 
 void cs::ChinaEngine::EngineInit()
 {
+	ResourceManager::CreateDefaultResources();
+
 	// Create important resources
 	Mesh* _defaultMesh = ResourceManager::Load<Mesh>("../Resources/models/default_mesh.obj");
-
-	Texture* _defaultTexture = ResourceManager::Load<Texture>("../Resources/textures/default_texture.png");
-	_defaultTexture->filter = Texture::Filter::NEAREST;
-
-	Shader* _defaultShader = ResourceManager::Load<Shader>("../Resources/shaders/default_shader");
-	_defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
-	_defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
-	_defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
-	_defaultShader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
-	_defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
-	_defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
-
-	Material* _defaultMaterial = ResourceManager::Load<Material>("../Resources/materials/default_material.mat");
-	_defaultMaterial->shader = _defaultShader;
-	_defaultMaterial->shaderParams["texSampler"] = _defaultTexture;
 
 	// Create scene and contained objects
 	SceneManager::Load(SceneManager::CreateScene("Scene"));
 
 	GameObject* _obj = SceneManager::InstanceObject(
 		"Object",
-		Vector3(2.1f, 2.8f, 15.8f), 
-		Vector3(-2.5f, 1.2f, 3.14f));
+		Vector3(9.7f, 4.f, 5.8f), 
+		Vector3(-26.f, 45.2f, 0.f));
 	CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
 
 	_obj = SceneManager::InstanceObject("Plane mesh");
 	auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
 	_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/stcol1.obj"));
-	_mrc.material = ResourceManager::GetFirstMaterial();
+	_mrc.material = ResourceManager::GetDefaultMaterial();
 	SceneUtility::CreateStaticTriangleCollidersFromMesh(_mrc.mesh);
 
 	_obj = SceneManager::InstanceObject(
@@ -108,7 +95,7 @@ void cs::ChinaEngine::EngineInit()
 		Vector3(0.4f));
 	auto& _mrc3 = _obj->AddComponent<MeshRendererComponent>();
 	_mrc3.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
-	_mrc3.material = ResourceManager::GetFirstMaterial();
+	_mrc3.material = ResourceManager::GetDefaultMaterial();
 	auto& _jpc3 = _obj->AddComponent<JPhysicsComponent>();
 	_jpc3.shape = new JCollisionSphere(0.4f);
 	_jpc3.gravityScale = 0.25f;

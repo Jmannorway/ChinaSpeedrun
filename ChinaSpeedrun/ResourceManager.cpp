@@ -46,6 +46,10 @@ std::unordered_map<std::string, cs::AudioData*> cs::ResourceManager::audio;
 std::unordered_map<std::string, cs::Scene*> cs::ResourceManager::scenes;
 std::unordered_map<std::string, cs::Script*> cs::ResourceManager::scripts;
 
+cs::Material* cs::ResourceManager::defaultMaterial = nullptr;
+cs::Shader* cs::ResourceManager::defaultShader = nullptr;
+cs::Texture* cs::ResourceManager::defaultTexture = nullptr;
+
 std::vector<Vector3> cs::ResourceManager::LoadLAS(const std::string& filename)
 {
 	std::ifstream _file{ filename };
@@ -89,6 +93,39 @@ cs::Material* cs::ResourceManager::GetFirstMaterial()
 cs::Mesh* cs::ResourceManager::GetFirstMesh()
 {
 	return (*meshes.begin()).second;
+}
+
+void cs::ResourceManager::CreateDefaultResources()
+{
+	defaultTexture = Load<Texture>("../Resources/textures/default_texture.png");
+	defaultTexture->filter = Texture::Filter::NEAREST;
+
+	defaultShader = Load<Shader>("../Resources/shaders/default_shader");
+	defaultShader->AssignShaderVertexInputAttrib("position", 0, Shader::Data::VEC3);
+	defaultShader->AssignShaderVertexInputAttrib("color", 1, Shader::Data::VEC3);
+	defaultShader->AssignShaderVertexInputAttrib("texCoord", 2, Shader::Data::VEC2);
+	defaultShader->AssignShaderVertexBinding(Shader::InputRate::VERTEX);
+	defaultShader->AssignShaderDescriptor("ubo", 0, Shader::Type::VERTEX, Shader::Data::UNIFORM);
+	defaultShader->AssignShaderDescriptor("texSampler", 1, Shader::Type::FRAGMENT, Shader::Data::SAMPLER2D);
+
+	defaultMaterial = Load<Material>("../Resources/materials/default_material.mat");
+	defaultMaterial->shader = defaultShader;
+	defaultMaterial->shaderParams["texSampler"] = defaultTexture;
+}
+
+cs::Material* cs::ResourceManager::GetDefaultMaterial()
+{
+	return defaultMaterial;
+}
+
+cs::Shader* cs::ResourceManager::GetDefaultShader()
+{
+	return defaultShader;
+}
+
+cs::Texture* cs::ResourceManager::GetDefaultTexture()
+{
+	return defaultTexture;
 }
 
 void cs::ResourceManager::LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene)
