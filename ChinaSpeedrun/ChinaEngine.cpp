@@ -69,40 +69,6 @@ void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth
 void cs::ChinaEngine::EngineInit()
 {
 	ResourceManager::CreateDefaultResources();
-
-	GameObject* _obj;
-
-	// Scene containing the first sphere triangle collision example
-	
-
-	{
-		SceneManager::Load(SceneManager::CreateScene("Map data collision"));
-
-		_obj = SceneManager::InstanceObject(
-			"Object",
-			Vector3(9.7f, 4.f, 5.8f),
-			Vector3(-26.f, 45.2f, 0.f));
-		_obj->AddComponent<CameraComponent>();
-
-		_obj = SceneManager::InstanceObject("Map for collision", Vector3(-205.6f, -24.5f, -236.7f));
-		auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
-		_mrc.SetMesh(ResourceManager::LoadModelFromMapData("../Resources/test_las.txt", 25000, 8, 8));
-		_mrc.material = ResourceManager::GetDefaultMaterial();
-
-		_obj = SceneManager::InstanceObject(
-			"Rolling ball",
-			Vector3(0.f, 3.5f, 0.3f),
-			Vector3(0.0f),
-			Vector3(0.4f));
-		auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
-		_mrc2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
-		_mrc2.material = ResourceManager::GetDefaultMaterial();
-		auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
-		_jpc2.shape = new JCollisionSphere(0.4f);
-		_jpc2.gravityScale = 0.25f;
-	}
-
-	SceneManager::SetCurrentFocusedScene(0);
 }
 
 void cs::ChinaEngine::InitInput()

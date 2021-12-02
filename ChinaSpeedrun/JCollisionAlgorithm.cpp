@@ -86,10 +86,6 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 			_side = _side + (_side == 0.f) * 1.f;
 			_cp.normal = _triangleNormal * _side;
 
-			Vector3 _colpos = cttc->position + ct->GetPoint(0);
-			Debug::LogInfo(_colpos.x, ", ", _colpos.y, ", ", _colpos.z); 
-			//Debug::LogInfo(_shortestDistanceToLine, ", ", _circleRadius, ", Side: ", _side);
-
 			// the first point of contact on the sphere
 			_cp.a = cstc->position - cs->radius * _triangleNormal;
 
@@ -101,11 +97,9 @@ cs::JCollisionPoints cs::algo::FindSphereTriangleCollisionPoints(const JCollisio
 			_cp.depth = distance(_cp.a, _cp.b);
 		}
 		else
+		{
 			Debug::LogInfo("Not intersecting triangle lines");
-	}
-	else
-	{
-		Debug::LogInfo("Not intersecting triangle lines");
+		}
 	}
 
 	return _cp;

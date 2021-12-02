@@ -160,6 +160,11 @@ std::string cs::Scene::GetName() const
 	return name;
 }
 
+void cs::Scene::SetName(std::string newName)
+{
+	name = newName;
+}
+
 void cs::Scene::AddToRenderQueue(RenderComponent* renderer)
 {
 	renderableObjects.push_back(renderer);

@@ -142,14 +142,86 @@ void cs::editor::ImGuiLayer::Step()
         }
 
         ImGui::SameLine();
-        if (ImGui::Button("Make colliders for selected object's mesh") &&
-            activeObject &&
-            activeObject->HasComponent<MeshRendererComponent>())
+        if (ImGui::Button("Load Scene 1"))
         {
-            Vector3 _offset = activeObject->HasComponent<TransformComponent>() ?
-                activeObject->GetComponent<TransformComponent>().position : Vector3(0.f);
+            SceneManager::Load(SceneManager::CreateScene("Triangle sphere 1st - " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+            SceneManager::SetCurrentFocusedScene(SceneManager::GetCurrentActiveSceneNumber() - 1);
+            GameObject* _obj;
 
-            SceneUtility::CreateStaticTriangleCollidersFromMesh(activeObject->GetComponent<MeshRendererComponent>().mesh, _offset);
+            _obj = SceneManager::InstanceObject(
+                "Object",
+                Vector3(9.7f, 4.f, 5.8f),
+                Vector3(-26.f, 45.2f, 0.f));
+            CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
+
+            _obj = SceneManager::InstanceObject("Plane mesh");
+            auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+            _mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/stcol1.obj"));
+            _mrc.material = ResourceManager::GetDefaultMaterial();
+            SceneUtility::CreateStaticTriangleCollidersFromMesh(_mrc.mesh);
+
+            _obj = SceneManager::InstanceObject(
+                "Rolling ball",
+                Vector3(-0.75f, 2.f, 0.3f),
+                Vector3(0.0f),
+                Vector3(0.4f));
+            auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
+            _mrc2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
+            _mrc2.material = ResourceManager::GetDefaultMaterial();
+            auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
+            _jpc2.shape = new JCollisionSphere(0.4f);
+            _jpc2.gravityScale = 0.25f;
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Load Scene 2"))
+        {
+            SceneManager::Load(SceneManager::CreateScene("Triangulated map data - " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+            SceneManager::SetCurrentFocusedScene(SceneManager::GetCurrentActiveSceneNumber() - 1);
+            GameObject* _obj;
+
+            _obj = SceneManager::InstanceObject(
+                "Object",
+                Vector3(9.7f, 4.f, 5.8f),
+                Vector3(-26.f, 45.2f, 0.f));
+            CameraComponent& _cc = _obj->AddComponent<CameraComponent>();
+
+            _obj = SceneManager::InstanceObject("Triangulated map mesh", Vector3(-230.f, -47.f, -266.f));
+            auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+            _mrc.SetMesh(ResourceManager::LoadModelFromMapData("../Resources/test_las.txt"));
+            _mrc.material = ResourceManager::GetDefaultMaterial();
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Load Scene 3")) // Scene containing triangulated map data, triangle colliders and a sphere collider
+        {
+            SceneManager::Load(SceneManager::CreateScene("Map data collision - " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+            SceneManager::SetCurrentFocusedScene(SceneManager::GetCurrentActiveSceneNumber() - 1);
+            GameObject* _obj;
+
+            _obj = SceneManager::InstanceObject(
+                "Camera",
+                Vector3(3.1f, 13.4f, -21.7f),
+                Vector3(-25.f, -169.8f, 0.f));
+            _obj->AddComponent<CameraComponent>();
+
+            _obj = SceneManager::InstanceObject("Map for collision", Vector3(-205.6f, -24.5f, -236.7f));
+            auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+            _mrc.SetMesh(ResourceManager::LoadModelFromMapData("../Resources/test_las.txt", 25000, 8, 8));
+            _mrc.material = ResourceManager::GetDefaultMaterial();
+            SceneUtility::CreateStaticTriangleCollidersFromMesh(_mrc.mesh, _obj->GetComponent<TransformComponent>().position);
+
+            _obj = SceneManager::InstanceObject(
+                "Rolling ball",
+                Vector3(6.9f, 7.6f, -11.2f),
+                Vector3(0.0f),
+                Vector3(0.4f));
+            auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
+            _mrc2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
+            _mrc2.material = ResourceManager::GetDefaultMaterial();
+            auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
+            _jpc2.shape = new JCollisionSphere(0.4f);
+            _jpc2.gravityScale = 0.25f;
         }
 
         ImGui::SameLine();

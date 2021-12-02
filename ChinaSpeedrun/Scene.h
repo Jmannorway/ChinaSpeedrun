@@ -55,6 +55,7 @@ namespace cs
 		class PhysicsSystem* GetPhysicsSystem() const;
 		class AudioSystem* GetAudioSystem() const;
 		std::string GetName() const;
+		void SetName(std::string newName);
 
 		void AddToRenderQueue(class RenderComponent* renderer);
 		void RemoveFromRenderQueue(RenderComponent* renderer);

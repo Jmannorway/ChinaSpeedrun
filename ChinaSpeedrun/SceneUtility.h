@@ -8,7 +8,8 @@ namespace cs
 	class SceneUtility
 	{
 	public:
-		static bool CreateStaticTriangleCollidersFromMesh(const Mesh* const mesh, Vector3 offset = Vector3(0.f));
+		static bool CreateStaticTriangleCollidersFromMesh(
+			const Mesh* const mesh, Vector3 offset = Vector3(0.f));
 	};
 }
 
