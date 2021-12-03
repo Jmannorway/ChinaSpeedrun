@@ -221,7 +221,45 @@ void cs::editor::ImGuiLayer::Step()
             _mrc2.material = ResourceManager::GetDefaultMaterial();
             auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
             _jpc2.shape = new JCollisionSphere(0.4f);
-            _jpc2.gravityScale = 0.25f;
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Load Scene 4")) // Scene containing triangulated map data, triangle colliders and a sphere collider
+        {
+            SceneManager::Load(SceneManager::CreateScene("Map data collision (rain) - " + std::to_string(SceneManager::GetCurrentActiveSceneNumber())));
+            SceneManager::SetCurrentFocusedScene(SceneManager::GetCurrentActiveSceneNumber() - 1);
+            GameObject* _obj;
+
+            _obj = SceneManager::InstanceObject(
+                "Camera",
+                Vector3(-100.f, 55.f, -30.f),
+                Vector3(-25.f, -80.f, 0.f));
+            _obj->AddComponent<CameraComponent>();
+
+            _obj = SceneManager::InstanceObject("Map for collision", Vector3(-205.6f, -24.5f, -236.7f));
+            auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+            _mrc.SetMesh(ResourceManager::LoadModelFromMapData("../Resources/test_las.txt", 25000, 4, 4));
+            _mrc.material = ResourceManager::GetDefaultMaterial();
+            SceneUtility::CreateStaticTriangleCollidersFromMesh(_mrc.mesh, _obj->GetComponent<TransformComponent>().position);
+
+            for (unsigned i = 0; i < 16; i++)
+            {
+                const float _radius = Mathf::RandRange(0.3f, 0.6f);
+                _obj = SceneManager::InstanceObject(
+                    "Rolling ball",
+                    Vector3(
+                        Mathf::RandRange(-35.f, -15.f),
+                        Mathf::RandRange(55.f, 65.f),
+                        Mathf::RandRange(-30.f, -40.f)),
+                    Vector3(0.0f),
+                    Vector3(_radius));
+                auto& _mrc2 = _obj->AddComponent<MeshRendererComponent>();
+                _mrc2.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/icosphere.obj"));
+                _mrc2.material = ResourceManager::GetDefaultMaterial();
+                auto& _jpc2 = _obj->AddComponent<JPhysicsComponent>();
+                _jpc2.shape = new JCollisionSphere(_radius);
+                _jpc2.gravityScale = 0.25f;
+            }
         }
 
         ImGui::SameLine();
