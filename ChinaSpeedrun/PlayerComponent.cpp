@@ -1,6 +1,7 @@
 #include "PlayerComponent.h"
 #include "Debug.h"
 #include "Components.h"
+#include "Input.h"
 
 void cs::PlayerComponent::Init()
 {
@@ -17,7 +18,10 @@ void cs::PlayerComponent::Init()
 
 void cs::PlayerComponent::Step()
 {
-
+	if (Input::GetMousePressed(0))
+	{
+		
+	}
 }
 
 void cs::PlayerComponent::ImGuiDrawComponent()
@@ -25,6 +29,6 @@ void cs::PlayerComponent::ImGuiDrawComponent()
 
 }
 
-cs::PlayerComponent::PlayerComponent() : ac(nullptr), pc(nullptr)
+cs::PlayerComponent::PlayerComponent() : camera(nullptr), ac(nullptr), pc(nullptr)
 {
 }

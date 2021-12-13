@@ -35,6 +35,7 @@ namespace cs
 		void QueueForCreation();
 
 		void Init() override;
+		void AddForce(const Vector2& impulse);
 		void UpdateFixtures();
 		void DeleteFixtures();
 		void DestroyBody();

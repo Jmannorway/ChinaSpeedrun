@@ -49,6 +49,7 @@ std::unordered_map<std::string, cs::Script*> cs::ResourceManager::scripts;
 cs::Material* cs::ResourceManager::defaultMaterial = nullptr;
 cs::Shader* cs::ResourceManager::defaultShader = nullptr;
 cs::Texture* cs::ResourceManager::defaultTexture = nullptr;
+cs::Mesh* cs::ResourceManager::defaultMesh = nullptr;
 
 std::vector<Vector3> cs::ResourceManager::LoadLAS(const std::string& filename)
 {
@@ -97,6 +98,8 @@ cs::Mesh* cs::ResourceManager::GetFirstMesh()
 
 void cs::ResourceManager::CreateDefaultResources()
 {
+	defaultMesh = Load<Mesh>("../Resources/models/default_model.obj");
+
 	defaultTexture = Load<Texture>("../Resources/textures/default_texture.png");
 	defaultTexture->filter = Texture::Filter::NEAREST;
 
@@ -129,9 +132,9 @@ cs::Texture* cs::ResourceManager::GetDefaultTexture()
 	return defaultTexture;
 }
 
-void cs::ResourceManager::LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene)
+cs::Mesh* cs::ResourceManager::GetDefaultMesh()
 {
-
+	return defaultMesh;
 }
 
 cs::Mesh* cs::ResourceManager::LoadModel(const std::string filename)

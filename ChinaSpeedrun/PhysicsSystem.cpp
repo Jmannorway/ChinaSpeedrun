@@ -5,12 +5,17 @@
 #include "Debug.h"
 #include "GameObject.h"
 #include "PhysicsComponent.h"
-#include "PhysicsLocator.h"
 #include "Transform.h"
+#include "Time.h"
 
 void cs::PhysicsSystem::UpdateWorld()
 {
-	world->Step(frequency, velocityIterations, positionIterations);
+	frequencyCounter += Time::deltaTime;
+	if (frequencyCounter >= frequency)
+	{
+		world->Step(frequency, velocityIterations, positionIterations);
+		frequencyCounter -= frequency;
+	}
 }
 
 void cs::PhysicsSystem::UpdatePositions(PhysicsComponent& pc, TransformComponent& tc)
@@ -52,7 +57,8 @@ cs::PhysicsSystem::PhysicsSystem() :
 	listener(new PhysicsListener),
 	velocityIterations(6),
 	positionIterations(2),
-	frequency(1.f/50.f)
+	frequency(1.f/50.f),
+	frequencyCounter(0.f)
 {
 	world->SetContactListener(listener);
 }

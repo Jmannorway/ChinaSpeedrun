@@ -26,6 +26,7 @@
 //#include "EditorProfiler.h"
 
 #include "JCollisionShape.h"
+#include "PlayerComponent.h"
 #include "SceneUtility.h"
 #include "Time.h"
 
@@ -70,7 +71,31 @@ void cs::ChinaEngine::EngineInit()
 {
 	ResourceManager::CreateDefaultResources();
 
-	
+	SceneManager::Load(SceneManager::CreateScene("Level"));
+
+	GameObject* _obj;
+
+	// camera
+	_obj = SceneManager::InstanceObject("Camera", Vector3(0.f, 0.f, 18.f));
+	auto& _sceneCamera = _obj->AddComponent<CameraComponent>();
+
+	{ // player
+		_obj = SceneManager::InstanceObject("Player");
+
+		auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+		_mrc.SetMesh(ResourceManager::GetDefaultMesh());
+		_mrc.material = ResourceManager::GetDefaultMaterial();
+
+		_obj->AddComponent<AudioComponent>();
+
+		auto& _pc = _obj->AddComponent<PhysicsComponent>();
+		_pc.definition.type = b2_dynamicBody;
+		_pc.definition.gravityScale = 0.5f;
+		_pc.shape.SetType(CollisionShape::Type::Rectangle);
+
+		auto& _player = _obj->AddComponent<PlayerComponent>();
+		_player.camera = &_sceneCamera;
+	}
 }
 
 void cs::ChinaEngine::InitInput()

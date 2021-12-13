@@ -31,7 +31,7 @@ namespace cs {
 	private:
 		std::vector<PhysicsComponent*> componentToUpdate, componentToCreate; /*Potentially obsolete*/
 		int velocityIterations, positionIterations;
-		float frequency;
+		float frequency, frequencyCounter;
 	};
 }
 

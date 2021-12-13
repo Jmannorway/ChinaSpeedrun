@@ -42,6 +42,7 @@ namespace cs
 		static Material* GetDefaultMaterial();
 		static Shader* GetDefaultShader();
 		static Texture* GetDefaultTexture();
+		static Mesh* GetDefaultMesh();
 
 		template<class T>
 		static T* IsDuplicateResource(std::string filename);
@@ -55,7 +56,6 @@ namespace cs
 		static void SaveComponentsInScene(cereal::JSONOutputArchive& archive, const Scene* scene);
 		template <class T>
 		static void LoadComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
-		static void LoadAllComponentsInScene(cereal::JSONInputArchive& archive, Scene* scene);
 
 		static std::vector<Vector3> LoadLAS(const std::string& filename);
 		static Mesh* LoadModel(const std::string filename);
@@ -203,6 +203,7 @@ namespace cs
 		static Material* defaultMaterial;
 		static Shader* defaultShader;
 		static Texture* defaultTexture;
+		static Mesh* defaultMesh;
 	};
 
 	template <class T>

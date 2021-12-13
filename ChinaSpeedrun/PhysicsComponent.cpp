@@ -124,6 +124,11 @@ void cs::PhysicsComponent::Init()
 	QueueForCreation();
 }
 
+void cs::PhysicsComponent::AddForce(const Vector2& impulse)
+{
+	body->ApplyForceToCenter(b2Vec2(impulse.x, impulse.y), true);
+}
+
 void cs::PhysicsComponent::UpdateFixtures()
 {
 	DeleteFixtures();

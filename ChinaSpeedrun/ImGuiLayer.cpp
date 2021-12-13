@@ -160,8 +160,8 @@ void cs::editor::ImGuiLayer::Step()
                     case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:
 	                    {
                         auto _mrc = static_cast<MeshRendererComponent*>(_c);
-                        _mrc->SetMesh(ResourceManager::GetFirstMesh());
-                        _mrc->material = ResourceManager::GetFirstMaterial();
+                        _mrc->SetMesh(ResourceManager::GetDefaultMesh());
+                        _mrc->material = ResourceManager::GetDefaultMaterial();
 	                    }
                     }
                 }

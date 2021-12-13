@@ -195,7 +195,9 @@
       <Filter>ecs\physics jarle</Filter>
     </ClCompile>
     <ClCompile Include="SceneUtility.cpp" />
-    <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Serialization.h" />
@@ -379,7 +381,9 @@
       <Filter>ecs\physics jarle</Filter>
     </ClInclude>
     <ClInclude Include="SceneUtility.h" />
-    <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ecs">
