@@ -25,6 +25,7 @@
 #include "SceneManager.h"
 //#include "EditorProfiler.h"
 
+#include "AudioSystem.h"
 #include "JCollisionShape.h"
 #include "PlayerComponent.h"
 #include "SceneUtility.h"
@@ -71,7 +72,13 @@ void cs::ChinaEngine::EngineInit()
 {
 	ResourceManager::CreateDefaultResources();
 
-	SceneManager::Load(SceneManager::CreateScene("Level"));
+	Scene* _scene = SceneManager::CreateScene("Level");
+
+	SceneManager::Load(_scene);
+
+	_scene->GetAudioSystem()->Load("../Resources/sounds/koto.wav");
+	_scene->GetAudioSystem()->Load("../Resources/sounds/kazeoto.wav");
+	_scene->GetAudioSystem()->Load("../Resources/sounds/pon1.wav");
 
 	GameObject* _obj;
 

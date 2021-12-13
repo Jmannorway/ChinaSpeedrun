@@ -7,8 +7,13 @@ namespace cs
 	{
 	public:
 		BSODComponent();
-		void Init() override;
+
+		/**
+		 * Throws a fatal error using the windows API
+		 */
 		void Die();
+
+		void Init() override {}
 		void ImGuiDrawComponent() override;
 	};
 }

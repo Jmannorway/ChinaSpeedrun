@@ -7,16 +7,18 @@
 
 #include "Time.h"
 
-cs::AudioBufferBlob::AudioBufferBlob() : index{ 0 }
+cs::AudioBufferBlob::AudioBufferBlob() : number{ 0 }
 {
-	for (unsigned i = 0; i < max; i++) {
+	for (unsigned i = 0; i < max; i++)
+	{
 		buffer[i] = 0;
 	}
 }
 
 cs::AudioSourceBlob::AudioSourceBlob() : index{ 0 }
 {
-	for (unsigned i = 0; i < max; i++) {
+	for (unsigned i = 0; i < max; i++)
+	{
 		source[i] = 0;
 	}
 }
@@ -75,25 +77,23 @@ void cs::AudioSystem::Init()
 {
 	device = alcOpenDevice(nullptr);
 
-	if (device) {
+	if (device)
+	{
 		context = alcCreateContext(device, nullptr);
 		alcMakeContextCurrent(context);
 	}
-	else {
+	else
+	{
 		return;
 	}
 	
 	alec(alGenBuffers(buffer.max, buffer.buffer));
 	alec(alGenSources(source.max, source.source));
-	
-	Load("../Resources/sounds/koto.wav");
-	Load("../Resources/sounds/kazeoto.wav");
-	Load("../Resources/sounds/pon1.wav");
 }
 
 bool cs::AudioSystem::Load(std::string path) {
 
-	if (buffer.index + 1 >= buffer.max)
+	if (buffer.number + 1 >= buffer.max)
 	{
 		std::cerr << "AudioSystem error: " << "Not enough buffers" << std::endl;
 		return false;
@@ -133,26 +133,27 @@ bool cs::AudioSystem::Load(std::string path) {
 		}
 	}
 
-	buffer.meta[buffer.index].rate = file.getSampleRate();
-	buffer.meta[buffer.index].depth = file.getBitDepth();
-	buffer.meta[buffer.index].duration =
+	buffer.meta[buffer.number].rate = file.getSampleRate();
+	buffer.meta[buffer.number].depth = file.getBitDepth();
+	buffer.meta[buffer.number].duration =
 		static_cast<float>(bufferData.size()) /
 		static_cast<float>(file.getBitDepth()) /
 		static_cast<float>(file.getNumChannelsAsRead()) /
 		static_cast<float>(file.getSampleRate()) *
 		8.f;
 
-	alec(alBufferData(buffer[buffer.index], AL_FORMAT_STEREO16, bufferData.data(), static_cast<ALsizei>(bufferData.size()), file.getSampleRate()));
+	alec(alBufferData(buffer[buffer.number], AL_FORMAT_STEREO16, bufferData.data(), static_cast<ALsizei>(bufferData.size()), file.getSampleRate()));
 
-	auto pathToName = [](const std::string &path) {
+	auto pathToName = [](const std::string &path)
+	{
 		const size_t lastSlash = path.rfind('/');
 		const size_t lastDot = path.rfind('.');
 		return path.substr(lastSlash + 1, lastDot - lastSlash - 1);
 	};
 
-	soundMap.insert({ pathToName(path), buffer.index });
+	soundMap.insert({ pathToName(path), buffer.number });
 
-	buffer.index++;
+	buffer.number++;
 
 	return true;
 }

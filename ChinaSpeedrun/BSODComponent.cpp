@@ -17,8 +17,6 @@ cs::BSODComponent::BSODComponent()
 	type = ComponentMeta::BSOD_COMPONENT_TYPE;
 }
 
-void cs::BSODComponent::Init() {}
-
 void cs::BSODComponent::Die()
 {
 #ifdef _WIN32
