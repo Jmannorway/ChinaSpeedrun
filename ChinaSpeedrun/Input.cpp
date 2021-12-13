@@ -88,6 +88,7 @@ void Input::GlfwMouseButtonCallback(GLFWwindow* window, int mouseButton, int act
 	switch (action)
 	{
 	case GLFW_PRESS:
+		cs::Debug::LogInfo(mouseButton, ", ", action, ", ", mods);
 		pressedMouseButtons.push_back(mouseButton);
 		heldMouseButtons.push_back(mouseButton);
 		break;

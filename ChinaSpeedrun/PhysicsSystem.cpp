@@ -24,15 +24,12 @@ void cs::PhysicsSystem::UpdatePositions(PhysicsComponent& pc, TransformComponent
 	 * Body should always exist when it needs to be updated
 	 * When the implementation is done this check should not be necessary anymore
 	 */
-	if (pc.body)
-	{
-		auto _pos(pc.body->GetPosition());
-		auto _ang(pc.body->GetAngle());
-		pc.delta.Step({ _pos.x, _pos.y }, _ang);
-		tc.position.x += pc.delta.positionDifference.x;
-		tc.position.y += pc.delta.positionDifference.y;
-		tc.rotation.x += pc.delta.angleDifference;
-	}
+	auto _pos(pc.body->GetPosition());
+	auto _ang(pc.body->GetAngle());
+	pc.delta.Step({ _pos.x, _pos.y }, _ang);
+	tc.position.x += pc.delta.positionDifference.x;
+	tc.position.y += pc.delta.positionDifference.y;
+	tc.rotation.x += pc.delta.angleDifference;
 }
 
 void cs::PhysicsSystem::UpdateComponents()
@@ -103,6 +100,7 @@ void cs::PhysicsSystem::CreateBody(PhysicsComponent* pc)
 
 void cs::PhysicsSystem::DestroyBody(PhysicsComponent* pc)
 {
+	// TODO: Possibly unneeded if statement
 	if (pc->body)
 	{
 		world->DestroyBody(pc->body);

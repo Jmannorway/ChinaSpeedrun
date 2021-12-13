@@ -20,6 +20,7 @@
 #include "PhysicsServer.h"
 #include "PhysicsSystem.h"
 #include "JphysicsSystem.h"
+#include "PlayerComponent.h"
 
 #include "Debug.h"
 #include "JCollisionShape.h"
@@ -259,6 +260,14 @@ void cs::Scene::UpdateEditorComponents()
 
 void cs::Scene::UpdateComponents()
 {
+	auto _playerObjects{ registry.view<PlayerComponent>() };
+	for (auto e : _playerObjects)
+	{
+		auto& _player{ registry.get<PlayerComponent>(e) };
+
+		_player.Step();
+	}
+
 	auto _scriptableObjects{ registry.view<ScriptComponent>() };
 	for (auto e : _scriptableObjects)
 	{

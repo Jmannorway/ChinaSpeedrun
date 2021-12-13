@@ -3,6 +3,7 @@
 #include "Component.h"
 
 namespace cs {
+	class TransformComponent;
 	class CameraComponent;
 	class PhysicsComponent;
 	class AudioComponent;
@@ -15,10 +16,12 @@ namespace cs {
 		void ImGuiDrawComponent() override;
 		PlayerComponent();
 
+		float sensitivity;
 		CameraComponent* camera;
 	private:
 		PhysicsComponent* pc;
 		AudioComponent* ac;
+		TransformComponent* tc;
 	};
 }
 
