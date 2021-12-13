@@ -69,6 +69,8 @@ void cs::ChinaEngine::FramebufferResizeCallback(GLFWwindow* window, int newWidth
 void cs::ChinaEngine::EngineInit()
 {
 	ResourceManager::CreateDefaultResources();
+
+	
 }
 
 void cs::ChinaEngine::InitInput()
