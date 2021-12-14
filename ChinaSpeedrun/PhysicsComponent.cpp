@@ -119,11 +119,16 @@ void cs::PhysicsComponent::QueueForCreation()
 	PhysicsLocator::GetPhysicsSystem()->QueueComponentCreate(this);
 }
 
-void cs::PhysicsComponent::Init()
+void cs::PhysicsComponent::EnterScene()
 {
 	QueueForCreation();
 
 	shape.shape = CreateDefaultShape();
+}
+
+void cs::PhysicsComponent::ExitScene()
+{
+	DestroyBody();
 }
 
 void cs::PhysicsComponent::AddForce(const Vector2& impulse)

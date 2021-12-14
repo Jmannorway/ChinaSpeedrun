@@ -67,7 +67,9 @@ namespace cs
 		 */
 		void QueueForCreation();
 
-		void Init() override;
+		void Init() override {}
+		void EnterScene() override;
+		void ExitScene() override;
 		/**
 		 * Adds force to the physics body's center
 		 */

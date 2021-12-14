@@ -15,6 +15,8 @@ namespace cs
 		bool enabled{ true };
 
 		virtual void Init() = 0;
+		virtual void EnterScene() {}
+		virtual void ExitScene() {}
 		virtual void ImGuiDrawComponent() = 0;
 
 		ComponentMeta::Type GetType() const;

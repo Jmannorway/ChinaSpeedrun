@@ -118,7 +118,7 @@ void cs::ScriptComponent::CreateLuaState()
 	GetGlobalTable();
 }
 
-void cs::ScriptComponent::Start()
+void cs::ScriptComponent::EnterScene()
 {
 	if (!luaOK)
 		return;
@@ -152,7 +152,7 @@ void cs::ScriptComponent::Input(char eventKey)
 	}
 }
 
-void cs::ScriptComponent::Exit()
+void cs::ScriptComponent::ExitScene()
 {
 	if (!luaOK)
 		return;

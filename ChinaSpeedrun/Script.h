@@ -52,10 +52,10 @@ namespace cs
 		void CompileScript();
 		void CreateLuaState();
 
-		void Start();
+		void EnterScene() override;
+		void ExitScene() override;
 		void Update();
 		void Input(char eventKey);
-		void Exit();
 
 		Script* GetScript() const;
 		void SetScript(Script* newScript);

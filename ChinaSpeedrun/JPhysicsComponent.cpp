@@ -11,7 +11,7 @@ void cs::JPhysicsComponent::Init()
 
 }
 
-void cs::JPhysicsComponent::Enter()
+void cs::JPhysicsComponent::EnterScene()
 {
 }
 

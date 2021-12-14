@@ -271,8 +271,8 @@ void cs::editor::ImGuiLayer::DrawStopSimulationButton()
     {
         editorRoot->SetPlaymode(EngineEditor::Playmode::EDITOR);
     	SceneManager::GetCurrentScene()->Exit();
-        // TODO: Reload scene
-    	SceneManager::Reload(SceneManager::GetCurrentActiveScene());
+        // TODO: Reload scene properly
+    	//SceneManager::Reload(SceneManager::GetCurrentActiveScene());
     }
 }
 

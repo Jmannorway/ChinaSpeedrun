@@ -47,20 +47,9 @@ void cs::Scene::Start()
 {
 	Debug::LogSuccess("Start ", name);
 
-	auto _scriptableObjects{ registry.view<ScriptComponent>() };
-	for (auto e : _scriptableObjects)
-	{
-		auto& _script{ registry.get<ScriptComponent>(e) };
-
-		_script.Start();
-	}
-
-	auto _jphysicsEntities{ registry.view<JPhysicsComponent, TransformComponent>() };
-	for (auto e : _jphysicsEntities)
-	{
-		auto& _jpc{ registry.get<JPhysicsComponent>(e) };
-		_jpc.Enter();
-	}
+	for (auto o : gameObjects)
+		for (auto c : o->components)
+			c->EnterScene();
 }
 
 void cs::Scene::Update()
@@ -82,13 +71,9 @@ void cs::Scene::Exit()
 {
 	Debug::LogIssue("Exiting ", name);
 
-	auto _scriptableObjects{ registry.view<ScriptComponent>() };
-	for (auto e : _scriptableObjects)
-	{
-		auto& _script{ registry.get<ScriptComponent>(e) };
-
-		_script.Exit();
-	}
+	for (auto o : gameObjects)
+		for (auto c : o->components)
+			c->ExitScene();
 }
 
 void cs::Scene::Free()
