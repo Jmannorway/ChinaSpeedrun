@@ -141,33 +141,56 @@ void cs::editor::ImGuiLayer::Step()
             break;
         }
 
-        ImGui::SameLine();
+        
 
         // TODO: Move to inspector
-        if (activeObject && ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
+        if (activeObject)
         {
-            for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
+            ImGui::SameLine();
+
+            if (ImGui::Button("Create static collider"))
             {
-                const auto _type = static_cast<ComponentMeta::Type>(i);
-
-                // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
-                if (ImGui::Selectable(ComponentMeta::TypeToName(_type).c_str()) && !activeObject->HasComponentType(_type))
+                if (activeObject->HasComponent<PhysicsComponent>())
                 {
-                    auto _c = activeObject->AddComponentType(_type);
-
-                    switch (_type)
-                    {
-                    case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:
-	                    {
-                        auto _mrc = static_cast<MeshRendererComponent*>(_c);
-                        _mrc->SetMesh(ResourceManager::GetDefaultMesh());
-                        _mrc->material = ResourceManager::GetDefaultMaterial();
-	                    }
-                    }
+                    Debug::Log("Active object had physics component, removing to add new");
+                    activeObject->RemoveComponent<PhysicsComponent>();
                 }
+                
+                auto& _tc = activeObject->GetComponent<TransformComponent>();
+                auto& _pc = activeObject->AddComponent<PhysicsComponent>();
+
+                _pc.shape.SetType(CollisionShape::Type::Rectangle);
+                b2BoxShape* _boxShape = (b2BoxShape*)_pc.shape.shape;
+                _boxShape->SetExtents(b2Vec2(_tc.scale.x, _tc.scale.y));
             }
 
-            ImGui::EndCombo();
+            ImGui::SameLine();
+
+            if (ImGui::BeginCombo("", "Add Component", ImGuiComboFlags_NoArrowButton))
+            {
+                for (unsigned i = 0; i < ComponentMeta::GetComponentTypeMax(); i++)
+                {
+                    const auto _type = static_cast<ComponentMeta::Type>(i);
+
+                    // TODO: Components that need default materials or other initialization outside of Init() will be left unchecked
+                    if (ImGui::Selectable(ComponentMeta::TypeToName(_type).c_str()) && !activeObject->HasComponentType(_type))
+                    {
+                        auto _c = activeObject->AddComponentType(_type);
+
+                        switch (_type)
+                        {
+                        case ComponentMeta::MESH_RENDERER_COMPONENT_TYPE:
+                        {
+                            auto _mrc = static_cast<MeshRendererComponent*>(_c);
+                            _mrc->SetMesh(ResourceManager::GetDefaultMesh());
+                            _mrc->material = ResourceManager::GetDefaultMaterial();
+                        }
+                        }
+                    }
+                }
+
+                ImGui::EndCombo();
+            }
         }
 
         IsWindowHovered();

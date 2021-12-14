@@ -65,7 +65,7 @@ namespace cs
 		static Scene* CreateScene(std::string name);
 		static bool Save(); // saves the current scene (it should already have a resource path, otherwise we ask to save somewhere)
 		static void Load(); // load scene from file path
-		static void Load(Scene* scene); // load the scene in from memory
+		static void Add(Scene* scene); // load the scene in from memory
 		static void Reload(Scene* scene); // reload the scene by keeping it in memory and setting the components back to their beginning state
 		static void Unload(Scene* scene); // unload it from the scene
 		static void DestroyEverything();

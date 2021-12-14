@@ -74,7 +74,7 @@ void cs::ChinaEngine::EngineInit()
 
 	Scene* _scene = SceneManager::CreateScene("Level");
 
-	SceneManager::Load(_scene);
+	SceneManager::Add(_scene);
 
 	_scene->GetAudioSystem()->Load("../Resources/sounds/koto.wav");
 	_scene->GetAudioSystem()->Load("../Resources/sounds/kazeoto.wav");
@@ -102,6 +102,14 @@ void cs::ChinaEngine::EngineInit()
 
 		auto& _player = _obj->AddComponent<PlayerComponent>();
 		_player.SupplyCamera(&_sceneCamera);
+	}
+
+	{ // one round shape
+		_obj = SceneManager::InstanceObject("Circle");
+
+		auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
+		_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/circle.obj"));
+		_mrc.material = ResourceManager::GetDefaultMaterial();
 	}
 }
 

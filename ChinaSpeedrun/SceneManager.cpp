@@ -158,10 +158,10 @@ void cs::SceneManager::Load()
 	if (_scene == nullptr)
 		return;
 
-	Load(_scene);
+	/*Add(_scene);*/
 }
 
-void cs::SceneManager::Load(Scene* scene)
+void cs::SceneManager::Add(Scene* scene)
 {
 	SolveScene(scene, SceneAction::INIT);
 
@@ -174,7 +174,7 @@ void cs::SceneManager::Reload(Scene* scene)
 
 	Unload(scene);
 
-	Load(ResourceManager::LoadScene(_filename));
+	Add(ResourceManager::LoadScene(_filename));
 }
 
 void cs::SceneManager::Unload(Scene* scene)
@@ -216,7 +216,7 @@ void cs::SceneManager::DrawScenes()
 {
 	if (ImGui::Button("New Scene"))
 	{
-		Load(CreateScene("New scene " + std::to_string(GetCurrentActiveSceneNumber())));
+		Add(CreateScene("New scene " + std::to_string(GetCurrentActiveSceneNumber())));
 	}
 
 	ImGui::SameLine();

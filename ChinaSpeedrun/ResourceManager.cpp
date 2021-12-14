@@ -497,7 +497,9 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 
 	std::string _sceneName;
 	_inArchive(cereal::make_nvp("Scene Name", _sceneName));
-	auto _scene{ SceneManager::CreateScene(_sceneName) };
+	Scene* _scene{ SceneManager::CreateScene(_sceneName) };
+	SceneManager::Add(_scene);
+	SceneManager::SetCurrentFocusedScene(SceneManager::GetCurrentActiveSceneNumber() - 1);
 	_scene->resourcePath = filename;
 
 	std::vector<std::vector<unsigned>> _cc;
@@ -505,7 +507,7 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 
 	for (unsigned i = 0; i < _cc.size(); i++)
 	{
-		auto _obj{ _scene->AddGameObject() };
+		GameObject* _obj = SceneManager::InstanceEmptyObject("");
 		_inArchive(*_obj);
 
 		Debug::Log("Game object name: ", _obj->name);
@@ -526,6 +528,50 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 
 	return _scene;
 }
+
+//cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
+//{
+//	if (filename.empty())
+//		filename = wutil::OpenFile();
+//
+//	std::ifstream _inStream(filename);
+//
+//	if (_inStream.bad() || !_inStream.is_open())
+//		return nullptr;
+//
+//	cereal::JSONInputArchive _inArchive(_inStream);
+//
+//	std::string _sceneName;
+//	_inArchive(cereal::make_nvp("Scene Name", _sceneName));
+//	auto _scene{ SceneManager::CreateScene(_sceneName) };
+//	_scene->resourcePath = filename;
+//
+//	std::vector<std::vector<unsigned>> _cc;
+//	_inArchive(cereal::make_nvp("construction count", _cc));
+//
+//	for (unsigned i = 0; i < _cc.size(); i++)
+//	{
+//		auto _obj{ _scene->AddGameObject() };
+//		_inArchive(*_obj);
+//
+//		Debug::Log("Game object name: ", _obj->name);
+//
+//		for (unsigned ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
+//			for (unsigned iii = 0; iii < _cc[i][ii]; iii++)
+//				_obj->AddComponentType(static_cast<ComponentMeta::Type>(ii));
+//	}
+//
+//	LoadComponentsInScene<AudioComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<CameraComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<MeshRendererComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<TransformComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<PhysicsComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<JPhysicsComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<ScriptComponent>(_inArchive, _scene);
+//	LoadComponentsInScene<PlayerComponent>(_inArchive, _scene);
+//
+//	return _scene;
+//}
 
 bool cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 {

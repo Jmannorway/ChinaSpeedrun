@@ -1,11 +1,12 @@
 {
-    "Scene Name": "bitchass2",
+    "Scene Name": "scene1",
     "construction count": [
         [
             0,
             1,
             0,
             1,
+            0,
             0,
             0,
             0,
@@ -19,6 +20,18 @@
             1,
             0,
             0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
             0
         ]
     ],
@@ -28,6 +41,10 @@
     },
     "Player": {
         "name": "Player",
+        "active": true
+    },
+    "New Entity 2": {
+        "name": "New Entity 2",
         "active": true
     },
     "Player.Audio": {
@@ -43,15 +60,37 @@
         "up": 200.0,
         "down": 200.0
     },
+    "New Entity 2.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
     "Player.MeshRenderer": {
         "mesh": "../Resources/models/default_model.obj",
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
+    "New Entity 2.Transform": {
+        "position": {
+            "x": -3.5,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 8.0,
+            "z": 1.0
+        }
+    },
     "Player.Transform": {
         "position": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": -0.6496167182922363,
+            "y": 4.571004867553711,
             "z": 0.0
         },
         "rotation": {
@@ -67,9 +106,9 @@
     },
     "Camera.Transform": {
         "position": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 18.0
+            "x": -0.6496167182922363,
+            "y": 4.571004867553711,
+            "z": 30.0
         },
         "rotation": {
             "x": 0.0,
@@ -104,5 +143,9 @@
             "enabled": true,
             "gravity scale": 0.5
         }
+    },
+    "Player.Component": {
+        "sensitivity": 1.0,
+        "zoom": 30.0
     }
 }

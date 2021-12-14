@@ -1,5 +1,5 @@
 {
-    "Scene Name": "game holy shit",
+    "Scene Name": "synthas pizzeria",
     "construction count": [
         [
             0,
@@ -9,21 +9,13 @@
             0,
             0,
             0,
-            0
-        ],
-        [
-            0,
-            0,
-            1,
-            1,
-            1,
-            0,
             0,
             0
         ],
         [
             0,
             0,
+            1,
             1,
             1,
             0,
@@ -39,15 +31,6 @@
             0,
             0,
             0,
-            0
-        ],
-        [
-            0,
-            0,
-            1,
-            1,
-            0,
-            0,
             0,
             0
         ],
@@ -57,15 +40,6 @@
             1,
             1,
             0,
-            0,
-            0,
-            0
-        ],
-        [
-            0,
-            0,
-            1,
-            1,
             0,
             0,
             0,
@@ -79,6 +53,7 @@
             0,
             0,
             0,
+            0,
             0
         ],
         [
@@ -86,6 +61,106 @@
             0,
             1,
             1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
             0,
             0,
             0,
@@ -100,8 +175,8 @@
         "name": "Player",
         "active": true
     },
-    "New Entity 2": {
-        "name": "New Entity 2",
+    "Circle": {
+        "name": "Circle",
         "active": true
     },
     "New Entity 3": {
@@ -128,6 +203,30 @@
         "name": "New Entity 8",
         "active": true
     },
+    "New Entity 9": {
+        "name": "New Entity 9",
+        "active": true
+    },
+    "New Entity 10": {
+        "name": "New Entity 10",
+        "active": true
+    },
+    "New Entity 11": {
+        "name": "New Entity 11",
+        "active": true
+    },
+    "New Entity 12": {
+        "name": "New Entity 12",
+        "active": true
+    },
+    "New Entity 13": {
+        "name": "New Entity 13",
+        "active": true
+    },
+    "New Entity 14": {
+        "name": "New Entity 14",
+        "active": true
+    },
     "Player.Audio": {
         "sound name": ""
     },
@@ -140,6 +239,36 @@
         "right": 200.0,
         "up": 200.0,
         "down": 200.0
+    },
+    "New Entity 14.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 13.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 12.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 11.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 10.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 9.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
     },
     "New Entity 8.MeshRenderer": {
         "mesh": "../Resources/models/default_model.obj",
@@ -171,8 +300,8 @@
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
-    "New Entity 2.MeshRenderer": {
-        "mesh": "../Resources/models/default_model.obj",
+    "Circle.MeshRenderer": {
+        "mesh": "../Resources/models/circle.obj",
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
@@ -181,27 +310,10 @@
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
-    "New Entity 8.Transform": {
+    "New Entity 14.Transform": {
         "position": {
-            "x": 29.74440574645996,
-            "y": 2.295942783355713,
-            "z": 0.0
-        },
-        "rotation": {
-            "x": 0.0,
-            "y": -0.0,
-            "z": 0.0
-        },
-        "scale": {
-            "x": 7.742899417877197,
-            "y": 1.236161470413208,
-            "z": 1.0
-        }
-    },
-    "New Entity 7.Transform": {
-        "position": {
-            "x": 38.529178619384769,
-            "y": 10.882621765136719,
+            "x": 24.688879013061525,
+            "y": 18.181509017944337,
             "z": 0.0
         },
         "rotation": {
@@ -211,14 +323,14 @@
         },
         "scale": {
             "x": 1.0,
-            "y": 9.58566665649414,
+            "y": 8.99635124206543,
             "z": 1.0
         }
     },
-    "New Entity 6.Transform": {
+    "New Entity 13.Transform": {
         "position": {
-            "x": 20.169475555419923,
-            "y": 12.445304870605469,
+            "x": 23.719724655151368,
+            "y": 28.76659393310547,
             "z": 0.0
         },
         "rotation": {
@@ -227,15 +339,134 @@
             "z": 0.0
         },
         "scale": {
-            "x": 11.341475486755371,
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 12.Transform": {
+        "position": {
+            "x": 21.775089263916017,
+            "y": 31.035402297973634,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 11.Transform": {
+        "position": {
+            "x": 19.582056045532228,
+            "y": 33.23472213745117,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 10.Transform": {
+        "position": {
+            "x": 13.791356086730957,
+            "y": 35.4691047668457,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 9.055535316467286,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 9.Transform": {
+        "position": {
+            "x": 3.4965293407440187,
+            "y": 28.074703216552736,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 13.01514720916748,
+            "z": 1.0
+        }
+    },
+    "New Entity 8.Transform": {
+        "position": {
+            "x": 14.873363494873047,
+            "y": 12.624814987182618,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 4.325216770172119,
+            "z": 1.0
+        }
+    },
+    "New Entity 7.Transform": {
+        "position": {
+            "x": 18.267593383789064,
+            "y": 7.173616886138916,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 12.769501686096192,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 6.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 13.706138610839844,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 8.977694511413575,
             "y": 1.0,
             "z": 1.0
         }
     },
     "New Entity 5.Transform": {
         "position": {
-            "x": 16.841854095458986,
-            "y": 19.38813591003418,
+            "x": 6.452130317687988,
+            "y": -2.628899574279785,
             "z": 0.0
         },
         "rotation": {
@@ -244,15 +475,15 @@
             "z": 0.0
         },
         "scale": {
-            "x": 21.474910736083986,
-            "y": 1.0,
+            "x": 1.0,
+            "y": 8.600296974182129,
             "z": 1.0
         }
     },
     "New Entity 4.Transform": {
         "position": {
-            "x": 9.828546524047852,
-            "y": 3.279345989227295,
+            "x": 0.0,
+            "y": -12.524349212646485,
             "z": 0.0
         },
         "rotation": {
@@ -261,32 +492,15 @@
             "z": 0.0
         },
         "scale": {
-            "x": 1.0,
-            "y": 8.137739181518555,
+            "x": 7.324892997741699,
+            "y": 1.0,
             "z": 1.0
         }
     },
     "New Entity 3.Transform": {
         "position": {
-            "x": 2.494966745376587,
-            "y": -3.902513027191162,
-            "z": 0.0
-        },
-        "rotation": {
-            "x": 0.0,
-            "y": -0.0,
-            "z": 0.0
-        },
-        "scale": {
-            "x": 6.3036699295043949,
-            "y": 1.0,
-            "z": 1.0
-        }
-    },
-    "New Entity 2.Transform": {
-        "position": {
-            "x": -4.831323146820068,
-            "y": 8.843273162841797,
+            "x": -7.348217010498047,
+            "y": 0.7393527030944824,
             "z": 0.0
         },
         "rotation": {
@@ -296,14 +510,31 @@
         },
         "scale": {
             "x": 1.0,
-            "y": 14.213654518127442,
+            "y": 11.645925521850586,
+            "z": 1.0
+        }
+    },
+    "Circle.Transform": {
+        "position": {
+            "x": 13.683781623840332,
+            "y": 23.073013305664064,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 6.0,
+            "y": 6.0,
             "z": 1.0
         }
     },
     "Player.Transform": {
         "position": {
-            "x": 0.9383435249328613,
-            "y": 6.872992038726807,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "rotation": {
@@ -319,8 +550,8 @@
     },
     "Camera.Transform": {
         "position": {
-            "x": 0.9359431266784668,
-            "y": 7.052554130554199,
+            "x": 19.21625328063965,
+            "y": 14.288402557373047,
             "z": 30.0
         },
         "rotation": {
@@ -356,5 +587,9 @@
             "enabled": true,
             "gravity scale": 0.5
         }
+    },
+    "Player.Component": {
+        "sensitivity": 1.0,
+        "zoom": 30.0
     }
 }

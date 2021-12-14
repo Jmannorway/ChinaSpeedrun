@@ -133,6 +133,6 @@ namespace cs
 	template<class T>
 	inline void GameObject::RemoveComponent()
 	{
-		scene->registry.remove_if_exists<T>(entity);
+		scene->registry.remove<T>(entity);
 	}
 }
