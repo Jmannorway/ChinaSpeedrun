@@ -1,5 +1,5 @@
 {
-    "Scene Name": "Level",
+    "Scene Name": "nibb2",
     "construction count": [
         [
             0,
@@ -20,6 +20,16 @@
             0,
             0,
             0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
         ]
     ],
     "Camera": {
@@ -28,6 +38,10 @@
     },
     "Player": {
         "name": "Player",
+        "active": true
+    },
+    "New Entity 2": {
+        "name": "New Entity 2",
         "active": true
     },
     "Player.Audio": {
@@ -43,12 +57,17 @@
         "up": 200.0,
         "down": 200.0
     },
+    "New Entity 2.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
     "Player.MeshRenderer": {
         "mesh": "../Resources/models/default_model.obj",
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
-    "Player.Transform": {
+    "New Entity 2.Transform": {
         "position": {
             "x": 0.0,
             "y": 0.0,
@@ -65,11 +84,28 @@
             "z": 1.0
         }
     },
-    "Camera.Transform": {
+    "Player.Transform": {
         "position": {
+            "x": -0.5055923461914063,
+            "y": 57.52814483642578,
+            "z": 0.0
+        },
+        "rotation": {
             "x": 0.0,
             "y": 0.0,
-            "z": 18.0
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "Camera.Transform": {
+        "position": {
+            "x": -0.5303923487663269,
+            "y": 57.41904830932617,
+            "z": 30.0
         },
         "rotation": {
             "x": 0.0,

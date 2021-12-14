@@ -12,6 +12,7 @@ std::string cs::ComponentMeta::TypeToName(Type type)
 	case BSOD_COMPONENT_TYPE:			return "BSOD";
 	case JPHYSICS_COMPONENT_TYPE:		return "JPhysics";
 	case SCRIPT_COMPONENT_TYPE:			return "Script";
+	case PLAYER_COMPONENT_TYPE:			return "Player";
 	case UNDEFINED_COMPONENT_TYPE:		return "Component";
 	default:							return "";
 	}

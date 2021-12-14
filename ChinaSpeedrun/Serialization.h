@@ -8,6 +8,7 @@
 
 #include "Mathf.h"
 #include "GameObject.h"
+#include "Components.h"
 #include "MeshRenderer.h"
 #include "Transform.h"
 
@@ -217,5 +218,14 @@ namespace cs
 		);
 
 		c.SetScript(ResourceManager::LoadScript(_scriptPath));
+	}
+
+	template<class Archive>
+	void serialize(Archive& ar, PlayerComponent& c)
+	{
+		ar(
+			cereal::make_nvp("sensitivity", c.sensitivity),
+			cereal::make_nvp("zoom", c.zoom)
+		);
 	}
 }

@@ -137,7 +137,6 @@ cs::Scene* cs::SceneManager::CreateScene(std::string name)
 	Scene* _newScene{ new Scene };
 
 	_newScene->name = name;
-	// we set the resourcePath later (when saving)
 
 	return _newScene;
 }

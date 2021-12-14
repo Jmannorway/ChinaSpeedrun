@@ -485,8 +485,6 @@ RawData cs::ResourceManager::LoadRaw(const std::string filename)
 
 cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 {
-
-
 	if (filename.empty())
 		filename = wutil::OpenFile();
 
@@ -510,6 +508,8 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 		auto _obj{ _scene->AddGameObject() };
 		_inArchive(*_obj);
 
+		Debug::Log("Game object name: ", _obj->name);
+
 		for (unsigned ii = 0; ii < ComponentMeta::__COMPONENT_ENUM_TYPE_MAX; ii++)
 			for (unsigned iii = 0; iii < _cc[i][ii]; iii++)
 				_obj->AddComponentType(static_cast<ComponentMeta::Type>(ii));
@@ -522,6 +522,7 @@ cs::Scene* cs::ResourceManager::LoadScene(std::string filename)
 	LoadComponentsInScene<PhysicsComponent>(_inArchive, _scene);
 	LoadComponentsInScene<JPhysicsComponent>(_inArchive, _scene);
 	LoadComponentsInScene<ScriptComponent>(_inArchive, _scene);
+	LoadComponentsInScene<PlayerComponent>(_inArchive, _scene);
 
 	return _scene;
 }
@@ -585,6 +586,7 @@ bool cs::ResourceManager::SaveScene(std::string filename, Scene* scene)
 	SaveComponentsInScene<PhysicsComponent>(_outArchive, scene);
 	SaveComponentsInScene<JPhysicsComponent>(_outArchive, scene);
 	SaveComponentsInScene<ScriptComponent>(_outArchive, scene);
+	SaveComponentsInScene<PlayerComponent>(_outArchive, scene);
 
 	return true;
 }

@@ -7,4 +7,5 @@
 #include "PhysicsComponent.h"
 #include "BSODComponent.h"
 #include "Script.h"
+#include "PlayerComponent.h"
 #include "JPhysicsComponent.h"

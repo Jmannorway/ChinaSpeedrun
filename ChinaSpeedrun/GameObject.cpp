@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Components.h"
+#include "PlayerComponent.h"
 #include "SceneManager.h"
 
 cs::GameObject::GameObject() :
@@ -12,8 +13,7 @@ cs::GameObject::GameObject(Scene* newScene) :
 
 void cs::GameObject::Init()
 {
-	for (auto c : components)
-		c->Init();
+	
 }
 
 void cs::GameObject::EditorDrawComponents()
@@ -51,6 +51,7 @@ bool cs::GameObject::HasComponentType(ComponentMeta::Type type)
 	case ComponentMeta::BSOD_COMPONENT_TYPE:			return HasComponent<BSODComponent>();
 	case ComponentMeta::JPHYSICS_COMPONENT_TYPE:		return HasComponent<JPhysicsComponent>();
 	case ComponentMeta::SCRIPT_COMPONENT_TYPE:			return HasComponent<ScriptComponent>();
+	case ComponentMeta::PLAYER_COMPONENT_TYPE:			return HasComponent<PlayerComponent>();
 
 	default:
 		Debug::LogWarning("HasComponentType: Cannot check for an unregistered or non-existent component");
@@ -70,6 +71,7 @@ cs::Component* cs::GameObject::AddComponentType(ComponentMeta::Type type)
 	case ComponentMeta::BSOD_COMPONENT_TYPE:			return &AddComponent<BSODComponent>();
 	case ComponentMeta::JPHYSICS_COMPONENT_TYPE:		return &AddComponent<JPhysicsComponent>();
 	case ComponentMeta::SCRIPT_COMPONENT_TYPE:			return &AddComponent<ScriptComponent>();
+	case ComponentMeta::PLAYER_COMPONENT_TYPE:			return &AddComponent<PlayerComponent>();
 
 	default:
 		Debug::LogWarning("AddComponentType: Cannot emplace unregistered or non-existent component");

@@ -297,6 +297,7 @@ void cs::Scene::UpdateComponents()
 		auto& _camera{ registry.get<CameraComponent>(e) };
 
 		Camera::UpdateCameraTransform(_camera, _transform);
+		Camera::CalculateProjection(_camera);
 	}
 
 	auto _renderableObjects{ registry.view<MeshRendererComponent, TransformComponent>() };

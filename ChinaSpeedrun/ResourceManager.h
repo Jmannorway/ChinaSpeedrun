@@ -211,11 +211,8 @@ namespace cs
 	{
 		for (auto e : scene->registry.view<T>())
 		{
-			const auto c{ scene->registry.get<T>(e) };
-			archive
-			(
-				cereal::make_nvp(c.gameObject->name + "." + c.GetTypeName(), c)
-			);
+			auto& c{ scene->registry.get<T>(e) };
+			archive(cereal::make_nvp(c.gameObject->name + "." + c.GetTypeName(), c));
 		}
 	}
 
