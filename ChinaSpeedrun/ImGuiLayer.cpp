@@ -160,7 +160,7 @@ void cs::editor::ImGuiLayer::Step()
                 auto& _pc = activeObject->AddComponent<PhysicsComponent>();
 
                 _pc.shapeDefinition.type = CollisionShapeDefinition::Type::Rectangle;
-                _pc.shapeDefinition.extents = Vector2(_tc.scale.x / 2.f, _tc.scale.y / 2.f);
+                _pc.shapeDefinition.extents = Vector2(_tc.scale.x, _tc.scale.y);
             }
 
             ImGui::SameLine();

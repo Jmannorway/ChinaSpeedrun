@@ -2,7 +2,7 @@
     "Scene Name": "synthas pizzeria 2",
     "construction count": [
         [
-            0,
+            1,
             1,
             1,
             1,
@@ -17,7 +17,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -28,7 +28,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -39,7 +39,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -50,7 +50,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -61,7 +61,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -72,7 +72,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -83,7 +83,7 @@
             0,
             1,
             1,
-            0,
+            1,
             0,
             0,
             0,
@@ -94,7 +94,73 @@
             0,
             1,
             1,
+            1,
             0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
             0,
             0,
             0,
@@ -137,6 +203,30 @@
         "name": "New Entity 8",
         "active": true
     },
+    "New Entity 9": {
+        "name": "New Entity 9",
+        "active": true
+    },
+    "New Entity 10": {
+        "name": "New Entity 10",
+        "active": true
+    },
+    "New Entity 11": {
+        "name": "New Entity 11",
+        "active": true
+    },
+    "New Entity 12": {
+        "name": "New Entity 12",
+        "active": true
+    },
+    "New Entity 13": {
+        "name": "New Entity 13",
+        "active": true
+    },
+    "New Entity 14": {
+        "name": "New Entity 14",
+        "active": true
+    },
     "New Entity 0.Audio": {
         "sound name": "jump"
     },
@@ -150,8 +240,38 @@
         "up": 200.0,
         "down": 200.0
     },
-    "New Entity 8.MeshRenderer": {
+    "New Entity 14.MeshRenderer": {
         "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 13.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 12.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 11.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 10.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 9.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 8.MeshRenderer": {
+        "mesh": "../Resources/models/circle.obj",
         "material": "../Resources/materials/default_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
@@ -192,13 +312,81 @@
     },
     "New Entity 0.MeshRenderer": {
         "mesh": "../Resources/models/default_model.obj",
-        "material": "../Resources/materials/default_material.mat",
+        "material": "../Resources/materials/player_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
-    "New Entity 8.Transform": {
+    "New Entity 14.Transform": {
         "position": {
-            "x": 17.98904037475586,
-            "y": 19.061981201171876,
+            "x": 25.379608154296876,
+            "y": 10.855725288391114,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 2.558427572250366,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 13.Transform": {
+        "position": {
+            "x": 21.261768341064454,
+            "y": 20.503768920898439,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.4188545942306519,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 12.Transform": {
+        "position": {
+            "x": 23.93864631652832,
+            "y": 21.55229949951172,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 2.024986743927002,
+            "z": 1.0
+        }
+    },
+    "New Entity 11.Transform": {
+        "position": {
+            "x": 23.324113845825197,
+            "y": 28.806995391845704,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.6903165578842164,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 10.Transform": {
+        "position": {
+            "x": 29.137950897216798,
+            "y": 11.287830352783204,
             "z": 0.0
         },
         "rotation": {
@@ -208,24 +396,58 @@
         },
         "scale": {
             "x": 1.0,
+            "y": 20.903417587280275,
+            "z": 1.0
+        }
+    },
+    "New Entity 9.Transform": {
+        "position": {
+            "x": 17.083538055419923,
+            "y": 31.04607582092285,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 10.464457511901856,
             "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 8.Transform": {
+        "position": {
+            "x": 14.484756469726563,
+            "y": 21.167409896850587,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 5.0,
+            "y": 5.0,
             "z": 1.0
         }
     },
     "New Entity 7.Transform": {
         "position": {
-            "x": 6.905457973480225,
-            "y": 18.498653411865236,
+            "x": 5.396762847900391,
+            "y": 22.182504653930665,
             "z": 0.0
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
             "x": 1.0,
-            "y": 6.263078689575195,
+            "y": 9.918744087219239,
             "z": 1.0
         }
     },
@@ -237,7 +459,7 @@
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -254,7 +476,7 @@
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -282,17 +504,17 @@
     },
     "New Entity 3.Transform": {
         "position": {
-            "x": 3.618076220845978e-7,
+            "x": 11.832094192504883,
             "y": -11.132798194885254,
             "z": 0.0
         },
         "rotation": {
             "x": 0.0,
-            "y": 0.0,
+            "y": -0.0,
             "z": 0.0
         },
         "scale": {
-            "x": 8.0,
+            "x": 19.78335952758789,
             "y": 1.0,
             "z": 1.0
         }
@@ -333,13 +555,13 @@
     },
     "New Entity 0.Transform": {
         "position": {
-            "x": 0.29207396507263186,
-            "y": -0.06516742706298828,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -348,11 +570,445 @@
             "z": 1.0
         }
     },
+    "New Entity 14.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 2.558427572250366,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 13.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.4188545942306519,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 12.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 2.024986743927002
+            }
+        }
+    },
+    "New Entity 11.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.6903165578842164,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 10.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 20.903417587280275
+            }
+        }
+    },
+    "New Entity 9.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 10.464457511901856,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 8.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 0,
+            "radius": 5.0,
+            "extents": {
+                "x": 5.0,
+                "y": 5.0
+            }
+        }
+    },
+    "New Entity 7.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 9.918744087219239
+            }
+        }
+    },
+    "New Entity 6.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 5.933673858642578
+            }
+        }
+    },
+    "New Entity 5.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 4.723258972167969,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 4.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 10.0,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 3.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 19.78335952758789,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 2.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 8.0
+            }
+        }
+    },
+    "New Entity 1.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 0,
+            "enabled": true,
+            "gravity scale": 1.0
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 10.0
+            }
+        }
+    },
     "New Entity 0.Physics": {
         "body definition": {
             "position": {
-                "x": 0.10789823532104492,
-                "y": -0.3049733638763428
+                "x": 0.010132789611816407,
+                "y": 0.008489847183227539
             },
             "angle": 0.0,
             "linear velocity": {

@@ -76,6 +76,13 @@ void cs::ChinaEngine::EngineInit()
 
 	SceneManager::Add(_scene);
 
+	Material* _playerMaterial = ResourceManager::Load<Material>("../Resources/materials/player_material.mat");
+	_playerMaterial->shader = ResourceManager::GetDefaultShader();
+	_playerMaterial->cullMode = Material::CullMode::NONE;
+	auto _texture = ResourceManager::Load<Texture>("../Resources/textures/default_texture.png");
+	_texture->filter = Texture::Filter::NEAREST;
+	_playerMaterial->shaderParams["texSampler"] = _texture;
+
 	_scene->GetAudioSystem()->Load("../Resources/sounds/koto.wav");
 	_scene->GetAudioSystem()->Load("../Resources/sounds/kazeoto.wav");
 	_scene->GetAudioSystem()->Load("../Resources/sounds/jump.wav");
