@@ -15,28 +15,22 @@ namespace cs
 	 */
 	struct PhysicsDelta
 	{
-	public:
-		// TODO: Replace these variables with functions
-		/**
-		 * Difference in position after a frame of physics movement
-		 */
-		Vector2 positionDifference;
-		/**
-		 * Difference in angle after a frame of physics movement
-		 */
-		float angleDifference;
+		Vector2 GetPositionDifference() const { return position - previousPosition; }
+		float GetAngleDifference() const { return angle - previousAngle; }
 		/**
 		 * Used when moving a physics entity
 		 */
-		void Step(const Vector2& newPosition, float newAngle);
+		void Move(const Vector2& newPosition, float newAngle);
 		/**
 		 * Used when teleporting a physics entity (does not affect position difference)
 		 */
 		void Teleport(const Vector2& newPosition, float newAngle);
 		PhysicsDelta();
 	private:
-		Vector2 positionPrevious;
-		float anglePrevious;
+		Vector2 position;
+		Vector2 previousPosition;
+		float angle;
+		float previousAngle;
 	};
 
 	class PhysicsComponent : public Component

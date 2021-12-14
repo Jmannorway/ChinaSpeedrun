@@ -10,23 +10,23 @@
 #include "PhysicsSystem.h"
 #include "Debug.h"
 
-void cs::PhysicsDelta::Step(const Vector2& newPosition, float newAngle)
+void cs::PhysicsDelta::Move(const Vector2& newPosition, float newAngle)
 {
-	positionDifference = newPosition - positionPrevious;
-	angleDifference = newAngle - anglePrevious;
-	positionPrevious = newPosition;
-	anglePrevious = newAngle;
+	previousPosition = position;
+	previousAngle = angle;
+	position = newPosition;
+	angle = newAngle;
 }
 
 void cs::PhysicsDelta::Teleport(const Vector2& newPosition, float newAngle)
 {
-	positionDifference = { 0.f, 0.f };
-	angleDifference = 0.f;
-	positionPrevious = newPosition;
-	anglePrevious = newAngle;
+	position = newPosition;
+	previousPosition = newPosition;
+	angle = newAngle;
+	previousAngle = newAngle;
 }
 
-cs::PhysicsDelta::PhysicsDelta() : positionDifference({0.f}), angleDifference(0.f), positionPrevious({0.f}), anglePrevious(0.f)
+cs::PhysicsDelta::PhysicsDelta() : position({0.f}), angle(0.f), previousPosition({0.f}), previousAngle(0.f)
 {
 }
 

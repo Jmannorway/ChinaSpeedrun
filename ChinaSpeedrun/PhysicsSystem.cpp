@@ -11,7 +11,7 @@
 void cs::PhysicsSystem::UpdateWorld()
 {
 	frequencyCounter += Time::deltaTime;
-	if (frequencyCounter >= frequency)
+	while (frequencyCounter >= frequency)
 	{
 		world->Step(frequency, velocityIterations, positionIterations);
 		frequencyCounter -= frequency;
@@ -26,10 +26,11 @@ void cs::PhysicsSystem::UpdatePositions(PhysicsComponent& pc, TransformComponent
 	 */
 	auto _pos(pc.body->GetPosition());
 	auto _ang(pc.body->GetAngle());
-	pc.delta.Step({ _pos.x, _pos.y }, _ang);
-	tc.position.x += pc.delta.positionDifference.x;
-	tc.position.y += pc.delta.positionDifference.y;
-	tc.rotation.x += pc.delta.angleDifference;
+	pc.delta.Move({ _pos.x, _pos.y }, _ang);
+	Vector2 _positionDifference = pc.delta.GetPositionDifference();
+	tc.position.x += _positionDifference.x;
+	tc.position.y += _positionDifference.y;
+	tc.rotation.x += pc.delta.GetAngleDifference();
 }
 
 void cs::PhysicsSystem::UpdateComponents()
