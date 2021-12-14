@@ -11,7 +11,8 @@ namespace cs {
 	class PlayerComponent : public Component
 	{
 	public:
-		void Init() override;
+		void Init() override {}
+		void EnterScene() override;
 		void Step();
 		void SupplyCamera(CameraComponent* camera) { cc = camera; };
 		void ImGuiDrawComponent() override;

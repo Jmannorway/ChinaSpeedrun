@@ -1,0 +1,386 @@
+{
+    "Scene Name": "synthas pizzeria 2",
+    "construction count": [
+        [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+    ],
+    "New Entity 0": {
+        "name": "New Entity 0",
+        "active": true
+    },
+    "New Entity 1": {
+        "name": "New Entity 1",
+        "active": true
+    },
+    "New Entity 2": {
+        "name": "New Entity 2",
+        "active": true
+    },
+    "New Entity 3": {
+        "name": "New Entity 3",
+        "active": true
+    },
+    "New Entity 4": {
+        "name": "New Entity 4",
+        "active": true
+    },
+    "New Entity 5": {
+        "name": "New Entity 5",
+        "active": true
+    },
+    "New Entity 6": {
+        "name": "New Entity 6",
+        "active": true
+    },
+    "New Entity 7": {
+        "name": "New Entity 7",
+        "active": true
+    },
+    "New Entity 8": {
+        "name": "New Entity 8",
+        "active": true
+    },
+    "New Entity 0.Audio": {
+        "sound name": "jump"
+    },
+    "New Entity 0.Camera": {
+        "fov": 45.0,
+        "near": 0.009999999776482582,
+        "far": 1000.0,
+        "projection": 1,
+        "left": 200.0,
+        "right": 200.0,
+        "up": 200.0,
+        "down": 200.0
+    },
+    "New Entity 8.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 7.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 6.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 5.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 4.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 3.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 2.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 1.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 0.MeshRenderer": {
+        "mesh": "../Resources/models/default_model.obj",
+        "material": "../Resources/materials/default_material.mat",
+        "shader": "../Resources/shaders/default_shader"
+    },
+    "New Entity 8.Transform": {
+        "position": {
+            "x": 17.98904037475586,
+            "y": 19.061981201171876,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 7.Transform": {
+        "position": {
+            "x": 6.905457973480225,
+            "y": 18.498653411865236,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 6.263078689575195,
+            "z": 1.0
+        }
+    },
+    "New Entity 6.Transform": {
+        "position": {
+            "x": 17.72618293762207,
+            "y": 9.848518371582032,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 5.933673858642578,
+            "z": 1.0
+        }
+    },
+    "New Entity 5.Transform": {
+        "position": {
+            "x": 11.927179336547852,
+            "y": 4.949378967285156,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 4.723258972167969,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 4.Transform": {
+        "position": {
+            "x": 2.029168128967285,
+            "y": 11.099265098571778,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 10.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 3.Transform": {
+        "position": {
+            "x": 3.618076220845978e-7,
+            "y": -11.132798194885254,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 8.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 2.Transform": {
+        "position": {
+            "x": 6.0,
+            "y": -2.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 8.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 1.Transform": {
+        "position": {
+            "x": -7.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 10.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 0.Transform": {
+        "position": {
+            "x": 0.29207396507263186,
+            "y": -0.06516742706298828,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": -0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "New Entity 0.Physics": {
+        "body definition": {
+            "position": {
+                "x": 0.10789823532104492,
+                "y": -0.3049733638763428
+            },
+            "angle": 0.0,
+            "linear velocity": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "angular velocity": 0.0,
+            "linear damping": 0.0,
+            "angular damping": 0.0,
+            "allow sleep": true,
+            "awake": true,
+            "fixed rotation": false,
+            "bullet": false,
+            "type": 2,
+            "enabled": true,
+            "gravity scale": 0.5
+        },
+        "shape definition": {
+            "type": 1,
+            "radius": 1.0,
+            "extents": {
+                "x": 1.0,
+                "y": 1.0
+            }
+        }
+    },
+    "New Entity 0.Player": {
+        "sensitivity": 3.0,
+        "zoom": 30.0
+    }
+}

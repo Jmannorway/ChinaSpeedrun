@@ -7,7 +7,7 @@
 #include "SceneManager.h"
 #include "VulkanEngineRenderer.h"
 
-void cs::PlayerComponent::Init()
+void cs::PlayerComponent::EnterScene()
 {
 	if (gameObject->HasComponent<AudioComponent>())
 	{
@@ -74,4 +74,5 @@ void cs::PlayerComponent::ImGuiDrawComponent()
 
 cs::PlayerComponent::PlayerComponent() : sensitivity(1.f), zoom(30.f), cc(nullptr), ac(nullptr), pc(nullptr), tc(nullptr)
 {
+	type = ComponentMeta::PLAYER_COMPONENT_TYPE;
 }

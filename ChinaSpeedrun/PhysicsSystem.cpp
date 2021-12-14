@@ -75,6 +75,8 @@ void cs::PhysicsSystem::QueueBodyDestroy(PhysicsComponent* pc)
 
 void cs::PhysicsSystem::CreateBody(PhysicsComponent* pc)
 {
+
+
 	auto& _tc(pc->gameObject->GetComponentConst<TransformComponent>());
 	Vector2 _position(_tc.position);
 	float _angle(_tc.rotation.x);
@@ -86,6 +88,8 @@ void cs::PhysicsSystem::CreateBody(PhysicsComponent* pc)
 	pc->body = world->CreateBody(&pc->definition);
 	pc->UpdateShape();
 	pc->UpdateFixtures();
+
+	return;
 }
 
 void cs::PhysicsSystem::DestroyBody(PhysicsComponent* pc)
