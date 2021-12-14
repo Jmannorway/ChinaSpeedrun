@@ -101,7 +101,7 @@ void cs::ChinaEngine::EngineInit()
 		_pc.shape.SetType(CollisionShape::Type::Rectangle);
 
 		auto& _player = _obj->AddComponent<PlayerComponent>();
-		_player.camera = &_sceneCamera;
+		_player.SupplyCamera(&_sceneCamera);
 	}
 }
 

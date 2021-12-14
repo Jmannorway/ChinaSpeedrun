@@ -3,6 +3,8 @@
 #include "Components.h"
 #include "Input.h"
 #include "Time.h"
+#include "ChinaEngine.h"
+#include "VulkanEngineRenderer.h"
 
 void cs::PlayerComponent::Init()
 {
@@ -21,17 +23,29 @@ void cs::PlayerComponent::Init()
 	else
 		Debug::LogWarning("PlayerComponent: Doesn't have transform component");
 
-	if (!camera)
+	if (!cc)
 		Debug::LogWarning("PlayerComponent: No camera is attached");
 }
 
 void cs::PlayerComponent::Step()
 {
+	{ // Set camera to be aligned with player on x & y axis
+		auto& _ctc = cc->gameObject->GetComponent<TransformComponent>();
+		auto& _tc = gameObject->GetComponent<TransformComponent>();
+		_ctc.position = Vector3(_tc.position.x, _tc.position.y, zoom);
+	}
+
 	if (Input::GetMousePressed(0))
 	{
-		Vector2 _toMouse = Input::mousePosition - Vector2(tc->position.x, tc->position.y);
+		Vector2 _viewportSize;
 
-		pc->AddForce(_toMouse * sensitivity);
+		{
+			int _width, _height;
+			ChinaEngine::renderer.GetViewportSize(_width, _height);
+			_viewportSize = Vector2(_width, _height);
+		}
+		
+		pc->AddForce((Input::mousePosition - _viewportSize / 2.f) * sensitivity * Vector2(-1.f, 1.f));
 	}
 }
 
@@ -40,9 +54,11 @@ void cs::PlayerComponent::ImGuiDrawComponent()
 	if (ImGui::TreeNodeEx("Player Component"))
 	{
 		ImGui::DragFloat("Sensitivity", &sensitivity, 0.01f * Time::deltaTime);
+
+		ImGui::TreePop();
 	}
 }
 
-cs::PlayerComponent::PlayerComponent() : sensitivity(1.f), camera(nullptr), ac(nullptr), pc(nullptr), tc(nullptr)
+cs::PlayerComponent::PlayerComponent() : sensitivity(1.f), zoom(30.f), cc(nullptr), ac(nullptr), pc(nullptr), tc(nullptr)
 {
 }

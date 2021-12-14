@@ -13,12 +13,14 @@ namespace cs {
 	public:
 		void Init() override;
 		void Step();
+		void SupplyCamera(CameraComponent* camera) { cc = camera; };
 		void ImGuiDrawComponent() override;
 		PlayerComponent();
 
 		float sensitivity;
-		CameraComponent* camera;
+		float zoom;
 	private:
+		CameraComponent* cc;
 		PhysicsComponent* pc;
 		AudioComponent* ac;
 		TransformComponent* tc;

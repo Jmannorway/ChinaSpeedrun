@@ -7,8 +7,6 @@
 #include <vector>
 #include <string>
 
-#include "JPhysicsSystem.h"
-
 namespace cs
 {
 	class PhysicsSystem;
