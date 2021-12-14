@@ -5,7 +5,7 @@
 
 // ooga booga custom class ooga booga
 // this may have consequences in the future
-class b2BoxShape : protected b2PolygonShape
+class b2BoxShape : public b2PolygonShape
 {
 public:
 	b2BoxShape();
@@ -17,19 +17,12 @@ protected:
 
 namespace cs
 {
-	class CollisionShape
+	struct CollisionShapeDefinition
 	{
-	public:
-		enum class Type { None, Circle, Rectangle };
-
-		b2Shape* shape;
-
-		void SetType(Type newType);
-		Type GetType() const { return type; }
-
-		CollisionShape();
-	protected:
-		Type type;
+		enum class Type : unsigned { Circle, Rectangle } type;
+		Vector2 extents;
+		float radius;
+		CollisionShapeDefinition();
 	};
 }
 

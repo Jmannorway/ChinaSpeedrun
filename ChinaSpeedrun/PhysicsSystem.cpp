@@ -35,19 +35,15 @@ void cs::PhysicsSystem::UpdatePositions(PhysicsComponent& pc, TransformComponent
 
 void cs::PhysicsSystem::UpdateComponents()
 {
-	/*
-	 * Updating components this way probably causes cache misses.
-	 * Though this is the exception not the norm, so it should be fine.
-	 */
-	for (auto pc : componentToUpdate)
-		UpdateBody(pc);
-
-	componentToUpdate.clear();
-
 	for (auto pc : componentToCreate)
 		CreateBody(pc);
 
 	componentToCreate.clear();
+
+	for (auto pc : componentToDestroy)
+		DestroyBody(pc);
+
+	componentToDestroy.clear();
 }
 
 cs::PhysicsSystem::PhysicsSystem() :
@@ -67,22 +63,14 @@ cs::PhysicsSystem::~PhysicsSystem()
 	delete listener;
 }
 
-void cs::PhysicsSystem::QueueComponentUpdate(PhysicsComponent* pc)
-{
-	componentToUpdate.push_back(pc);
-}
-
 void cs::PhysicsSystem::QueueComponentCreate(PhysicsComponent* pc)
 {
 	componentToCreate.push_back(pc);
 }
 
-void cs::PhysicsSystem::UpdateBody(PhysicsComponent* pc)
+void cs::PhysicsSystem::QueueBodyDestroy(PhysicsComponent* pc)
 {
-	pc->body->SetGravityScale(pc->definition.gravityScale);
-	pc->body->SetLinearVelocity(pc->definition.linearVelocity);
-	pc->body->SetAngularVelocity(pc->definition.angularVelocity);
-	pc->body->SetAwake(pc->definition.awake);
+	componentToDestroy.push_back(pc);
 }
 
 void cs::PhysicsSystem::CreateBody(PhysicsComponent* pc)
@@ -96,6 +84,7 @@ void cs::PhysicsSystem::CreateBody(PhysicsComponent* pc)
 
 	DestroyBody(pc);
 	pc->body = world->CreateBody(&pc->definition);
+	pc->UpdateShape();
 	pc->UpdateFixtures();
 }
 

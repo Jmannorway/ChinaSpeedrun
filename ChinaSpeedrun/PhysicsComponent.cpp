@@ -4,6 +4,7 @@
 #include <b2/b2_world.h>
 #include <b2/b2_fixture.h>
 #include <b2/b2_circle_shape.h>
+#include <b2/b2_shape.h>
 
 #include "CollisionShape.h"
 #include "PhysicsLocator.h"
@@ -30,7 +31,7 @@ cs::PhysicsDelta::PhysicsDelta() : position({0.f}), angle(0.f), previousPosition
 {
 }
 
-cs::PhysicsComponent::PhysicsComponent() : body(nullptr)
+cs::PhysicsComponent::PhysicsComponent() : body(nullptr), shape(nullptr)
 {
 	type = ComponentMeta::PHYSICS_COMPONENT_TYPE;
 	definition.type = b2_staticBody;
@@ -38,12 +39,10 @@ cs::PhysicsComponent::PhysicsComponent() : body(nullptr)
 
 cs::PhysicsComponent::~PhysicsComponent()
 {
-	// TODO: Since physics world is part of scene this means that body would get destroyed twice
-	/*if (body)
-	{
-		auto _ps(PhysicsLocator::GetPhysicsSystem());
-		_ps->world->DestroyBody(body);
-	}*/
+	/*
+	 * No need to destroy body or shape since body gets destroyed by world
+	 * and shape is attached to the body, thus gets destroyed alongside it
+	 */
 }
 
 void cs::PhysicsComponent::ImGuiDrawComponent()
@@ -63,37 +62,31 @@ void cs::PhysicsComponent::ImGuiDrawComponent()
 			ImGui::Text(&_positionString[0]);
 		}
 
-		const char* _options[]{ "None", "Circle", "Rectangle" };
-		int _type(static_cast<int>(shape.GetType()));
+		const char* _options[]{ "Circle", "Rectangle" };
+		int _type(static_cast<int>(shapeDefinition.type));
 		if (ImGui::Combo("Shape", &_type, _options, IM_ARRAYSIZE(_options)))
 		{
-			CollisionShape::Type _newType(static_cast<CollisionShape::Type>(_type));
-			shape.SetType(_newType);
+			shapeDefinition.type = static_cast<CollisionShapeDefinition::Type>(_type);
 		}
 
 		/*
 		 * Maybe a shape should be a component (although that comes with its own implementation horrors
 		 * Maybe a shape should be a resource (resources could perhaps also have their own imgui changing/drawing functions)
 		 */
-		switch (shape.GetType())
+		switch (shapeDefinition.type)
 		{
-			case CollisionShape::Type::Circle:
+			case CollisionShapeDefinition::Type::Circle:
 				if (ImGui::TreeNodeEx("Circle Shape", ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					ImGui::DragFloat("Radius", &shape.shape->m_radius, dragSpeed, -1000.f, 1000.f);
+					ImGui::DragFloat("Radius", &shapeDefinition.radius, dragSpeed, -1000.f, 1000.f);
 					ImGui::TreePop();
 				}
 				break;
 
-			case CollisionShape::Type::Rectangle:
+			case CollisionShapeDefinition::Type::Rectangle:
 				if (ImGui::TreeNodeEx("Rectangle Shape", ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					auto* _rectangle(reinterpret_cast<b2BoxShape*>(shape.shape));
-					b2Vec2 _extents(_rectangle->GetExtents());
-					if (ImGui::DragFloat2("Extents", &_extents.x, dragSpeed, -1000.f, 1000.f))
-					{
-						_rectangle->SetExtents(_extents);
-					}
+					ImGui::DragFloat2("Extents", &shapeDefinition.extents.x, dragSpeed, -1000.f, 1000.f);
 					ImGui::TreePop();
 				}
 				
@@ -109,11 +102,6 @@ void cs::PhysicsComponent::ImGuiDrawComponent()
 	}
 }
 
-void cs::PhysicsComponent::QueueForUpdate()
-{
-	PhysicsLocator::GetPhysicsSystem()->QueueComponentUpdate(this);
-}
-
 void cs::PhysicsComponent::QueueForCreation()
 {
 	PhysicsLocator::GetPhysicsSystem()->QueueComponentCreate(this);
@@ -122,8 +110,6 @@ void cs::PhysicsComponent::QueueForCreation()
 void cs::PhysicsComponent::EnterScene()
 {
 	QueueForCreation();
-
-	shape.shape = CreateDefaultShape();
 }
 
 void cs::PhysicsComponent::ExitScene()
@@ -139,26 +125,41 @@ void cs::PhysicsComponent::AddForce(const Vector2& impulse)
 void cs::PhysicsComponent::UpdateFixtures()
 {
 	DeleteFixtures();
-
-	if (shape.shape)
-	{
-		body->CreateFixture(shape.shape, 1.f);
-	}
-	else
-	{
-		const b2FixtureDef _fDef(CreateDefaultFixtureDefinition());
-		body->CreateFixture(&_fDef);
-	}
+	body->CreateFixture(shape, 1.f);
 }
 
 void cs::PhysicsComponent::DeleteFixtures()
 {
 	auto _fixtureList = body->GetFixtureList();
-	while (_fixtureList)
+	if (_fixtureList)
 	{
 		body->DestroyFixture(_fixtureList);
-		_fixtureList++;
 	}
+}
+
+void cs::PhysicsComponent::UpdateShape()
+{
+	switch (shapeDefinition.type)
+	{
+	case CollisionShapeDefinition::Type::Rectangle:
+		{
+		auto _box = new b2BoxShape();
+		_box->SetExtents(b2Vec2(shapeDefinition.extents.x, shapeDefinition.extents.y));
+		shape = static_cast<b2Shape*>(_box);
+		}
+		break;
+	case CollisionShapeDefinition::Type::Circle:
+		{
+		auto _circle = new b2CircleShape();
+		_circle->m_radius = shapeDefinition.radius;
+		shape = static_cast<b2Shape*>(_circle);
+		}
+		break;
+	default:
+		shape = CreateDefaultShape();
+	}
+
+	UpdateFixtures();
 }
 
 void cs::PhysicsComponent::DestroyBody()
@@ -172,7 +173,7 @@ b2Shape* cs::PhysicsComponent::CreateDefaultShape() const
 {
 	auto _boxShape(new b2BoxShape);
 	_boxShape->SetExtents({ 1.0f, 1.0f });
-	return reinterpret_cast<b2Shape*>(_boxShape);
+	return _boxShape;
 }
 
 b2FixtureDef cs::PhysicsComponent::CreateDefaultFixtureDefinition() const

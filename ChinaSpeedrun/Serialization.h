@@ -84,51 +84,6 @@ void serialize(Archive& ar, b2BodyDef& bdef)
 }
 
 template<class Archive>
-void serialize(Archive& ar, b2Shape& shape)
-{
-	if (shape.GetType() == shape.e_circle)
-	{
-		ar(
-			cereal::make_nvp("circle shape", (b2CircleShape&)(shape))
-		);
-	}
-	else if (shape.GetType() == shape.e_polygon)
-	{
-		ar(
-			cereal::make_nvp("box shape", (b2BoxShape&)(shape))
-		);
-	}
-}
-
-template<class Archive>
-void serialize(Archive& ar, b2CircleShape& circleShape)
-{
-	ar(
-		cereal::make_nvp("radius", circleShape.m_radius)
-	);
-}
-
-template<class Archive>
-void save(Archive& ar, const b2BoxShape& boxShape)
-{
-	ar(
-		cereal::make_nvp("extents", boxShape.GetExtents())
-	);
-}
-
-template<class Archive>
-void load(Archive& ar, b2BoxShape& boxShape)
-{
-	Vector2 _extents;
-
-	ar(
-		cereal::make_nvp("extents", _extents)
-	);
-
-	boxShape.SetExtents(b2Vec2(_extents.x, _extents.y));
-}
-
-template<class Archive>
 void serialize(Archive& ar, b2FixtureDef& fdef)
 {
 	ar(
@@ -218,10 +173,21 @@ namespace cs
 	}
 
 	template<class Archive>
+	void serialize(Archive& ar, CollisionShapeDefinition& csdef)
+	{
+		ar(
+			cereal::make_nvp("type", csdef.type),
+			cereal::make_nvp("radius", csdef.radius),
+			cereal::make_nvp("extents", csdef.extents)
+		);
+	}
+
+	template<class Archive>
 	void serialize(Archive& ar, PhysicsComponent& c)
 	{
 		ar(
-			cereal::make_nvp("body definition", c.definition)
+			cereal::make_nvp("body definition", c.definition),
+			cereal::make_nvp("shape definition", c.shapeDefinition)
 		);
 	}
 

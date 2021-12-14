@@ -38,19 +38,15 @@ namespace cs {
 		~PhysicsSystem();
 
 		/**
-		 * Queue a physics component's body to be updated
-		 */
-		void QueueComponentUpdate(PhysicsComponent* pc); /*Potentially obsolete*/
-		/**
 		 * Queue a physics component's body to be created or recreated
 		 */
 		void QueueComponentCreate(PhysicsComponent* pc); /*Potentially obsolete*/
 		/**
-		 * Update a body
+		 * Queue a physics component's body to be destroyed
 		 */
-		void UpdateBody(PhysicsComponent* pc);
+		void QueueBodyDestroy(PhysicsComponent* pc);
 		/**
-		 * Create or recreate physics component's body
+		 * Create or recreate physics component's body (this includes the fixtures and shapes attached)
 		 */
 		void CreateBody(PhysicsComponent* pc);
 		/**
@@ -58,8 +54,8 @@ namespace cs {
 		 */
 		void DestroyBody(PhysicsComponent* pc);
 	private:
-		std::vector<PhysicsComponent*> componentToUpdate; /*Potentially obsolete*/
 		std::vector<PhysicsComponent*> componentToCreate; /*Potentially obsolete*/
+		std::vector<PhysicsComponent*> componentToDestroy; /*Potentially obsolete*/
 		int velocityIterations;
 		int positionIterations;
 		/**

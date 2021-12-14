@@ -52,10 +52,13 @@ namespace cs
 		 */
 		PhysicsDelta delta;
 		/**
-		 * Shape of the physics body (can be a circle, rectangle, etc.)
+		 * Definition of the shape that will be created alongside the body
 		 */
-		CollisionShape shape;
-
+		CollisionShapeDefinition shapeDefinition;
+		/**
+		 * Shape of the physics body
+		 */
+		b2Shape* shape;
 		/**
 		 * When the body definition has been updated this can be called
 		 * to tell the system to apply the changes
@@ -83,13 +86,9 @@ namespace cs
 		 */
 		void DeleteFixtures();
 		/**
-		 * Creates a default shape for the body
+		 * Creates a shape based on the shape definition
 		 */
-		b2Shape* CreateDefaultShape() const;
-		/**
-		 * Creates a default fixture definition (needed when creating a body)
-		 */
-		b2FixtureDef CreateDefaultFixtureDefinition() const;
+		void UpdateShape();
 
 		PhysicsComponent();
 		~PhysicsComponent();
@@ -101,5 +100,13 @@ namespace cs
 		 * Destroy's the component's body
 		 */
 		void DestroyBody();
+		/**
+		 * Creates a default shape for the body
+		 */
+		b2Shape* CreateDefaultShape() const;
+		/**
+		 * Creates a default fixture definition
+		 */
+		b2FixtureDef CreateDefaultFixtureDefinition() const;
 	};
 }
