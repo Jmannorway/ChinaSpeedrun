@@ -161,7 +161,7 @@ void cs::editor::ImGuiLayer::Step()
 
                 _pc.shape.SetType(CollisionShape::Type::Rectangle);
                 b2BoxShape* _boxShape = (b2BoxShape*)_pc.shape.shape;
-                _boxShape->SetExtents(b2Vec2(_tc.scale.x, _tc.scale.y));
+                _boxShape->SetExtents(b2Vec2(_tc.scale.x / 2.f, _tc.scale.y / 2.f));
             }
 
             ImGui::SameLine();
@@ -272,7 +272,7 @@ void cs::editor::ImGuiLayer::DrawStopSimulationButton()
         editorRoot->SetPlaymode(EngineEditor::Playmode::EDITOR);
     	SceneManager::GetCurrentScene()->Exit();
         // TODO: Reload scene
-    	//SceneManager::Reload(SceneManager::GetCurrentActiveScene());
+    	SceneManager::Reload(SceneManager::GetCurrentActiveScene());
     }
 }
 

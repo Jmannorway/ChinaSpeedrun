@@ -122,6 +122,8 @@ void cs::PhysicsComponent::QueueForCreation()
 void cs::PhysicsComponent::Init()
 {
 	QueueForCreation();
+
+	shape.shape = CreateDefaultShape();
 }
 
 void cs::PhysicsComponent::AddForce(const Vector2& impulse)

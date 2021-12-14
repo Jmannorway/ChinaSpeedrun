@@ -20,7 +20,9 @@ const Matrix4x4& cs::Camera::GetViewMatrix(CameraBase& camera)
 
 void cs::Camera::UpdateCameraTransform(CameraBase& camera, TransformComponent& transform)
 {
-	camera.view = glm::inverse(Transform::GetMatrixTransform(transform));
+	auto _matrix = Transform::GetMatrixTransform(transform);
+	_matrix = translate(_matrix, camera.offset);
+	camera.view = glm::inverse(_matrix);
 }
 
 void cs::Camera::CalculateProjection(CameraBase& camera)

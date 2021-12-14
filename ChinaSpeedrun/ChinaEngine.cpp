@@ -78,39 +78,8 @@ void cs::ChinaEngine::EngineInit()
 
 	_scene->GetAudioSystem()->Load("../Resources/sounds/koto.wav");
 	_scene->GetAudioSystem()->Load("../Resources/sounds/kazeoto.wav");
+	_scene->GetAudioSystem()->Load("../Resources/sounds/jump.wav");
 	_scene->GetAudioSystem()->Load("../Resources/sounds/pon1.wav");
-
-	GameObject* _obj;
-
-	// camera
-	_obj = SceneManager::InstanceObject("Camera", Vector3(0.f, 0.f, 18.f));
-	auto& _sceneCamera = _obj->AddComponent<CameraComponent>();
-
-	{ // player
-		_obj = SceneManager::InstanceObject("Player");
-
-		auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
-		_mrc.SetMesh(ResourceManager::GetDefaultMesh());
-		_mrc.material = ResourceManager::GetDefaultMaterial();
-
-		_obj->AddComponent<AudioComponent>();
-
-		auto& _pc = _obj->AddComponent<PhysicsComponent>();
-		_pc.definition.type = b2_dynamicBody;
-		_pc.definition.gravityScale = 0.5f;
-		_pc.shape.SetType(CollisionShape::Type::Rectangle);
-
-		auto& _player = _obj->AddComponent<PlayerComponent>();
-		_player.SupplyCamera(&_sceneCamera);
-	}
-
-	{ // one round shape
-		_obj = SceneManager::InstanceObject("Circle");
-
-		auto& _mrc = _obj->AddComponent<MeshRendererComponent>();
-		_mrc.SetMesh(ResourceManager::Load<Mesh>("../Resources/models/circle.obj"));
-		_mrc.material = ResourceManager::GetDefaultMaterial();
-	}
 }
 
 void cs::ChinaEngine::InitInput()

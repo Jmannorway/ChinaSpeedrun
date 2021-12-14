@@ -172,6 +172,8 @@ void cs::SceneManager::Reload(Scene* scene)
 {
 	auto _filename = scene->GetResourcePath();
 
+	
+
 	Unload(scene);
 
 	Add(ResourceManager::LoadScene(_filename));

@@ -20,6 +20,7 @@ namespace cs
 		CameraBase();
 
 		void SetExtents(const float& height, const float& width);
+		Vector3 offset;
 
 	protected:
 		Matrix4x4 view, proj;
