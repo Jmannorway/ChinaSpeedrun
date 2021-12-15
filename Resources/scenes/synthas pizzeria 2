@@ -165,6 +165,17 @@
             0,
             0,
             0
+        ],
+        [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
         ]
     ],
     "New Entity 0": {
@@ -227,8 +238,17 @@
         "name": "New Entity 14",
         "active": true
     },
+    "New Entity 15": {
+        "name": "New Entity 15",
+        "active": true
+    },
+    "New Entity 15.Audio": {
+        "sound name": "koto",
+        "play": true
+    },
     "New Entity 0.Audio": {
-        "sound name": "jump"
+        "sound name": "jump",
+        "play": false
     },
     "New Entity 0.Camera": {
         "fov": 45.0,
@@ -315,6 +335,23 @@
         "material": "../Resources/materials/player_material.mat",
         "shader": "../Resources/shaders/default_shader"
     },
+    "New Entity 15.Transform": {
+        "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
     "New Entity 14.Transform": {
         "position": {
             "x": 25.379608154296876,
@@ -391,7 +428,7 @@
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -510,7 +547,7 @@
         },
         "rotation": {
             "x": 0.0,
-            "y": -0.0,
+            "y": 0.0,
             "z": 0.0
         },
         "scale": {
@@ -573,8 +610,8 @@
     "New Entity 14.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 25.379608154296876,
+                "y": 10.855725288391114
             },
             "angle": 0.0,
             "linear velocity": {
@@ -604,8 +641,8 @@
     "New Entity 13.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 21.261768341064454,
+                "y": 20.503768920898439
             },
             "angle": 0.0,
             "linear velocity": {
@@ -635,8 +672,8 @@
     "New Entity 12.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 23.93864631652832,
+                "y": 21.55229949951172
             },
             "angle": 0.0,
             "linear velocity": {
@@ -666,8 +703,8 @@
     "New Entity 11.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 23.324113845825197,
+                "y": 28.806995391845704
             },
             "angle": 0.0,
             "linear velocity": {
@@ -697,8 +734,8 @@
     "New Entity 10.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 29.137950897216798,
+                "y": 11.287830352783204
             },
             "angle": 0.0,
             "linear velocity": {
@@ -728,8 +765,8 @@
     "New Entity 9.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 17.083538055419923,
+                "y": 31.04607582092285
             },
             "angle": 0.0,
             "linear velocity": {
@@ -759,8 +796,8 @@
     "New Entity 8.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 14.484756469726563,
+                "y": 21.167409896850587
             },
             "angle": 0.0,
             "linear velocity": {
@@ -790,8 +827,8 @@
     "New Entity 7.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 5.396762847900391,
+                "y": 22.182504653930665
             },
             "angle": 0.0,
             "linear velocity": {
@@ -821,8 +858,8 @@
     "New Entity 6.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 17.72618293762207,
+                "y": 9.848518371582032
             },
             "angle": 0.0,
             "linear velocity": {
@@ -852,8 +889,8 @@
     "New Entity 5.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 11.927179336547852,
+                "y": 4.949378967285156
             },
             "angle": 0.0,
             "linear velocity": {
@@ -883,8 +920,8 @@
     "New Entity 4.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 2.029168128967285,
+                "y": 11.099265098571778
             },
             "angle": 0.0,
             "linear velocity": {
@@ -914,8 +951,8 @@
     "New Entity 3.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 11.832094192504883,
+                "y": -11.132798194885254
             },
             "angle": 0.0,
             "linear velocity": {
@@ -945,8 +982,8 @@
     "New Entity 2.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 6.0,
+                "y": -2.0
             },
             "angle": 0.0,
             "linear velocity": {
@@ -976,7 +1013,7 @@
     "New Entity 1.Physics": {
         "body definition": {
             "position": {
-                "x": 0.0,
+                "x": -7.0,
                 "y": 0.0
             },
             "angle": 0.0,
@@ -1007,8 +1044,8 @@
     "New Entity 0.Physics": {
         "body definition": {
             "position": {
-                "x": 0.010132789611816407,
-                "y": 0.008489847183227539
+                "x": 0.0,
+                "y": 0.0
             },
             "angle": 0.0,
             "linear velocity": {

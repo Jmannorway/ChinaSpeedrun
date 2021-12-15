@@ -89,6 +89,9 @@ void cs::AudioSystem::Init()
 	
 	alec(alGenBuffers(buffer.max, buffer.buffer));
 	alec(alGenSources(source.max, source.source));
+
+	Load("../Resources/sounds/jump.wav");
+	Load("../Resources/sounds/koto.wav");
 }
 
 bool cs::AudioSystem::Load(std::string path) {

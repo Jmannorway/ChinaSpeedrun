@@ -72,10 +72,6 @@ void cs::ChinaEngine::EngineInit()
 {
 	ResourceManager::CreateDefaultResources();
 
-	Scene* _scene = SceneManager::CreateScene("Level");
-
-	SceneManager::Add(_scene);
-
 	Material* _playerMaterial = ResourceManager::Load<Material>("../Resources/materials/player_material.mat");
 	_playerMaterial->shader = ResourceManager::GetDefaultShader();
 	_playerMaterial->cullMode = Material::CullMode::NONE;
@@ -83,10 +79,7 @@ void cs::ChinaEngine::EngineInit()
 	_texture->filter = Texture::Filter::NEAREST;
 	_playerMaterial->shaderParams["texSampler"] = _texture;
 
-	_scene->GetAudioSystem()->Load("../Resources/sounds/koto.wav");
-	_scene->GetAudioSystem()->Load("../Resources/sounds/kazeoto.wav");
-	_scene->GetAudioSystem()->Load("../Resources/sounds/jump.wav");
-	_scene->GetAudioSystem()->Load("../Resources/sounds/pon1.wav");
+	ResourceManager::Load<Scene>("../Resources/scenes/synthas pizzeria 2");
 }
 
 void cs::ChinaEngine::InitInput()

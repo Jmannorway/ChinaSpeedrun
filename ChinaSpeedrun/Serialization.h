@@ -121,7 +121,8 @@ namespace cs
 	void serialize(Archive& ar, AudioComponent& c)
 	{
 		ar(
-			cereal::make_nvp("sound name", c.soundName)
+			cereal::make_nvp("sound name", c.soundName),
+			cereal::make_nvp("play", c.play)
 		);
 	}
 
